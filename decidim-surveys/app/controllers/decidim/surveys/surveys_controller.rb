@@ -4,6 +4,7 @@ module Decidim
   module Surveys
     # Exposes the survey resource so users can view and respond them.
     class SurveysController < Decidim::Surveys::ApplicationController
+      # i18n-tasks-use t('decidim.surveys.surveys.response.closed')
       # i18n-tasks-use t('decidim.surveys.surveys.response.invalid')
       # i18n-tasks-use t('decidim.surveys.surveys.response.spam_detected')
       # i18n-tasks-use t('decidim.surveys.surveys.response.success')
@@ -18,6 +19,9 @@ module Decidim
 
       before_action :check_permissions, except: [:index]
       before_action :check_editable, only: [:edit]
+      # rubocop:disable Rails/LexicallyScopedActionFilter
+      before_action :check_open_for_responses, only: [:respond]
+      # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def index; end
 
@@ -67,6 +71,15 @@ module Decidim
       end
 
       private
+
+      # Blocks direct submissions when the survey is closed, since the
+      # `:respond` permission is granted unconditionally.
+      def check_open_for_responses
+        return if survey.open?
+
+        flash[:alert] = t("decidim.surveys.surveys.response.closed")
+        redirect_to Decidim::EngineRouter.main_proxy(current_component).survey_path(survey)
+      end
 
       def i18n_flashes_scope
         "decidim.surveys.surveys"

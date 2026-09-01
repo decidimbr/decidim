@@ -173,6 +173,7 @@ en:
             open: Open
         no_surveys_warning: No surveys match your search criteria or there is not any survey open.
         response:
+          closed: The survey is closed and cannot be responded.
           invalid: There was a problem responding the survey.
           spam_detected: There was a problem responding the form. Maybe you have been too quick, can you try again?
           success: Survey successfully responded.

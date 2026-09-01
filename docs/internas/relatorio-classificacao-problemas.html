@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Classificação de Problemas — DECIDIM-CORE × PARTICIPA/GOVBR × Gems LAPPIS</title>
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-light: #2d4a7a;
+    --amber: #b45309;
+    --amber-bg: #fef3c7;
+    --red: #dc2626;
+    --red-bg: #fee2e2;
+    --green: #16a34a;
+    --green-bg: #dcfce7;
+    --blue: #2563eb;
+    --blue-bg: #dbeafe;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --slate: #475569;
+    --slate-light: #94a3b8;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-alt: #f1f5f9;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --navy: #93b4e0; --navy-light: #6b93cc;
+      --amber: #d4a843; --amber-bg: #2a2510;
+      --red: #f87171; --red-bg: #2d1515;
+      --green: #4ade80; --green-bg: #152d1a;
+      --blue: #60a5fa; --blue-bg: #1a2540;
+      --purple: #a78bfa; --purple-bg: #1e1533;
+      --slate: #94a3b8; --slate-light: #64748b;
+      --text: #e2e8f0; --text-muted: #94a3b8;
+      --border: #334155; --bg: #0f172a;
+      --surface: #1e293b; --surface-alt: #16202f;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --navy: #93b4e0; --navy-light: #6b93cc;
+    --amber: #d4a843; --amber-bg: #2a2510;
+    --red: #f87171; --red-bg: #2d1515;
+    --green: #4ade80; --green-bg: #152d1a;
+    --blue: #60a5fa; --blue-bg: #1a2540;
+    --purple: #a78bfa; --purple-bg: #1e1533;
+    --slate: #94a3b8; --slate-light: #64748b;
+    --text: #e2e8f0; --text-muted: #94a3b8;
+    --border: #334155; --bg: #0f172a;
+    --surface: #1e293b; --surface-alt: #16202f;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1140px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+  header.report-header {
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  header.report-header .kicker {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--blue);
+    margin-bottom: 0.5rem;
+  }
+  header.report-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-wrap: balance;
+    margin-bottom: 0.5rem;
+  }
+  header.report-header .subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    max-width: 72ch;
+  }
+  header.report-header code, td code, p code, li code {
+    font-family: var(--font-mono);
+    font-size: 0.78em;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 0.05rem 0.35rem;
+    border-radius: 3px;
+    word-break: break-all;
+  }
+
+  /* ── Sumário / TOC ─────────────────────────────── */
+  nav.toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+  }
+  nav.toc h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.6rem; }
+  nav.toc ol { list-style: none; columns: 2; column-gap: 2rem; }
+  nav.toc li { font-size: 0.85rem; padding: 0.2rem 0; break-inside: avoid; }
+  nav.toc a { color: var(--navy-light); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  @media (max-width: 700px) { nav.toc ol { columns: 1; } }
+
+  /* ── Cards de resumo ───────────────────────────── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    box-shadow: var(--shadow);
+  }
+  .summary-card .number { font-size: 2rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+  .summary-card .label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.3; }
+  .summary-card.core .number { color: var(--blue); }
+  .summary-card.custom .number { color: var(--red); }
+  .summary-card.lappis .number { color: var(--purple); }
+  .summary-card.config .number { color: var(--amber); }
+  .summary-card.ambiguous .number { color: var(--slate); }
+
+  /* ── Seções ────────────────────────────────────── */
+  .section { margin-bottom: 3rem; scroll-margin-top: 1rem; }
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--navy);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .section-title .module { font-weight: 400; color: var(--text-muted); font-size: 0.8rem; margin-left: 0.5rem; }
+  .section-intro { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem; max-width: 80ch; }
+
+  /* ── Caixas de destaque ────────────────────────── */
+  .note { border-left: 4px solid; padding: 0.85rem 1.1rem; margin: 1rem 0; font-size: 0.86rem; border-radius: 0 6px 6px 0; }
+  .note-critical { background: var(--red-bg); border-color: var(--red); }
+  .note-warning { background: var(--amber-bg); border-color: var(--amber); }
+  .note-info { background: var(--blue-bg); border-color: var(--blue); }
+  .note-success { background: var(--green-bg); border-color: var(--green); }
+  .note h4 { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .note-critical h4 { color: var(--red); }
+  .note-warning h4 { color: var(--amber); }
+  .note-info h4 { color: var(--blue); }
+  .note-success h4 { color: var(--green); }
+  .note p + p { margin-top: 0.4rem; }
+
+  .discovery-box {
+    background: var(--purple-bg);
+    border: 1px solid var(--purple);
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .discovery-box h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.7rem; color: var(--purple); }
+  .discovery-box p { font-size: 0.86rem; margin-bottom: 0.6rem; }
+
+  /* ── Tabelas ───────────────────────────────────── */
+  .overflow-wrap { overflow-x: auto; margin: 0 -0.25rem; padding: 0 0.25rem; }
+  table.issue-table, table.plain-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  table.issue-table thead th, table.plain-table thead th {
+    background: var(--surface-alt);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  table.issue-table tbody td, table.plain-table tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.issue-table tbody tr:last-child td, table.plain-table tbody tr:last-child td { border-bottom: none; }
+  table.issue-table tbody tr:hover, table.plain-table tbody tr:hover { background: var(--surface-alt); }
+  td.evidence { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); line-height: 1.45; }
+  td.evidence code { background: transparent; border: none; padding: 0; }
+
+  /* ── Badges ────────────────────────────────────── */
+  .badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.16rem 0.55rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    border: 1px solid;
+  }
+  .badge-core { background: var(--blue-bg); color: var(--blue); border-color: var(--blue); }
+  .badge-custom { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+  .badge-lappis { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
+  .badge-config { background: var(--amber-bg); color: var(--amber); border-color: var(--amber); }
+  .badge-ambiguous { background: var(--surface-alt); color: var(--slate); border-color: var(--slate-light); }
+  .badge-ok { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  .badge-critical { background: var(--red); color: #fff; border-color: var(--red); }
+
+  .sev { font-weight: 700; font-size: 0.75rem; white-space: nowrap; }
+  .sev-critica { color: var(--red); }
+  .sev-alta { color: var(--amber); }
+  .sev-media { color: var(--blue); }
+  .sev-limitacao { color: var(--slate); }
+
+  /* ── Listas de achados ─────────────────────────── */
+  .findings-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow);
+  }
+  .findings-box h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.7rem; color: var(--navy); }
+  .findings-box ul { list-style: none; padding: 0; }
+  .findings-box li {
+    font-size: 0.85rem;
+    padding: 0.4rem 0 0.4rem 1.3rem;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  .findings-box li:last-child { border-bottom: none; }
+  .findings-box li::before {
+    content: "\25CF";
+    position: absolute;
+    left: 0;
+    color: var(--navy);
+    font-size: 0.45rem;
+    top: 0.75rem;
+  }
+
+  ol.steps { padding-left: 1.4rem; font-size: 0.88rem; }
+  ol.steps li { padding: 0.3rem 0; }
+
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .summary-card, table.issue-table, .findings-box, nav.toc { box-shadow: none; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 1.2rem 1rem; }
+    header.report-header h1 { font-size: 1.25rem; }
+    table.issue-table { font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="report-header">
+  <div class="kicker">Relatório técnico · Revisão crítica</div>
+  <h1>Classificação de Problemas Reportados: DECIDIM-CORE × PARTICIPA/GOVBR × Gems LAPPIS</h1>
+  <p class="subtitle">
+    Análise verificada por leitura direta do código-fonte do Decidim core (<code>/decidim</code>),
+    da aplicação de customização (<code>/participa</code>) e da gem local <code>decidim-govbr</code>.
+    Inclui a descoberta de gems externas do GitLab LAPPIS que substituem módulos inteiros do Decidim
+    e uma investigação dedicada sobre o impacto do multi-tenancy (schema-per-tenant via <code>ros-apartment</code>).
+    Data de geração: 2026-08-14.
+  </p>
+</header>
+
+<nav class="toc">
+  <h2>Índice</h2>
+  <ol>
+    <li><a href="#repositorios">0. Repositórios analisados (nomenclatura)</a></li>
+    <li><a href="#sumario">1. Sumário executivo</a></li>
+    <li><a href="#lappis">2. Descoberta crítica: gems LAPPIS</a></li>
+    <li><a href="#remap">3. Campos remapeados de processos</a></li>
+    <li><a href="#texto-participativo">4. Texto Participativo</a></li>
+    <li><a href="#formularios">5. Formulários / Surveys (deep-dive)</a></li>
+    <li><a href="#colegiados">6. Colegiados / Assembleias</a></li>
+    <li><a href="#blog">7. Blog</a></li>
+    <li><a href="#processos">8. Processos Participativos</a></li>
+    <li><a href="#propostas">9. Propostas</a></li>
+    <li><a href="#reunioes">10. Reuniões</a></li>
+    <li><a href="#plataforma">11. Login / Plataforma / Outros</a></li>
+    <li><a href="#tenant">12. Impacto do multi-tenant</a></li>
+    <li><a href="#correcoes">13. Correções à análise anterior</a></li>
+    <li><a href="#priorizacao">14. Priorização e recomendações</a></li>
+    <li><a href="#pesquisa-web">15. Pesquisa web: bugs conhecidos upstream</a></li>
+  </ol>
+</nav>
+
+<!-- ═══════════════ 0. REPOSITÓRIOS / NOMENCLATURA ═══════════════ -->
+<section class="section" id="repositorios">
+  <h2 class="section-title">0. Repositórios Analisados — Nomenclatura</h2>
+  <p class="section-intro">
+    Toda a classificação deste relatório usa os nomes canônicos abaixo. Cada apontamento é atribuído a
+    <strong>um</strong> destes repositórios (ou a configuração/operação). O
+    <a href="arquitetura-repositorios.html"><strong>mapa interativo da arquitetura</strong></a>
+    (diagrama navegável, com temas claro/escuro e visões guiadas) mostra como eles se relacionam.
+  </p>
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead>
+      <tr><th>Nome usado no relatório</th><th>Repositório / origem</th><th>Checkout local analisado</th><th>Papel</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td><code>github.com/decidim/decidim</code> (upstream)</td>
+        <td><code>/mnt/data/code/presidencia/decidim</code></td>
+        <td>Framework: <code>decidim-core</code>, <code>decidim-forms</code>, <code>decidim-surveys</code>, <code>decidim-proposals</code>, <code>decidim-meetings</code>, <code>decidim-assemblies</code>, <code>decidim-blogs</code> etc.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-custom">PARTICIPA</span></td>
+        <td>aplicação Rails da instalação</td>
+        <td><code>/mnt/data/code/presidencia/participa</code></td>
+        <td>App que monta as gems via Gemfile: overrides de controllers/commands, locales pt-BR, temas.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-custom">GOVBR</span></td>
+        <td>gem local <code>decidim-govbr</code></td>
+        <td><code>/mnt/data/code/presidencia/participa/decidim-govbr</code></td>
+        <td>Form simplificado de processos, content blocks da home (<code>open_processes</code>, <code>blog_news</code>), validações de obrigatoriedade, login gov.br.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td>GitLab LAPPIS (gems via git no Gemfile)</td>
+        <td>instaladas como gems no PARTICIPA</td>
+        <td><code>decidim-participatory_texts</code>, <code>decidim-questionnaires</code>, <code>decidim-bp_comments</code>, <code>decidim-bp_proposals</code>, <code>decidim-bp_meetings</code>, <code>decidim-categories</code>, <code>decidim-government_spaces</code>, <code>decidim-extra_home_blocks</code> (+ <code>decidim-apartment</code> para multi-tenancy).</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note note-info">
+    <h4>Como ler os badges</h4>
+    <p>
+      <span class="badge badge-core">DECIDIM-CORE</span> correção via PR upstream (traduções pt-BR via Crowdin) ·
+      <span class="badge badge-custom">PARTICIPA/GOVBR</span> correção no código da customização ·
+      <span class="badge badge-lappis">LAPPIS</span> correção no repositório da gem no GitLab LAPPIS ·
+      <span class="badge badge-config">Configuração</span> resolve no painel admin/system, sem código ·
+      <span class="badge badge-ambiguous">Reproduzir</span> evidência insuficiente, validar em staging.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ 1. SUMÁRIO EXECUTIVO ═══════════════ -->
+<section class="section" id="sumario">
+  <h2 class="section-title">1. Sumário Executivo</h2>
+  <p class="section-intro">
+    Dos 53 apontamentos recebidos, a maior parte <strong>não é bug da customização</strong>:
+    há limitações reais do core do Decidim, funcionalidades implementadas por gems externas do LAPPIS
+    (que substituem módulos inteiros) e diversos casos resolvíveis apenas por configuração no painel admin.
+    A customização (PARTICIPA / GOVBR) é responsável por um bloco menor, mas que inclui bugs graves
+    (erro 500, perda de dados).
+  </p>
+
+  <div class="summary-grid">
+    <div class="summary-card core">
+      <div class="number">18</div>
+      <div class="label">DECIDIM-CORE<br>(bugs + limitações + design)</div>
+    </div>
+    <div class="summary-card custom">
+      <div class="number">14</div>
+      <div class="label">PARTICIPA + GOVBR<br>(customização)</div>
+    </div>
+    <div class="summary-card lappis">
+      <div class="number">11</div>
+      <div class="label">Gems LAPPIS<br>(GitLab)</div>
+    </div>
+    <div class="summary-card config">
+      <div class="number">7</div>
+      <div class="label">Configuração / Uso<br>(painel admin)</div>
+    </div>
+    <div class="summary-card ambiguous">
+      <div class="number">3</div>
+      <div class="label">Reproduzir<br>(evidência insuficiente)</div>
+    </div>
+  </div>
+
+  <div class="findings-box">
+    <h3>Leituras-chave do relatório</h3>
+    <ul>
+      <li><strong>Texto Participativo não é o módulo do core.</strong> O módulo em uso é a gem LAPPIS <code>decidim-participatory_texts</code>, não o <code>decidim-collaborative_texts</code>. Os 9 itens reportados pertencem à gem.</li>
+      <li><strong>Há um bug de segurança no core:</strong> respostas de formulário são aceitas mesmo com o formulário encerrado, via POST direto (seção 5, erro 6).</li>
+      <li><strong>Os campos "Setor / E-mail / Telefone / Responsável" não são campos novos:</strong> são remapeamentos de labels de campos existentes do core (seção 3). A obrigatoriedade, porém, foi adicionada pela customização.</li>
+      <li><strong>Multi-tenant:</strong> Sidekiq, ActiveStorage e resolução de organização <em>estão</em> cobertos pela gem <code>decidim-apartment</code>. O risco real restante é a colisão de IDs no cache de <code>OrganizationSettings</code> (seção 12).</li>
+      <li><strong>5 bugs do core têm correção pontual identificada</strong> e são candidatos a PR upstream (seção 14).</li>
+    </ul>
+  </div>
+
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead>
+      <tr><th>Responsável</th><th>Qtd.</th><th>Onde agir</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td>18</td>
+        <td>PRs upstream no repositório <code>decidim/decidim</code> (traduções pt-BR via Crowdin, fixes de código no core).</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td>14</td>
+        <td>Repositório do PARTICIPA e da gem local GOVBR (<code>decidim-govbr</code>).</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-lappis">Gems LAPPIS</span></td>
+        <td>11</td>
+        <td>Repositórios das gems no GitLab LAPPIS (<code>decidim-participatory_texts</code>, <code>decidim-questionnaires</code>, etc.).</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td>7</td>
+        <td>Painel admin / painel system — sem alteração de código. Requer treinamento ou documentação de uso.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-ambiguous">Reproduzir</span></td>
+        <td>3</td>
+        <td>Reprodução em ambiente de staging antes de classificar.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 2. GEMS LAPPIS ═══════════════ -->
+<section class="section" id="lappis">
+  <h2 class="section-title">2. Descoberta Crítica: Gems Externas do LAPPIS</h2>
+  <div class="discovery-box">
+    <h3>Vários módulos reportados não são nem core nem customização direta</h3>
+    <p>
+      A exploração do <code>participa</code> revelou que o Gemfile instala gems externas do GitLab LAPPIS
+      que <strong>substituem ou estendem módulos inteiros do Decidim</strong>. Problemas nesses módulos
+      devem ser reportados/corrigidos nos repositórios das gems, não no core nem necessariamente no
+      código da aplicação <code>participa</code>.
+    </p>
+    <div class="overflow-wrap">
+    <table class="plain-table">
+      <thead>
+        <tr><th>Gem LAPPIS</th><th>Substitui / Estende</th><th>Impacto na lista de problemas</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>decidim-participatory_texts</code></td>
+          <td>Texto participativo (módulo inteiro)</td>
+          <td>Todos os 9 itens de "Texto Participativo" pertencem a esta gem, <strong>não</strong> ao <code>decidim-collaborative_texts</code> do core.</td>
+        </tr>
+        <tr>
+          <td><code>decidim-questionnaires</code></td>
+          <td>Formulários / questionários</td>
+          <td>Adiciona <code>max_files</code> por questão, mailer de confirmação, view read-only de respostas e o step setting <code>allow_answers</code>. Vários erros de formulário são da interação gem × core (seção 5).</td>
+        </tr>
+        <tr>
+          <td><code>decidim-bp_comments</code></td>
+          <td>Comentários</td>
+          <td>Comportamento de moderação/denúncia de comentários pode vir daqui.</td>
+        </tr>
+        <tr>
+          <td><code>decidim-bp_proposals</code></td>
+          <td>Propostas</td>
+          <td>Permissões e fluxo de avaliação customizados.</td>
+        </tr>
+        <tr>
+          <td><code>decidim-bp_meetings</code></td>
+          <td>Reuniões</td>
+          <td>Formulário de reunião customizado.</td>
+        </tr>
+        <tr>
+          <td><code>decidim-categories</code></td>
+          <td>Categorias (sistema legado)</td>
+          <td>Explica "categorias" aparecendo onde o core atual usa taxonomias.</td>
+        </tr>
+        <tr>
+          <td><code>decidim-government_spaces</code></td>
+          <td>Espaços governamentais</td>
+          <td>Papéis "órgão" e "setor" com permissões customizadas — não existem no core.</td>
+        </tr>
+        <tr>
+          <td><code>decidim-extra_home_blocks</code></td>
+          <td>Blocos da home</td>
+          <td>"Processos Abertos" é bloco custom desta gem, não o <code>highlighted_processes</code> do core.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 3. CAMPOS REMAPEADOS ═══════════════ -->
+<section class="section" id="remap">
+  <h2 class="section-title">3. Campos Remapeados (não são campos novos)</h2>
+  <p class="section-intro">
+    A customização <strong>não adicionou novos campos</strong> ao formulário de processo participativo.
+    Ela <strong>remapeou os labels</strong> de campos já existentes no core via locale pt-BR.
+    Isso muda a natureza dos apontamentos: não há "campos faltando", há labels com semântica diferente
+    do campo original — e validações de obrigatoriedade adicionadas pela customização.
+  </p>
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead>
+      <tr><th>Campo do core (Decidim)</th><th>Label exibido (participa)</th><th>Seção do formulário</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>developer_group</code></td><td>Setor / Grupo promotor</td><td>Dados complementares</td></tr>
+      <tr><td><code>local_area</code></td><td>Telefone ou E-mail institucional do setor</td><td>Dados complementares</td></tr>
+      <tr><td><code>meta_scope</code></td><td>Responsável pela consulta</td><td>Dados complementares</td></tr>
+      <tr><td><code>participatory_scope</code></td><td>Link da publicação no DOU</td><td>Dados complementares</td></tr>
+      <tr><td><code>target</code></td><td>Data de publicação no DOU</td><td>Dados complementares</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note note-warning">
+    <h4>Origem da terminologia</h4>
+    <p>
+      A seção <strong>"Dados complementares"</strong> é um accordion do formulário simplificado do
+      <code>decidim-govbr</code>, e o campo <code>metadata</code> do core foi traduzido como
+      "Dados complementares" em <code>participa/config/locales/.../pt-BR.yml:455</code>
+      ("Informações adicionais" em <code>pt-BR.yml:478</code>). A obrigatoriedade desses campos vem de
+      <code>participatory_process_form_extensions.rb</code> (govbr), que adiciona <code>presence: true</code>.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ 4. TEXTO PARTICIPATIVO ═══════════════ -->
+<section class="section" id="texto-participativo">
+  <h2 class="section-title">4. Texto Participativo <span class="module">decidim-participatory_texts (LAPPIS) — NÃO é o core</span></h2>
+  <div class="note note-critical">
+    <h4>Correção importante</h4>
+    <p>
+      O módulo "Texto Participativo" dos apontamentos <strong>não é</strong> o <code>decidim-collaborative_texts</code>
+      do core (documentos com sugestões em nível de nó DOM). É a gem <code>decidim-participatory_texts</code>
+      do GitLab LAPPIS, instalada via Gemfile. O core <code>decidim-collaborative_texts</code> sequer possui
+      comentários, moderação, denúncia ou anexos — <code>Document</code> e <code>Suggestion</code> não incluem
+      <code>Commentable</code> nem <code>Reportable</code>, e um grep por "comment" em <code>app/</code> retorna zero.
+      <strong>Todos os itens abaixo são responsabilidade da gem LAPPIS.</strong>
+    </p>
+  </div>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Problema</th><th>Origem</th><th>Evidência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Hiperlink sem destaque visual</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">O core não estiliza <code>&lt;a&gt;</code> no corpo do documento. Verificar CSS/JS da gem participatory_texts.</td>
+      </tr>
+      <tr>
+        <td>Comentários em moderação — link não direciona</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">Comentários neste componente foram adicionados pela gem; o link de moderação é implementação dela.</td>
+      </tr>
+      <tr>
+        <td>Tag "sendo avaliado" persiste após retorno</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">Status intermediário de moderação de comentário não existe no core ("em avaliação" existe apenas em decidim-proposals, para propostas).</td>
+      </tr>
+      <tr>
+        <td>Erro ao inserir documento com vários parágrafos</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">O core opera por nó DOM (<code>firstNode</code>/<code>lastNode</code>); não existe importador multi-parágrafo no core.</td>
+      </tr>
+      <tr>
+        <td>Exportar comentários pelo admin</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">Core exporta apenas <em>sugestões</em> (<code>SuggestionSerializer</code>); comentários e sua exportação são da gem.</td>
+      </tr>
+      <tr>
+        <td>Anexos nos comentários</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence"><code>Document</code> do core não inclui <code>HasAttachments</code>; feature da gem.</td>
+      </tr>
+      <tr>
+        <td>Falta botão pré-visualizar inline</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">Core tem apenas link "Preview" em dropdown (<code>_actions.html.erb:54-59</code>). Preview inline seria feature da gem.</td>
+      </tr>
+      <tr>
+        <td>Opção "mesclar parágrafos"</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">Core tem "consolidate" (aplica sugestões em nova versão) — conceitualmente diferente. Mesclagem é da gem.</td>
+      </tr>
+      <tr>
+        <td>Comentários denunciados continuam visíveis</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td class="evidence">No core, <code>Reportable</code> + <code>ModerationTools</code> escondem conteúdo reportado após ação do admin. Fluxo de denúncia deste componente é da gem.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note note-info">
+    <h4>Conclusão do módulo</h4>
+    <p><strong>9 de 9 itens são da gem LAPPIS <code>decidim-participatory_texts</code>.</strong> Os bugs devem ser reportados/corrigidos no repositório da gem. Nenhum item deste módulo é do core do Decidim.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ 5. FORMULÁRIOS (DEEP-DIVE) ═══════════════ -->
+<section class="section" id="formularios">
+  <h2 class="section-title">5. Formulários / Surveys — investigação aprofundada <span class="module">decidim-forms / decidim-surveys (core) + decidim-questionnaires (LAPPIS)</span></h2>
+  <p class="section-intro">
+    Cada erro foi verificado diretamente no código: models, forms, controllers, commands, permissions,
+    views e serializers do core, mais os overrides da gem <code>decidim-questionnaires</code> (v0.0.1, LAPPIS),
+    que estende o <code>decidim-forms</code> via <code>prepend</code>/<code>include</code> e Deface.
+  </p>
+
+  <div class="note note-info">
+    <h4>O que a gem decidim-questionnaires (LAPPIS) adiciona</h4>
+    <p>
+      <code>max_files</code> por questão (migration + campo admin via Deface + controller Stimulus <code>FilesLimitController</code> + validação server-side);
+      view read-only de respostas anteriores (<code>_user_answers_readonly.html.erb</code> via Deface);
+      <code>ConfirmationMailer</code> custom; step setting <code>allow_answers</code>;
+      fix de safe navigation em <code>mandatory_conditions_fulfilled?</code>;
+      restauração de respostas ocultas após falha de validação.
+      <strong>Não</strong> foram encontrados overrides de formulários no <code>participa/app/</code> ou no <code>decidim-govbr</code>.
+    </p>
+  </div>
+
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>#</th><th>Erro reportado</th><th>Veracidade</th><th>Origem</th><th>Tenant?</th><th>Severidade</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Não apresenta quantidade de arquivos nem extensões aceitas</td>
+        <td>✅ Verdadeiro</td>
+        <td><span class="badge badge-lappis">LAPPIS</span> + <span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td>Não</td>
+        <td class="sev sev-media">Média</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Formulário não enumera as questões</td>
+        <td>✅ Verdadeiro</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td>Não</td>
+        <td class="sev sev-limitacao">Limitação</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Anexos não visíveis na confirmação da resposta</td>
+        <td>✅ Verdadeiro</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td>Possível (mailer via Sidekiq)</td>
+        <td class="sev sev-media">Média</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Não exibe qtd. máxima de arquivos mesmo configurada</td>
+        <td>✅ Verdadeiro</td>
+        <td><span class="badge badge-lappis">LAPPIS</span></td>
+        <td>Não</td>
+        <td class="sev sev-media">Média</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Condicionantes não executadas conforme configuração</td>
+        <td>✅ Verdadeiro (4 bugs)</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span> + <span class="badge badge-lappis">LAPPIS</span></td>
+        <td>Não</td>
+        <td class="sev sev-alta">Alta</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Respostas enviadas mesmo com formulário encerrado</td>
+        <td>✅ Verdadeiro — <strong>segurança</strong></td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td>Não</td>
+        <td class="sev sev-critica">Crítica</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Quebra de HTML no item de exportação</td>
+        <td>✅ Verdadeiro</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td>Não</td>
+        <td class="sev sev-media">Média</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Formulário "encerrado" mesmo com datas ativas</td>
+        <td>⚠️ Configuração + UX</td>
+        <td><span class="badge badge-lappis">LAPPIS</span> + <span class="badge badge-config">Config</span></td>
+        <td>Não</td>
+        <td class="sev sev-alta">Alta</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Edição de respostas enviadas não funciona</td>
+        <td>⚠️ Configuração + possível bug</td>
+        <td><span class="badge badge-lappis">LAPPIS</span> + <span class="badge badge-config">Config</span></td>
+        <td>Não</td>
+        <td class="sev sev-media">Média</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="findings-box">
+    <h3>Evidências por erro</h3>
+    <ul>
+      <li><strong>Erro 1/4 — info de arquivos:</strong> o core não tem <code>max_files</code> no model <code>Question</code>. A gem LAPPIS adiciona o campo e o enforcement (Stimulus + validação), mas <strong>não renderiza texto visível</strong> informando o limite nem as extensões aceitas. Fix na gem: exibir help text no partial <code>answers/_files.html.erb</code>.</li>
+      <li><strong>Erro 2 — numeração:</strong> <code>QuestionReadonlyCell#position</code> calcula a posição, mas ela vai apenas para o atributo invisível <code>data-response-idx</code>. Nenhum partial renderiza o número. Ausência de feature no core e na gem.</li>
+      <li><strong>Erro 3 — confirmação:</strong> após submeter, o core redireciona com flash (sem página de confirmação). A gem adiciona a view read-only e o <code>ConfirmationMailer</code> — verificar se <code>_user_answers_readonly.html.erb</code> renderiza links de arquivos e se o mailer está chegando (depende do middleware de tenant do Sidekiq).</li>
+      <li><strong>Erro 5 — condicionantes, 4 bugs do core:</strong> (a) <code>not_equal</code> com resposta vazia retorna <code>nil</code> (<code>display_condition.rb:36-42</code>); (b) divergência JS × Ruby no tipo <code>match</code> multi-idioma (JS usa só o locale atual, Ruby itera todos); (c) <code>responded</code> não detecta questões de ordenação (hidden fields fora do seletor JS); (d) inputs <code>disabled</code> quando o JS falha. A gem corrigiu parcialmente com safe navigation e restauração de respostas ocultas.</li>
+      <li><strong>Erro 6 — SEGURANÇA:</strong> o check <code>survey.open?</code> existe só na view. O action <code>respond</code> não verifica abertura; a permission class sempre permite <code>:respond</code>; o command <code>ResponseQuestionnaire</code> não checa <code>open?</code>. Um POST direto a <code>/surveys/:id/respond</code> grava resposta em formulário encerrado. O <code>allow_answers</code> da gem controla exibição por etapa, não o backend.</li>
+      <li><strong>Erro 7 — HTML na exportação:</strong> <code>UserResponsesSerializer#translated_question_key</code> usa o body rich text da questão <strong>sem sanitização</strong> nas chaves do CSV. Fix: <code>strip_tags(translated_attribute(body))</code>.</li>
+      <li><strong>Erro 8 — "encerrado" mesmo ativo:</strong> <code>Survey#open?</code> (<code>survey.rb:51-60</code>) retorna <code>false</code> se <code>allow_responses</code> estiver desmarcado, <strong>independente das datas</strong>. A gem adiciona um segundo toggle (<code>allow_answers</code> por etapa) sem documentar a interação — a confusão entre os dois toggles é a causa provável.</li>
+      <li><strong>Erro 9 — edição:</strong> requer 3 condições simultâneas (usuário logado + <code>allow_editing_responses</code> + survey aberto). Se o survey fechou, a edição é bloqueada mesmo com o checkbox marcado. Adicional: verificar se o override Deface da view read-only não quebrou o link para <code>edit_survey_path</code>.</li>
+    </ul>
+  </div>
+
+  <div class="note note-critical">
+    <h4>Ação prioritária — Erro 6 (segurança)</h4>
+    <p>
+      Adicionar verificação de abertura no backend do core: <code>before_action</code> no controller de surveys
+      ou check de <code>survey.open?</code> no command <code>ResponseQuestionnaire</code>. Hoje a proteção é
+      apenas visual (a view esconde o formulário).
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ 6. COLEGIADOS ═══════════════ -->
+<section class="section" id="colegiados">
+  <h2 class="section-title">6. Colegiados / Assembleias <span class="module">decidim-assemblies (core)</span></h2>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Problema</th><th>Origem</th><th>Evidência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Assembleia puxa todos os processos ao criar</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence"><code>AssemblyForm#processes_for_select</code> (<code>assembly_form.rb:102</code>) busca todos os processos da organização sem filtro. Comportamento nativo.</td>
+      </tr>
+      <tr>
+        <td>Typo "assambleia" (3 ocorrências)</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence"><code>decidim-assemblies/config/locales/pt-BR.yml</code> linhas 8, 162 e 238. Correto: "assembleia". Bug de tradução (Crowdin).</td>
+      </tr>
+      <tr>
+        <td>Só admin geral deleta comentário</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">No core, <strong>nenhum admin deleta comentário</strong> — só o autor (<code>Permissions:39-43</code>, <code>DeleteComment:23</code>). Admins apenas <em>escondem</em> via moderação. A deleção por admin foi adicionada via <code>decidim-bp_comments</code> (LAPPIS) ou <code>decidim-government_spaces</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 7. BLOG ═══════════════ -->
+<section class="section" id="blog">
+  <h2 class="section-title">7. Blog <span class="module">decidim-blogs (core) + bloco custom (govbr)</span></h2>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Problema</th><th>Origem</th><th>Evidência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Botão de confirmar horário coberto pelo rodapé</td>
+        <td><span class="badge badge-ambiguous">Reproduzir</span></td>
+        <td class="evidence">Core usa <code>datetime_field :published_at</code> + sticky footer com submit. Em viewports curtos o sticky pode cobrir o campo. CSS do sticky é do core, mas customizações gov.br podem agravar. Reproduzir antes de classificar.</td>
+      </tr>
+      <tr>
+        <td>Edição de comentário a qualquer tempo</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span> <span class="badge badge-ok">Design</span></td>
+        <td class="evidence"><code>can_update_comment?</code> só checa <code>authored_by?</code>; sem limite temporal. Comportamento nativo por design (verificar se <code>decidim-bp_comments</code> faz override).</td>
+      </tr>
+      <tr>
+        <td>Comentários bloqueados mostram opções de interação</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">Core esconde tudo em <code>hidden?</code>/<code>deleted?</code> (<code>comment/show.erb:6-10</code>). Se opções aparecem, é regressão em override do <code>decidim-bp_comments</code> ou da customização.</td>
+      </tr>
+      <tr>
+        <td>Título da notícia sem negrito na home</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence"><code>CardGCell#title_class</code> retorna <code>"h4 text-secondary"</code>, sem <code>font-bold</code> explícito.</td>
+      </tr>
+      <tr>
+        <td>Sem botão "Ver mais" na home</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">O participa usa o bloco custom <code>blog_news</code> do <code>decidim-govbr</code>, não o <code>HighlightedPosts</code> do core (que renderiza "See all" apenas com <code>single_component</code>). O botão é responsabilidade do bloco custom.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 8. PROCESSOS ═══════════════ -->
+<section class="section" id="processos">
+  <h2 class="section-title">8. Processos Participativos <span class="module">decidim-participatory_processes (core) + overrides govbr</span></h2>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Problema</th><th>Origem</th><th>Evidência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Erro 500 ao atualizar datas</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">O core (<code>UpdateParticipatoryProcess</code>) valida e retorna 422. O participa tem command custom <code>UpdateParticipatoryProcessDates</code> + controller override + <code>ParticipatoryProcessDateForm</code>. O 500 vem do código custom.</td>
+      </tr>
+      <tr>
+        <td>Perda de dados ao selecionar categoria</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">O core não tem campo "categoria" (usa taxonomias; <code>&lt;select&gt;</code> sem auto-submit nem redirect). O redirect/perda está no form override do participa ou na gem <code>decidim-categories</code> (LAPPIS).</td>
+      </tr>
+      <tr>
+        <td>Avaliadores sem acesso a avaliar</td>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td class="evidence">O core exige <code>EvaluationAssignment</code> explícito (<code>permissions.rb:13, 93-98</code>). Fluxo nativo: admin seleciona propostas → Ações → Atribuir ao avaliador.</td>
+      </tr>
+      <tr>
+        <td>Categorias não aparecem na aba do processo</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">O core não tem aba "categorias" no menu admin (taxonomias ficam no form). A aba é da gem <code>decidim-categories</code> (LAPPIS).</td>
+      </tr>
+      <tr>
+        <td>Imagem CTA não aparece na home</td>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td class="evidence">O bloco <code>hero</code> é <code>default!</code> e suporta <code>background_image</code>. Ausência = configuração do bloco no admin.</td>
+      </tr>
+      <tr>
+        <td>Campos Setor/E-mail/Telefone/Responsável obrigatórios</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">São remapeamentos de campos core (ver seção 3). As validações <code>presence: true</code> foram adicionadas por <code>participatory_process_form_extensions.rb</code> (govbr).</td>
+      </tr>
+      <tr>
+        <td>Descrição sem limite de caracteres; nomenclatura inconsistente</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">Core não valida <code>length</code>. "Dados complementares" / "Informações adicionais" são traduções custom (<code>pt-BR.yml:455</code>, <code>:478</code>).</td>
+      </tr>
+      <tr>
+        <td>PROCESSOS e INICIATIVAS não aparecem na home</td>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td class="evidence">São content blocks opcionais. O participa usa o bloco custom <code>open_processes</code> (govbr). Depende do layout da home no admin.</td>
+      </tr>
+      <tr>
+        <td>PROCESSOS ABERTOS não relaciona processos</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">"Processos Abertos" é o bloco custom <code>open_processes</code> registrado em <code>decidim-govbr/.../homepage/content_blocks.rb</code> — não o <code>highlighted_processes</code> do core. Bug no código custom.</td>
+      </tr>
+      <tr>
+        <td>Espaço de Iniciativas desabilitado</td>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td class="evidence">O menu de iniciativas é data-driven: só renderiza se houver <code>InitiativesType</code> com scopes na organização.</td>
+      </tr>
+      <tr>
+        <td>"Dados complementares" exibidos diferente na home</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">Terminologia do participa (locale override). A exibição depende do content block usado.</td>
+      </tr>
+      <tr>
+        <td>Ordem "Dados do Processo" antes de "Etapa e Duração"</td>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td class="evidence">A ordem dos content blocks é configurável pelo admin no painel.</td>
+      </tr>
+      <tr>
+        <td>Bloco de Reuniões com <code>%{count}</code> bruto</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence"><code>highlighted_meetings_for_component/show.erb:12</code> chama <code>t(...see_all)</code> sem passar <code>count:</code>; a locale pt-BR define <code>see_all: "Ver todos (%{count})"</code>. Bug confirmado (também em decidim-accountability).</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 9. PROPOSTAS ═══════════════ -->
+<section class="section" id="propostas">
+  <h2 class="section-title">9. Propostas <span class="module">decidim-proposals (core) + decidim-bp_proposals (LAPPIS)</span></h2>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Problema</th><th>Origem</th><th>Evidência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Avaliadores não conseguem avaliar</td>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td class="evidence">Core exige <code>EvaluationAssignment</code> explícito. Fluxo nativo. Se <code>decidim-bp_proposals</code> muda permissões, verificar a gem.</td>
+      </tr>
+      <tr>
+        <td>Admin de órgão/setor não modera comentário</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">"Órgão" e "setor" são papéis do <code>decidim-government_spaces</code> (LAPPIS); o core tem apenas <code>:moderator</code>/<code>:admin</code> de espaço. A permissão diferencial é da gem.</td>
+      </tr>
+      <tr>
+        <td>Alerta de limite de votos</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence">Existem <code>maximum_votes_reached</code> e <code>no_votes_remaining</code> (<code>_remaining_votes_count.html.erb</code>, <code>_voting_rules.html.erb</code>). Tag nativa.</td>
+      </tr>
+      <tr>
+        <td>Redimensionamento automático de imagens</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence"><code>AttachmentUploader</code> gera variantes lazy (<code>thumbnail</code> 237px, <code>big</code> 1000px) mas <strong>não redimensiona a original</strong> — apenas valida máx. 8000px. Limitação do core.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 10. REUNIÕES ═══════════════ -->
+<section class="section" id="reunioes">
+  <h2 class="section-title">10. Reuniões <span class="module">decidim-meetings (core) + decidim-bp_meetings (LAPPIS)</span></h2>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Problema</th><th>Origem</th><th>Evidência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Outlook baixa o mesmo arquivo do Apple</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span> <span class="badge badge-ok">Correto</span></td>
+        <td class="evidence"><code>_add_to_calendar_modal.html.erb:7,10</code>: ambos usam <code>ics_url</code>. <strong>Não é bug</strong> — Outlook e Apple Calendar consomem o mesmo formato .ics; só o Google Calendar usa URL web separada. Desclassificar.</td>
+      </tr>
+      <tr>
+        <td>Não é possível selecionar categoria ao criar reunião</td>
+        <td><span class="badge badge-ambiguous">Reproduzir</span></td>
+        <td class="evidence">Core suporta taxonomias em reuniões (<code>BaseMeetingForm</code> inclui <code>HasTaxonomyFormAttributes</code>). O form custom do <code>decidim-bp_meetings</code> e o legado <code>decidim-categories</code> podem interferir. Verificar qual form está ativo.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 11. LOGIN / PLATAFORMA ═══════════════ -->
+<section class="section" id="plataforma">
+  <h2 class="section-title">11. Login / Plataforma / Outros <span class="module">decidim-core</span></h2>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Problema</th><th>Origem</th><th>Evidência</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Quebra de HTML no label "Senha"</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence"><code>decidim-core/config/locales/pt-BR.yml:716</code>: chave <code>shown_password</code> vazia → <code>data-shown-password=""</code>. O JS faz fallback em inglês ("Your password is shown"). Bug de localização.</td>
+      </tr>
+      <tr>
+        <td>Data da reunião em formato US (mês/dia) no admin</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence"><code>admin/agenda/_form.html.erb:16,20</code>: <code>strftime("%m/%d/%Y %R")</code> hard-coded. Deveria usar <code>I18n.l</code>.</td>
+      </tr>
+      <tr>
+        <td>Interface em inglês para não autenticados</td>
+        <td><span class="badge badge-config">Configuração</span></td>
+        <td class="evidence">O fallback é o <code>default_locale</code> da organização (<code>locale_router_detector.rb:14,34</code>). Configurar no painel system.</td>
+      </tr>
+      <tr>
+        <td>Redirect de link de proposta quebra após login</td>
+        <td><span class="badge badge-ambiguous">Reproduzir</span></td>
+        <td class="evidence">Depende de <code>stored_location_for</code> (Devise). O participa usa login gov.br (<code>omniauth-govbr</code>); provável interação com o OAuth custom. Reproduzir.</td>
+      </tr>
+      <tr>
+        <td>Templates quebram a visualização</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+        <td class="evidence">Core: templates (<code>proposal_answer</code>, <code>questionnaire</code>, <code>block_user</code>) sem problema estrutural. O participa tem override <code>community_templates</code> com cell custom + catálogo. Bug na customização.</td>
+      </tr>
+      <tr>
+        <td>Botão de download de arquivos nas contribuições</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+        <td class="evidence">Download/exportação só existe no admin (permissão <code>:export</code>). Na visão pública não há botão de download em lote. Limitação do core.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 12. MULTI-TENANT ═══════════════ -->
+<section class="section" id="tenant">
+  <h2 class="section-title">12. Impacto do Multi-Tenant <span class="module">ros-apartment + decidim-apartment (LAPPIS)</span></h2>
+  <p class="section-intro">
+    A aplicação usa <strong>schema-per-tenant</strong> no PostgreSQL. A pergunta investigada:
+    quais problemas reportados só acontecem no tenant e não ocorreriam em single-tenant?
+  </p>
+
+  <h3 style="font-size:0.95rem; margin-bottom:0.6rem;">Arquitetura em 3 camadas</h3>
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead><tr><th>Camada</th><th>Componente</th><th>Função</th></tr></thead>
+    <tbody>
+      <tr><td>Engine</td><td><code>ros-apartment ~&gt; 3.2.0</code></td><td>Isola dados em schemas PostgreSQL separados por tenant.</td></tr>
+      <tr><td>Integração</td><td><code>decidim-apartment</code> (LAPPIS)</td><td>Mapeia host → schema via tabela <code>apartment_distribution_keys</code>; <code>DetectOrganizationMiddleware</code> faz <code>Organization.first</code> no schema correto.</td></tr>
+      <tr><td>Patch</td><td><code>active_storage_apartment_patch.rb</code></td><td>Troca tenant em requests do ActiveStorage.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note note-warning">
+    <h4>Correção à análise preliminar</h4>
+    <p>
+      Uma primeira hipótese apontava "Sidekiq sem middleware de tenant" como crítico. <strong>Estava errada:</strong>
+      a gem <code>decidim-apartment</code> já fornece <code>SidekiqTenantMiddleware</code> (troca o tenant durante a execução do job),
+      <code>ActiveJobWithTenant</code> (injeta o tenant nos argumentos no enqueue) e
+      <code>ApartmentDiskStorage</code>/<code>ApartmentS3Storage</code> (prefixam os paths de arquivo com o tenant).
+      Em produção, o cache Redis também usa <code>namespace: proc { Apartment::Tenant.current }</code>.
+    </p>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Riscos reais que permanecem</h3>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Risco</th><th>Status</th><th>Evidência e impacto</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Colisão de ID no cache <code>OrganizationSettings.@registry</code></td>
+        <td><span class="badge badge-critical">Crítico</span></td>
+        <td class="evidence">
+          <code>decidim-core/lib/decidim/organization_settings.rb</code>: cache class-level indexado por <code>organization.id</code>. Em schema-per-tenant, tenants diferentes podem ter <code>organization.id == 1</code> (sequences são por schema) — o segundo tenant recebe as settings cacheadas do primeiro.
+          <br><strong>Pode explicar:</strong> formulário "encerrado" mesmo ativo, componentes não aparecendo na home, configs de componente erradas.
+        </td>
+      </tr>
+      <tr>
+        <td>ActionCable sem troca de tenant</td>
+        <td><span class="badge badge-ambiguous">Alto</span></td>
+        <td class="evidence"><code>application_cable/connection.rb</code> e <code>channel.rb</code> são stubs vazios — sem middleware de tenant para WebSocket. Mensagens de um tenant podem chegar a outro (relevante se o texto participativo usa edição colaborativa em tempo real).</td>
+      </tr>
+      <tr>
+        <td><code>mattr_accessor</code> globais do módulo Decidim</td>
+        <td><span class="badge badge-ambiguous">Alto</span></td>
+        <td class="evidence">~30 configurações globais (<code>default_locale</code>, mapas, etc.) compartilhadas entre tenants, setadas no boot. Pode explicar "interface em inglês para não autenticados" se o fallback usa <code>Decidim.default_locale</code> (global) em vez de <code>current_organization.default_locale</code>.</td>
+      </tr>
+      <tr>
+        <td>Drift de <code>schema_migrations</code> entre tenants</td>
+        <td><span class="badge badge-ambiguous">Médio</span></td>
+        <td class="evidence">Migrations falhando em um tenant deixam tabelas faltando só nele. Operacional, não de código.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Resolvido pela gem decidim-apartment (não é problema)</h3>
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead><tr><th>Hipótese inicial</th><th>Veredito</th></tr></thead>
+    <tbody>
+      <tr><td>Sidekiq executa jobs no schema errado</td><td><span class="badge badge-ok">Coberto</span> — <code>SidekiqTenantMiddleware</code> + <code>ActiveJobWithTenant</code> na engine da gem.</td></tr>
+      <tr><td>Blobs do ActiveStorage vazam entre tenants</td><td><span class="badge badge-ok">Coberto</span> — storage com prefixo por tenant + patch no <code>BaseController</code>.</td></tr>
+      <tr><td>Lookup de organização pelo host errado</td><td><span class="badge badge-ok">Coberto</span> — <code>DetectOrganizationMiddleware</code> faz <code>Organization.first</code> após o switch.</td></tr>
+      <tr><td>Cache Redis compartilhado entre tenants</td><td><span class="badge badge-ok">Coberto</span> — namespace por tenant em produção.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Veredito por apontamento</h3>
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead><tr><th>Categoria</th><th>Qtd.</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-critical">Provavelmente tenant</span></td>
+        <td>~4</td>
+        <td>Vinculados ao cache de <code>OrganizationSettings</code> (formulário encerrado, componentes na home) e ao <code>default_locale</code> global.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-ambiguous">Possivelmente tenant</span></td>
+        <td>~4</td>
+        <td>Callback OmniAuth gov.br, redirect pós-login, imagens/CTA, ActionCable (se usado).</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-ok">Não é tenant</span></td>
+        <td>~45</td>
+        <td>Bugs de locale, limitações de design do core, customizações govbr e gems LAPPIS — ocorrem igual em single-tenant.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="findings-box">
+    <h3>Como testar se um problema é do tenant</h3>
+    <ol class="steps">
+      <li>Reproduzir no tenant afetado e confirmar o erro.</li>
+      <li>Logar o schema ativo no momento do erro: <code>Rails.logger.info "Schema: #{Apartment::Tenant.current}"</code>.</li>
+      <li>Comparar com outro tenant (ou ambiente single-tenant): se o problema some, é tenant.</li>
+      <li>Para suspeitas de settings: inspecionar <code>Decidim::OrganizationSettings</code> — se o registry já foi populado por outro tenant com o mesmo <code>organization.id</code>, há colisão.</li>
+      <li>Para jobs: verificar se o argumento <code>"tenant"</code> está presente no payload do job no Sidekiq.</li>
+    </ol>
+  </div>
+
+  <div class="note note-info">
+    <h4>Fix recomendado (maior impacto, menor esforço)</h4>
+    <p>Resolver a colisão do <code>OrganizationSettings.@registry</code> indexando o cache também pelo tenant:</p>
+    <pre style="background:var(--surface-alt); border:1px solid var(--border); border-radius:6px; padding:0.8rem 1rem; font-family:var(--font-mono); font-size:0.75rem; overflow-x:auto; margin-top:0.5rem;"><code># config/initializers/organization_settings_tenant_safe.rb
+# Indexa o registry por (tenant, organization.id) em vez de só organization.id,
+# evitando colisão quando dois tenants têm organization.id == 1.</code></pre>
+  </div>
+</section>
+
+<!-- ═══════════════ 13. CORREÇÕES ═══════════════ -->
+<section class="section" id="correcoes">
+  <h2 class="section-title">13. Correções em Relação à Análise Anterior</h2>
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead><tr><th>Análise anterior dizia</th><th>Revisão concluiu</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>"Outlook baixa o mesmo arquivo do Apple" é bug</td>
+        <td><strong>Não é bug.</strong> Ambos consomem <code>.ics</code>; só o Google Calendar usa URL web. Desclassificar.</td>
+      </tr>
+      <tr>
+        <td>Core não redimensiona imagens de propostas</td>
+        <td>Parcial: o core gera variantes lazy (<code>thumbnail</code>/<code>big</code>), mas não redimensiona a imagem <em>original</em> (só valida máx. 8000px). Limitação, não ausência total.</td>
+      </tr>
+      <tr>
+        <td>Texto Participativo = <code>decidim-collaborative_texts</code> do core</td>
+        <td><strong>Errado:</strong> o módulo em uso é a gem LAPPIS <code>decidim-participatory_texts</code>. Todos os 9 itens mudam de "customização" para "gem LAPPIS".</td>
+      </tr>
+      <tr>
+        <td>Campos Setor/E-mail/Telefone/Responsável são campos novos</td>
+        <td>São <strong>remapeamentos de labels</strong> de campos core via locale. O que a customização adicionou foi a <em>obrigatoriedade</em>.</td>
+      </tr>
+      <tr>
+        <td>"Sidekiq sem middleware de tenant" é crítico</td>
+        <td><strong>Errado:</strong> a gem <code>decidim-apartment</code> já cobre Sidekiq, ActiveJob e storage. O risco real é a colisão de ID no <code>OrganizationSettings</code>.</td>
+      </tr>
+      <tr>
+        <td>"Ver mais" do blog some por limitação do core</td>
+        <td>O participa usa o bloco custom <code>blog_news</code> (govbr), não o <code>HighlightedPosts</code> do core. O botão é responsabilidade do bloco custom.</td>
+      </tr>
+      <tr>
+        <td>"Processos Abertos" é configuração do bloco do core</td>
+        <td>É o bloco custom <code>open_processes</code> do <code>decidim-govbr</code>. Se não lista processos, é bug do código custom.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ═══════════════ 14. PRIORIZAÇÃO ═══════════════ -->
+<section class="section" id="priorizacao">
+  <h2 class="section-title">14. Priorização e Recomendações</h2>
+
+  <div class="findings-box">
+    <h3>Bugs do core com correção identificada — candidatos a PR upstream</h3>
+    <ul>
+      <li><strong>Typo "assambleia"</strong> — <code>decidim-assemblies/config/locales/pt-BR.yml</code> linhas 8, 162, 238. Fix: "assembleia" (via Crowdin).</li>
+      <li><strong><code>shown_password</code> vazio</strong> — <code>decidim-core/config/locales/pt-BR.yml:716</code>. Fix: "Sua senha está visível".</li>
+      <li><strong><code>strftime("%m/%d/%Y")</code> hard-coded</strong> — <code>decidim-meetings/.../admin/agenda/_form.html.erb:16,20</code>. Fix: <code>I18n.l</code>.</li>
+      <li><strong><code>%{count}</code> literal</strong> — <code>highlighted_meetings_for_component/show.erb:12</code> sem passar <code>count:</code>. Fix: passar <code>count: meetings.count</code>.</li>
+      <li><strong>HTML sem sanitização na exportação</strong> — <code>UserResponsesSerializer</code>. Fix: <code>strip_tags(translated_attribute(body))</code>.</li>
+      <li><strong>Respostas aceitas em formulário encerrado (segurança)</strong> — adicionar check de <code>survey.open?</code> no controller/command.</li>
+    </ul>
+  </div>
+
+  <div class="overflow-wrap">
+  <table class="plain-table">
+    <thead><tr><th>Prioridade</th><th>Ação</th><th>Responsável</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="sev sev-critica">P0</td>
+        <td>Erro 6 de formulários: backend aceita respostas em formulário encerrado (POST direto). Bug de segurança no core.</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span> (upstream) + hotfix local</td>
+      </tr>
+      <tr>
+        <td class="sev sev-critica">P0</td>
+        <td>Colisão de ID no <code>OrganizationSettings.@registry</code> — settings de um tenant vazando para outro.</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span> (initializer) / <span class="badge badge-core">DECIDIM-CORE</span> (upstream)</td>
+      </tr>
+      <tr>
+        <td class="sev sev-alta">P1</td>
+        <td>Erro 500 ao atualizar datas de processo (command custom <code>UpdateParticipatoryProcessDates</code>).</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+      </tr>
+      <tr>
+        <td class="sev sev-alta">P1</td>
+        <td>Confusão <code>allow_answers</code> (etapa, gem) × <code>allow_responses</code> (survey, core) — causa do "encerrado mesmo ativo". Unificar ou documentar.</td>
+        <td><span class="badge badge-lappis">LAPPIS</span> + treinamento admin</td>
+      </tr>
+      <tr>
+        <td class="sev sev-alta">P1</td>
+        <td>Perda de dados ao selecionar categoria no form de processo (redirect não existente no core).</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span></td>
+      </tr>
+      <tr>
+        <td class="sev sev-alta">P1</td>
+        <td>4 bugs de condicionantes (not_equal vazio, match multi-idioma JS×Ruby, sorting, disabled sem JS).</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span></td>
+      </tr>
+      <tr>
+        <td class="sev sev-media">P2</td>
+        <td>Texto visível de limite de arquivos e extensões; anexos na confirmação; view read-only de edição.</td>
+        <td><span class="badge badge-lappis">LAPPIS</span> (<code>decidim-questionnaires</code>)</td>
+      </tr>
+      <tr>
+        <td class="sev sev-media">P2</td>
+        <td>Bloco "Processos Abertos" não lista processos; botão "Ver mais" do blog; templates quebrados.</td>
+        <td><span class="badge badge-custom">PARTICIPA/GOVBR</span> (govbr)</td>
+      </tr>
+      <tr>
+        <td class="sev sev-media">P2</td>
+        <td>5 fixes pontuais do core (typo, shown_password, strftime, %{count}, sanitização CSV).</td>
+        <td><span class="badge badge-core">DECIDIM-CORE</span> (upstream)</td>
+      </tr>
+      <tr>
+        <td class="sev sev-limitacao">P3</td>
+        <td>Treinamento/documentação para os 7 itens de configuração (checkboxes de formulário, content blocks, locales, atribuição de avaliadores).</td>
+        <td><span class="badge badge-config">Operação</span></td>
+      </tr>
+      <tr>
+        <td class="sev sev-limitacao">P3</td>
+        <td>Reproduzir os 3 itens ambíguos (botão coberto por rodapé, redirect pós-login gov.br, categoria em reunião).</td>
+        <td><span class="badge badge-ambiguous">QA</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note note-success">
+    <h4>Constatação final sobre formulários</h4>
+    <p>
+      O módulo <code>decidim-forms</code>/<code>decidim-surveys</code> é excepcionalmente limpo para multi-tenancy:
+      zero estado mutável em nível de classe, escopo correto via cadeias de associação e validação cross-organization
+      no model <code>Response</code>. <strong>Nenhum dos 9 erros de formulário é causado pelo multi-tenant</strong>
+      e nenhum pelo <code>decidim-govbr</code> ou <code>participa/app/</code> diretamente — a responsabilidade se divide
+      entre o core e a gem LAPPIS <code>decidim-questionnaires</code>.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ 15. PESQUISA WEB ═══════════════ -->
+<section class="section" id="pesquisa-web">
+  <h2 class="section-title">15. Pesquisa Web: Bugs Conhecidos Upstream (GitHub / MetaDecidim / CVEs)</h2>
+  <p class="section-intro">
+    Busca realizada no GitHub (<code>decidim/decidim</code> issues, discussions e security advisories),
+    MetaDecidim e bases de CVE, cruzada com os 9 erros de formulário deste relatório.
+    <strong>Vários erros reportados internamente já são bugs públicos confirmados no upstream</strong> —
+    o que reforça a classificação "core" e indica que alguns já têm PR de correção aberto.
+  </p>
+
+  <h3 style="font-size:0.95rem; margin-bottom:0.6rem;">Condicionantes (Erro 5) — fortemente confirmado upstream</h3>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Referência</th><th>Status</th><th>Relação com nossos erros</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/17193">#17193</a> — Editar condição corrompe a questão dona (<code>decidim_question_id</code> sobrescrito)</td>
+        <td><span class="badge badge-critical">Aberto</span> 2026-06</td>
+        <td>Condição vira auto-referente e a questão <strong>nunca exibe corretamente</strong>. Explica "condicionantes não executadas conforme configuração". PR de fix <a href="https://github.com/decidim/decidim/pull/17194">#17194</a> aberto.</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/10815">#10815</a> — Questões obrigatórias com condições: seleção default indevida, condições não reabrem, sucesso sem responder obrigatórias</td>
+        <td><span class="badge badge-ambiguous">Reportado</span> v0.27</td>
+        <td>Confirma falhas de validação server-side × JS nas condicionantes (nossos bugs 5a/5d).</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/10253">#10253</a> — Múltiplas condições: só a última é salva</td>
+        <td><span class="badge badge-ambiguous">Reportado</span></td>
+        <td>Admin configura N condições e só 1 persiste — "não executadas conforme a configuração".</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/10374">#10374</a> — Dropdown de "opção de resposta" vazio ao criar condição "Equal" em templates</td>
+        <td><span class="badge badge-ambiguous">Reportado</span> 2023</td>
+        <td>Impossibilidade de configurar condições corretamente em templates de questionário.</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/discussions/13437">Discussion #13437</a> — "Slim conditionals on surveys"</td>
+        <td><span class="badge badge-config">Discussão</span> 2024</td>
+        <td>O próprio design group do MetaDecidim reconhece que "survey conditionals are not working well" e discute simplificar a feature. Sinal de que o problema é reconhecido upstream.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Numeração de questões (Erro 2) — confirmado upstream</h3>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Referência</th><th>Status</th><th>Relação</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/13207">#13207</a> — Numeração das questões "pula" quando há questões condicionais ocultas; numeração do backend ≠ frontend</td>
+        <td><span class="badge badge-ambiguous">Reportado</span> desde v0.24</td>
+        <td>Confirma que a numeração visível de questões é problemática no core — afeta todas as instalações.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Status "encerrado" e datas (Erro 8) — bugs de data confirmados</h3>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Referência</th><th>Status</th><th>Relação</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/14502">#14502</a> — Timezone bug nas datas de início/fim do survey (<code>Decidim::Attributes::TimeZone</code> ignora o offset no parse)</td>
+        <td><span class="badge badge-ambiguous">Reportado</span> até v0.29</td>
+        <td><strong>Datas podem mudar conforme o timezone do servidor</strong> — explica formulário exibido como encerrado/ativo em horário errado, mesmo com datas "corretas".</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/14994">#14994</a> — Survey salva com datas vazias mantendo as anteriores (faltam validações <code>presence: true</code>)</td>
+        <td><span class="badge badge-ambiguous">Reportado</span> v0.30</td>
+        <td>Admin acha que limpou/alterou datas e o survey mantém as antigas — mais uma fonte de "encerrado mesmo ativo".</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/17362">#17362</a> — Não é possível responder survey de teste com espaço não publicado</td>
+        <td><span class="badge badge-critical">Aberto</span> 0.31.4 / 0.32</td>
+        <td>Gating de publicação espaço × componente × survey confunde admins — mesmo padrão de UX dos nossos erros 8/9.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Exportação e confirmação (Erros 3 e 7)</h3>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Referência</th><th>Status</th><th>Relação</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/4829">#4829</a> — Export CSV/XLS não baixa texto livre vinculado a questão de múltipla escolha</td>
+        <td><span class="badge badge-ambiguous">Reportado</span> 2019</td>
+        <td>Histórico longo de problemas na exportação de respostas de survey.</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/issues/12135">#12135</a> — Export PDF de respostas quebra (<code>wicked_pdf_stylesheet_pack_tag</code> indefinido); e-mail nunca é enviado</td>
+        <td><span class="badge badge-ambiguous">Reportado</span> v0.26</td>
+        <td>Export/confirmação dependem de job em background que pode falhar silenciosamente.</td>
+      </tr>
+      <tr>
+        <td><a href="https://meta.decidim.org/en/processes/roadmap/f/122/proposals/17385?commentId=26438">MetaDecidim #17385</a> — E-mail de confirmação com respostas (PDF) <strong>só funciona para usuários registrados</strong></td>
+        <td><span class="badge badge-config">Documentado</span></td>
+        <td>Confirma a lacuna do Erro 3: participantes anônimos não recebem nem veem nada após responder.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Edição de respostas (Erro 9) — feature nova, maturidade baixa</h3>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Referência</th><th>Status</th><th>Relação</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://decidim.org/blog/2025-04-29-new-version-0-30-0/">Blog v0.30.0</a> — "Enable users to edit their survey answers" (#13800)</td>
+        <td><span class="badge badge-ok">Feature</span> v0.30 (2025-04)</td>
+        <td>A edição de respostas é <strong>feature nova</strong> (v0.30). Bugs e arestas são esperados; reforça a hipótese de problema no override da gem LAPPIS ou na configuração.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-size:0.95rem; margin:1.2rem 0 0.6rem;">Segurança — advisories relevantes</h3>
+  <div class="overflow-wrap">
+  <table class="issue-table">
+    <thead><tr><th>Referência</th><th>Severidade</th><th>Relação</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/security/advisories/GHSA-3cx6-j9j4-54mp">GHSA-3cx6-j9j4-54mp</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-65017">CVE-2025-65017</a> — exportações de dados privados com colisão de UUID → vazamento de dados entre exports</td>
+        <td><span class="badge badge-critical">High</span> 0.30.0–0.30.3, 0.31.0.rc1</td>
+        <td><strong>Verificar a versão do Decidim no participa:</strong> se estiver em 0.30.0–0.30.3, exports privados (incl. respostas de formulário) podem vazar dados. Corrigido em 0.30.4 / 0.31.0.</td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/decidim/decidim/discussions/15585">v0.31.0 release notes</a> — inclui fix "decidim-forms: Error saving survey" e renomeação de permissão answer → respond (PR #14940)</td>
+        <td><span class="badge badge-config">Info</span></td>
+        <td>Quem atualizou para 0.31 precisa rodar <code>bin/rails decidim_surveys:upgrade:fix_survey_permissions</code> — <strong>se não rodou, permissões de responder surveys podem estar quebradas</strong> (candidato a explicar erros 8/9).</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note note-warning">
+    <h4>Não encontrado upstream — nosso Erro 6 (segurança)</h4>
+    <p>
+      Não localizamos issue público sobre "survey encerrado aceita respostas via POST direto" (ausência de check
+      <code>survey.open?</code> no controller/command). É candidato a <strong>reporte de segurança privado</strong>
+      ao time Decidim (<code>security@decidim.org</code> / GitHub Security Advisories), não issue público.
+    </p>
+  </div>
+
+  <div class="findings-box">
+    <h3>Impacto da pesquisa na classificação</h3>
+    <ul>
+      <li><strong>Erro 5 (condicionantes):</strong> promovido a "bug upstream confirmado e reconhecido" — 4 issues + 1 discussion oficial. Fix de #17193 a caminho (PR #17194).</li>
+      <li><strong>Erro 2 (numeração):</strong> confirmado upstream (#13207) — não é só ausência de feature, é bug conhecido desde v0.24.</li>
+      <li><strong>Erro 8 ("encerrado" mesmo ativo):</strong> além da hipótese de configuração, há 2 bugs upstream de datas (#14502 timezone, #14994 datas vazias) e 1 de gating de publicação (#17362) que podem produzir exatamente esse sintoma. <strong>Rebaixar a confiança em "só configuração".</strong></li>
+      <li><strong>Erro 9 (edição):</strong> feature nova (v0.30); verificar se a rake task de permissões do upgrade 0.31 foi executada.</li>
+      <li><strong>Ação nova:</strong> checar a versão do Decidim do participa contra o CVE-2025-65017 (exports privados).</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>
+    Relatório gerado em 2026-08-14, com base em investigação por leitura direta de código (grep, models, controllers,
+    views, permissions e locales) em <code>/mnt/data/code/presidencia/decidim/</code> (core),
+    <code>/mnt/data/code/presidencia/participa/</code> (aplicação Rails) e
+    <code>/mnt/data/code/presidencia/participa/decidim-govbr/</code> (gem local).
+    As classificações marcadas como "Reproduzir" exigem confirmação em ambiente de staging.
+  </p>
+</footer>
+
+</div>
+</body>
+</html>

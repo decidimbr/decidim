@@ -56,6 +56,22 @@ module Decidim
           end
         end
 
+        context "when the question type is files" do
+          let!(:question_type) { "files" }
+
+          it "is valid with max_choices even without response options" do
+            attributes[:max_choices] = 3
+
+            expect(subject).to be_valid
+          end
+
+          it "is invalid when max_choices is less than 2" do
+            attributes[:max_choices] = 1
+
+            expect(subject).not_to be_valid
+          end
+        end
+
         context "when the max_characters is less than 0" do
           let!(:max_characters) { -1 }
 

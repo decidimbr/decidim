@@ -315,7 +315,7 @@ export default function createEditableForm() {
       dependentFieldsSelector: maxChoicesWrapperSelector,
       dependentInputSelector: "select",
       enablingCondition: ($field) => {
-        return $field.val() === "multiple_option" || $field.val() === "matrix_multiple";
+        return $field.val() === "multiple_option" || $field.val() === "matrix_multiple" || $field.val() === "files";
       }
     });
 

@@ -133,7 +133,7 @@
         <%=
           form.select(
             :max_choices,
-            (2..question.number_of_options),
+            question.question_type == "files" ? (2..10) : (2..question.number_of_options),
             { include_blank: t(".any") },
             disabled: !editable
           )

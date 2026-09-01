@@ -18,6 +18,8 @@ en:
           request_invalid: There was a problem handling the request. Please try again.
         response:
           attributes:
+            add_attachments:
+              too_many: You can add a maximum of %{count} files.
             add_documents:
               needs_to_be_reattached: Needs to be reattached
             body:
@@ -178,6 +180,7 @@ en:
       questionnaires:
         question:
           max_choices: 'Max choices: %{n}'
+          max_files: 'Max files: %{n}'
         response:
           invalid: There was a problem responding the form.
           max_choices_alert: There are too many choices selected

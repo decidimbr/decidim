@@ -1,0 +1,106 @@
+<%# locals: settings_fields, images_fields, proposal_components, gate_callout:, with_background_image:, with_eyebrow:, with_form_side: %>
+<%# Call sites must pass with_* explicitly — cells method_missing makes defined? unreliable. %>
+<% if gate_callout.present? %>
+  <div class="row column">
+    <%= cell("decidim/announcement", gate_callout, callout_class: gate_callout[:callout_class] || "warning") %>
+  </div>
+<% end %>
+
+<div class="row column">
+  <%= settings_fields.select :proposal_component_id,
+                             proposal_components,
+                             { include_blank: true },
+                             label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.proposal_component"),
+                             required: true %>
+</div>
+
+<% if with_eyebrow %>
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :eyebrow,
+                                   label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.eyebrow") %>
+  </div>
+<% end %>
+
+<div class="row column">
+  <%= settings_fields.translated :text_field, :title,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.title") %>
+</div>
+
+<div class="row column">
+  <%= settings_fields.translated :editor, :description,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.description"),
+                                 toolbar: :content,
+                                 lines: 5 %>
+</div>
+
+<% if with_form_side %>
+  <fieldset class="row column">
+    <legend><%= t("decidim.extra_blocks.layouts.fast_proposal_settings_form.form_side") %></legend>
+    <% %w(left right).each do |choice| %>
+      <label class="radio-label">
+        <%= settings_fields.radio_button :form_side, choice,
+                                         label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.form_side_#{choice}") %>
+      </label>
+    <% end %>
+  </fieldset>
+<% end %>
+
+<div class="row column">
+  <%= settings_fields.color_field :background_color,
+                                  label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.background_color") %>
+</div>
+
+<fieldset class="row column">
+  <legend><%= t("decidim.extra_blocks.layouts.fast_proposal_settings_form.text_color") %></legend>
+  <% %w(white black).each do |choice| %>
+    <label class="radio-label">
+      <%= settings_fields.radio_button :text_color, choice,
+                                       label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.text_color_#{choice}") %>
+    </label>
+  <% end %>
+</fieldset>
+
+<% if with_background_image %>
+  <div class="row column">
+    <%= images_fields.upload :background_image,
+                             label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.background_image") %>
+  </div>
+  <%= render partial: "decidim/extra_blocks/layouts/shared/background_fit_fieldset",
+             locals: { settings_fields: } %>
+<% end %>
+
+<div class="row column">
+  <%= settings_fields.translated :editor, :terms,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.terms"),
+                                 toolbar: :content,
+                                 lines: 8 %>
+  <p class="help-text"><%= t("decidim.extra_blocks.layouts.fast_proposal_settings_form.terms_help") %></p>
+</div>
+
+<div class="row column">
+  <%= settings_fields.text_field :default_title,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.default_title") %>
+  <p class="help-text"><%= t("decidim.extra_blocks.layouts.fast_proposal_settings_form.default_title_help") %></p>
+</div>
+
+<div class="row column">
+  <%= settings_fields.text_field :default_title_connected,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.default_title_connected") %>
+  <p class="help-text"><%= t("decidim.extra_blocks.layouts.fast_proposal_settings_form.default_title_help") %></p>
+</div>
+
+<div class="row column">
+  <%= settings_fields.translated :text_area, :success_message,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.success_message"),
+                                 rows: 3 %>
+</div>
+
+<div class="row column">
+  <%= settings_fields.translated :text_field, :success_button_label,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.success_button_label") %>
+</div>
+
+<div class="row column">
+  <%= settings_fields.text_field :success_time,
+                                 label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.success_time") %>
+</div>

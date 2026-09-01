@@ -1,0 +1,52 @@
+{
+  "name": "decidim-module-decidim_awesome",
+  "version": "0.13.1",
+  "description": "Mods and tweaks for Decidim",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint -c .eslintrc.json --ext .js app/packs/",
+    "lint-fix": "eslint -c .eslintrc.json --ext .js app/packs/ --fix",
+    "stylelint": "stylelint **/*.scss",
+    "stylelint-fix": "stylelint **/*.scss --fix",
+    "prettier": "prettier --check '**/*.scss'",
+    "prettify": "prettier --write '**/*.scss'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decidim-ice/decidim-module-decidim_awesome.git"
+  },
+  "keywords": [
+    "decidim"
+  ],
+  "author": "ivan@pokecode.net",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/decidim-ice/decidim-module-decidim_awesome/issues"
+  },
+  "homepage": "https://github.com/decidim-ice/decidim-module-decidim_awesome#readme",
+  "stylelint": {
+    "extends": "@decidim/stylelint-config"
+  },
+  "prettier": "@decidim/prettier-config",
+  "devDependencies": {
+    "@decidim/dev": "0.31.0",
+    "@decidim/eslint-config": "0.31.0",
+    "@decidim/prettier-config": "0.31.0",
+    "@decidim/stylelint-config": "0.31.0",
+    "@decidim/webpacker": "0.31.0"
+  },
+  "dependencies": {
+    "codemirror": "^5.65.16",
+    "form-storage": "^1.3.5",
+    "formBuilder": "^3.20.0",
+    "formbuilder-languages": "^1.2.0",
+    "inline-attacher": "^0.0.7",
+    "jsrender": "^1.0.9",
+    "leaflet.featuregroup.subgroup": "^1.0.2"
+  }
+}

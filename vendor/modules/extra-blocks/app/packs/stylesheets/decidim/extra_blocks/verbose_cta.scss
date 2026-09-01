@@ -1,0 +1,37 @@
+.extra-blocks-verbose-cta {
+  background: var(--eb-bg, var(--eb-color-ink));
+  width: 100%;
+  min-width: 100%;
+  padding-block: var(--eb-section-pad);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--eb-gap-md);
+    max-width: var(--eb-inner-max);
+    margin: 0 auto;
+  }
+
+  &__action {
+    align-items: flex-start;
+  }
+
+  @media (min-width: 768px) {
+    padding-block: var(--eb-section-pad-lg);
+
+    &__inner {
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: var(--eb-gutter);
+    }
+
+    &__text {
+      flex: 1 1 auto;
+    }
+
+    &__action {
+      flex: 0 0 auto;
+    }
+  }
+}

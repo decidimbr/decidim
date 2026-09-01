@@ -1,0 +1,42 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-roadmap #{prose_classes}",
+  id: "extra-block-#{model.id}",
+  data: {
+    extra_blocks_category: "timelines",
+    extra_blocks_roadmap: true
+  },
+  style: section_style
+) do %>
+  <div class="extra-blocks-roadmap__inner">
+    <% if title.present? %>
+      <h2 class="extra-blocks__title extra-blocks-roadmap__title"><%= title %></h2>
+    <% end %>
+    <% if events.any? %>
+      <ol class="extra-blocks-roadmap__events not-prose">
+        <% events.each do |event| %>
+          <li class="extra-blocks-roadmap__event<%= " extra-blocks-roadmap__event--highlighted" if event[:highlighted] %>">
+            <div class="extra-blocks-roadmap__marker" aria-hidden="true"></div>
+            <div class="extra-blocks-roadmap__card">
+              <% if event[:date].present? %>
+                <p class="extra-blocks-roadmap__date"><%= event[:date] %></p>
+              <% end %>
+              <% if event[:title].present? %>
+                <h3 class="extra-blocks-roadmap__event-title"><%= event[:title] %></h3>
+              <% end %>
+              <% if event[:body].present? %>
+                <p class="extra-blocks-roadmap__event-body"><%= event[:body] %></p>
+              <% end %>
+              <% if event[:show_button] %>
+                <div class="extra-blocks__action extra-blocks-roadmap__action">
+                  <%= link_to event[:button_label], event[:button_url],
+                              class: "button button__lg button__secondary extra-blocks__button extra-blocks-roadmap__button not-prose" %>
+                </div>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
+  </div>
+<% end %>

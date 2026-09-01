@@ -1,0 +1,8 @@
+{
+  "label": "Contribute",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Add layouts and hack on the gem."
+  }
+}

@@ -1,0 +1,117 @@
+<div class="extra-blocks-gallery" data-extra-blocks-gallery>
+  <p class="help-text mb-4"><%= t("decidim.extra_blocks.admin.gallery.intro") %></p>
+
+  <% categories.each do |category| %>
+    <section
+      class="extra-blocks-gallery__category mb-8"
+      aria-labelledby="extra-blocks-category-<%= category %>"
+      data-extra-blocks-category="<%= category %>">
+      <h2 id="extra-blocks-category-<%= category %>" class="h4 mb-4"><%= category_label(category) %></h2>
+
+      <div class="extra-blocks-gallery__grid">
+        <% layouts_for(category).each do |layout| %>
+          <article class="extra-blocks-gallery__card" id="extra-blocks-layout-<%= layout.name %>">
+            <img
+              src="<%= preview_path(layout) %>"
+              alt=""
+              class="extra-blocks-gallery__preview no-prose"
+              width="640"
+              height="360"
+              loading="lazy">
+
+            <div class="extra-blocks-gallery__body">
+              <h3 class="extra-blocks-gallery__title"><%= t(layout.public_name_key) %></h3>
+              <p class="extra-blocks-gallery__description"><%= t(layout.description_key) %></p>
+
+              <div class="extra-blocks-gallery__actions">
+                <button
+                  type="button"
+                  class="button button__sm button__text-secondary"
+                  data-open-details="extra-blocks-details-<%= layout.name %>">
+                  <%= t("decidim.extra_blocks.admin.gallery.details") %>
+                </button>
+                <button
+                  type="button"
+                  class="button button__sm button__secondary"
+                  data-open-confirm="extra-blocks-confirm-<%= layout.name %>">
+                  <%= t("decidim.extra_blocks.admin.gallery.use") %>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <dialog id="extra-blocks-details-<%= layout.name %>" class="extra-blocks-modal">
+            <form method="dialog" class="extra-blocks-modal__inner">
+              <h3 class="h4"><%= t(layout.public_name_key) %></h3>
+              <div class="extra-blocks-modal__screenshots">
+                <% layout.screenshots.each_with_index do |shot, index| %>
+                  <img
+                    src="<%= screenshot_path(shot) %>"
+                    alt="<%= t("decidim.extra_blocks.admin.gallery.screenshot_alt", name: t(layout.public_name_key), index: index + 1) %>"
+                    class="no-prose"
+                    loading="lazy">
+                <% end %>
+              </div>
+              <button type="submit" class="button button__sm button__transparent-secondary">
+                <%= t("decidim.extra_blocks.admin.gallery.close") %>
+              </button>
+            </form>
+          </dialog>
+
+          <dialog id="extra-blocks-confirm-<%= layout.name %>" class="extra-blocks-modal">
+            <div class="extra-blocks-modal__inner">
+              <h3 class="h4"><%= t("decidim.extra_blocks.admin.gallery.confirm_title") %></h3>
+              <p><%= t("decidim.extra_blocks.admin.gallery.confirm_body") %></p>
+              <div class="extra-blocks-gallery__actions">
+                <form method="dialog">
+                  <button type="submit" class="button button__sm button__transparent-secondary">
+                    <%= t("decidim.extra_blocks.admin.gallery.cancel") %>
+                  </button>
+                </form>
+                <button
+                  type="submit"
+                  name="content_block[settings][layout]"
+                  value="<%= layout.name %>"
+                  class="button button__sm button__secondary"
+                  form="">
+                  <%= t("decidim.extra_blocks.admin.gallery.confirm_use") %>
+                </button>
+              </div>
+            </div>
+          </dialog>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>
+
+<script>
+  document.querySelectorAll("[data-extra-blocks-gallery]").forEach((root) => {
+    const parentForm = root.closest("form");
+
+    root.querySelectorAll("[data-open-details]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.getElementById(button.dataset.openDetails)?.showModal();
+      });
+    });
+
+    root.querySelectorAll("[data-open-confirm]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.getElementById(button.dataset.openConfirm)?.showModal();
+      });
+    });
+
+    root.querySelectorAll('button[name="content_block[settings][layout]"]').forEach((button) => {
+      button.addEventListener("click", (event) => {
+        if (!parentForm) return;
+        event.preventDefault();
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = button.name;
+        input.value = button.value;
+        parentForm.appendChild(input);
+        parentForm.requestSubmit ? parentForm.requestSubmit() : parentForm.submit();
+      });
+    });
+  });
+</script>

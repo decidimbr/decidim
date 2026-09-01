@@ -1,0 +1,1483 @@
+---
+en:
+  active_hashcash:
+    submit_filter: Filter
+    waiting_label: Waiting for verification ...
+  activemodel:
+    attributes:
+      awesome_authorization_group:
+        name: Group name
+        purpose: Group purpose
+      awesome_authorization_members:
+        emails: Emails
+        file: Upload a CSV file
+      config:
+        additional_proposal_sortings: Additional sorting options enabled
+        allow_images_in_editors: Allow images in the HTML editor
+        allow_images_in_proposals: Allow images in the proposals editor
+        allow_videos_in_editors: Allow videos in the HTML editor
+        authorization_options_form: Authorization options
+        auto_save_forms: Auto save forms in local storage
+        force_authorizations: Authorization group %{id}
+        hashcash_login: Enable the Hashcash bot protection for existing users (login)
+        hashcash_login_bits: Number of bits for the Hashcash algorithm (login)
+        hashcash_signup: Enable the Hashcash bot protection for new users (sign up)
+        hashcash_signup_bits: Number of bits for the Hashcash algorithm (sign up)
+        intergram_auto_no_response: A message that is sent one minute after the user
+          sends its first message and no response was received
+        intergram_auto_response: A message that is sent immediately after the user
+          sends its first message
+        intergram_chat_id: Chat ID
+        intergram_color: Color of the widget
+        intergram_for_admins: Enable Intergram Chat in the admin backend
+        intergram_intro_message: First message when the user opens the chat for the
+          first time
+        intergram_require_login: Only for logged users
+        intergram_title_closed: Closed chat title
+        intergram_title_open: Opened chat title
+        intergram_use_floating_button: If checked, the closed chat is always a button
+          instead of a text
+        proposal_custom_fields: Custom fields %{id}
+        proposal_private_custom_fields: Private Custom fields %{id}
+        scoped_admin_styles: Custom styles %{id}
+        scoped_admins: Scoped admins group %{id}
+        scoped_styles: Custom styles %{id}
+        user_timezone: Allow users to set their timezone in their profile
+        validate_body_max_caps_percent: Maximum allowed percentage of capital letters
+          for the body
+        validate_body_max_marks_together: Maximum consecutive marks symbols allowed
+          in the body
+        validate_body_min_length: Minimum required characters for the body
+        validate_body_start_with_caps: Force the body to start with a capital letter
+        validate_title_max_caps_percent: Maximum allowed percentage of capital letters
+          for the title
+        validate_title_max_marks_together: Maximum consecutive marks symbols allowed
+          in the title
+        validate_title_min_length: Minimum required characters for the title
+        validate_title_start_with_caps: Force the title to start with a capital letter
+      constraint:
+        application_context: Only for
+        component_id: or specifically in
+        component_manifest: Only in components of type
+        participatory_space_manifest: Apply to participatory spaces of type
+        participatory_space_slug: Only in
+      content_block_attachment:
+        background_image_0: Background image
+        background_image_1: Background image
+        background_image_2: Background image
+        background_image_3: Background image
+        background_image_4: Background image
+      cookie_category:
+        mandatory: Mandatory
+        slug: ID
+        title: Category title
+        total_cookies: Total cookies
+        visibility: Visibility
+      cookie_item:
+        expiration: Expiration
+        name: Cookie name
+        service: Service
+        type: Type
+        types:
+          cookie: Cookie
+          local_storage: Local Storage
+      custom_redirect:
+        active: Active
+        destination: Destination
+        origin: Origin
+        pass_query: Pass the query string to the destination
+        status: Status
+      menu:
+        position: Position
+        raw_label: Label
+        target: Opens in
+        url: URL
+        visibility: Visibility
+      organization:
+        awesome_admins_available_authorizations: Allow admins to manually verify users
+          with these authorizations
+      user:
+        user_time_zone: Personal timezone
+    errors:
+      models:
+        cookie_item:
+          attributes:
+            base:
+              category_not_found: Category not found
+            name:
+              cannot_change_default_item_name: The name of a predefined item cannot
+                be changed
+              invalid_format: Name can only contain letters, numbers, underscores
+                (_) and hyphens (-) - no spaces or special characters allowed
+  decidim:
+    admin:
+      actions:
+        manage: Manage
+      filters:
+        admin_accountability:
+          admin_role_type:
+            label: Role type
+          participatory_space_type_eq:
+            label: Participatory space type
+          role:
+            label: Role
+          role_type_eq:
+            label: Role type
+        label:
+          search_field_end_date: 'To date:'
+          search_field_start_date: 'From date:'
+        search_placeholder:
+          user_name_or_user_email_cont: Search by user name, email
+      menu:
+        admin_accountability: Admin accountability
+        decidim_awesome: Decidim awesome
+    authorization_handlers:
+      awesome_authorization_handler:
+        fields:
+          awesome_authorization_groups: 'Allowed groups:'
+          groups: Groups
+    components:
+      awesome_iframe:
+        name: Fullscreen Iframe
+        settings:
+          global:
+            announcement: Announcement
+            iframe: Iframe code
+            iframe_help: 'Put your code as html: <iframe width="100%" height="700"
+              frameBorder="0" allowFullscreen src="..."></iframe>. Content will be
+              sanitized from other HTML tags. Ensure to use 100% as width to fill
+              the screen.'
+            viewport_width: Limit maximum width to the application viewport
+          step:
+            announcement: Announcement
+            iframe: Iframe code
+      awesome_map:
+        name: Awesome Map
+        settings:
+          global:
+            announcement: Announcement
+            collapse: Start with collapsed menu
+            map_center: Map center (Latitude, Longitude)
+            map_center_help: 'Use decimal points (ie: 41.38879, 2.15899). Leave it
+              empty to automatically fit all the markers'
+            map_height: Map height (px)
+            map_zoom: Zoom (any number betwen 0 and 18)
+            map_zoom_help: Only applies if a map center is defined
+            menu_amendments: Show amendments
+            menu_hashtags: Show Hashtag search menu
+            menu_meetings: Show meetings
+            menu_merge_components: Merge all components of the same type in the menu
+            menu_taxonomies: Show Taxonomy search menu
+            taxonomy_filters: Select filters for the component
+            taxonomy_filters_add: Add filter
+            truncate: Maximum characters for popup descriptions
+          step:
+            announcement: Announcement
+            show_accepted: Show accepted proposals
+            show_evaluating: Show evaluating proposals
+            show_not_answered: Show not answered proposals
+            show_rejected: Show rejected proposals
+            show_withdrawn: Show withdrawn proposals
+      proposals:
+        settings:
+          global:
+            awesome_voting_manifest: Support type
+            awesome_voting_manifest_help_html: <span class="text-alert">Be aware that
+              changing this setting in the middle of a votation period can result
+              in inaccurate or unexpected results.</span><br>Note also that this setting
+              can only be edited if the component has no supports yet.
+            awesome_voting_manifest_options:
+              default: Simple vote (default)
+              voting_cards: Voting using coloured cards
+            default_sort_order_options:
+              az: A-Z (Alphabetical)
+              supported_first: Supported first
+              supported_last: Supported last
+              za: Z-A (Reverse alphabetical)
+            limit_pending_amendments: Allow only one pending amendment on each proposal.
+            sort_orders_enabled: Enabled sorting types
+            voting_cards_box_title: Title for the voting box
+            voting_cards_box_title_help: Default is "Vote on this proposal". Use "-"
+              to hide it.
+            voting_cards_instructions: Support instructions/help (dismissible modal
+              window)
+            voting_cards_instructions_help: Default is "Please read the election rules
+              carefully to understand how your vote will be used by %{organization}""
+            voting_cards_show_abstain: Add an abstention option
+            voting_cards_show_modal_help: Show instructions/help modal when support
+              is clicked
+          step:
+            awesome_votes_enabled_by_status: Restrict voting by proposal status
+            awesome_votes_enabled_by_status_help: When enabled, voting is only allowed
+              on proposals with the selected statuses. Proposals in other statuses
+              will not accept votes. Leave empty to allow voting on all proposals
+              regardless of status.
+            awesome_votes_enabled_states: Allowed statuses for votes
+            awesome_votes_enabled_states_help: Other statuses will become available
+              after the component is saved.
+            default_sort_order_options:
+              az: A-Z (Alphabetical)
+              supported_first: Supported first
+              supported_last: Supported last
+              za: Z-A (Reverse alphabetical)
+    decidim_awesome:
+      account:
+        timezone_select:
+          time_zone_helper: Use your personal time zone to display dates in your local
+            time when you are logged in.
+      admin:
+        actions: Actions
+        admin_accountability:
+          admin_roles:
+            admin: Super admin
+            user_manager: User manager
+          created_at: Role created at
+          currently_active: Currently active
+          deleted_user: Deleted user
+          email: Email
+          exports:
+            button: Export this search
+            export_as: Export as %{export_format}
+            export_format:
+              csv: CSV
+              json: JSON
+              xlsx: XLSX
+            notice: Export job has been enqueued. You will receive an email when it's
+              ready.
+          index:
+            description: Listed here you'll find all users that have had some role
+              in the administration of a participatory space. Normal admins are not
+              listed.
+            global_description: Listed here you'll find all users that have had some
+              global role in administrating this organization. Participatory space
+              admins are not listed.
+            missing_users: 'NOTE: This list might not include users created/removed
+              before %{date}. This is because "user traceability" was introduced in
+              Decidim v0.24 and this installation is probably older.'
+            see_global: List global admins
+            see_spaces: List participatory space admins
+            title: Admin accountability
+          last_login: Last sign in date
+          missing_info: "(missing information)"
+          missing_user: User not in the database
+          name: Name
+          never_logged: Never logged yet
+          participatory_space: Participatory space
+          removal_date: Role removed at
+          role: Role
+          roles:
+            admin: Administrator
+            collaborator: Collaborator
+            evaluator: Evaluator
+            moderator: Moderator
+        admin_authorizations:
+          authorization:
+            confirm_destroy: Are you sure you want to destroy this authorization?
+              This might affect the user's access to the platform.
+            destroy: Destroy
+            granted_at: Granted at %{date}
+            metadata: Contains metadata? %{metadata}
+          authorization_destroyed: Authorization successfully destroyed.
+          authorization_not_destroyed: Authorization could not be destroyed!
+          authorization_transferred: 'Warning: There was verification conflict and
+            the verification has been transferred to %{user}'
+          conflict: There is a conflict with an existing authorization
+          conflict_help_html: |
+            You must solve the conflict with the user %{user} before you can authorize the user with this authorization.
+            <br><br>
+            A verification conflict happens when another user has the same data as the user you are trying to authorize.
+            You can solve this conflict by removing the conflicting authorization from the other user or using different data for this user.
+          edit:
+            authorize: Authorize %{user} with %{name}
+            do_it_if_sure: Do this only if you are sure that the user has this authorization.
+            force_verification: Force verification with the current data
+            force_verification_help: Verification has failed, but you can force it
+              if you are sure the user has this authorization.
+            force_verification_reason: 'Give a reason to force the verification:'
+            warning: 'Warning: By forcing this authorization, you are overriding the
+              user''s current authorization status.'
+          user_authorized: "%{user} successfully authorized with %{name}"
+          user_not_authorized: "%{user} could not be authorized with %{name}"
+        awesome_authorization_properties:
+          create:
+            error: Error updating authorization properties! %{error}
+            success: Authorization properties updated successfully
+          index:
+            cancel: Cancel
+            description: Authorization description
+            description_help: This text is shown below the authorization title in
+              the verification card when users are still not verified. You can use
+              it to explain why this authorization is required.
+            name: Authorization name
+            name_help: This title is shown in the verification card.
+            save: Save
+            title: Edit authorization properties
+        awesome_authorization_users:
+          create:
+            error: Error updating members list! %{error}
+            success: Members list updated successfully (%{count} new users added)
+          destroy:
+            success: Member removed successfully
+          index:
+            actions: Actions
+            authorized_user: Authorized user
+            confirm_remove: Are you sure you want to remove this member?
+            email: Email
+            new: Add new members
+            no_members: This group has no members yet
+            not_synced_html: User authorizations are out of sync with this authorization
+              group. %{sync} to update the list of members.
+            remove: Remove member
+            sync: Synchronize authorizations
+            title: Manage members for "%{group}"
+            user: Decidim user
+          new:
+            create: Add members
+            emails_help: Drop emails here, only words with an "@" will be considered
+              as emails.
+            or: or
+            remove_previous_members: Remove previous members of the group (%{count}
+              users)
+            title: Add members to "%{group}"
+          update:
+            empty: No emails were found in the input or CSV file. Please add at least
+              one email.
+        awesome_authorizations:
+          create:
+            error: Error creating authorization group! %{error}
+            success: Authorization group created successfully
+          destroy:
+            success: Authorization group removed successfully
+          edit:
+            save: Save
+            title: Edit authorization group
+          form:
+            name_help: This title is shown in the verification card.
+            purpose_help: This text is shown in the verification card to explain the
+              purpose of the authorization or its intended use.
+          index:
+            authorization_groups: Authorization groups
+            authorization_properties: Authorization properties
+            create_group: Create a new authorization group
+            description_html: Use this section to create groups of people, each with
+              specific permissions on Decidim's components.<br>These groups will be
+              automatically authorized for new sign-ups and whenever this list is
+              updated.
+            edit_properties: Edit authorization properties
+            not_available: In order to use this feature, you must enable the awesome
+              authorization workflow in the %{system} admin.
+            properties_description_html: Use this authorization on components to restrict
+              access to specific groups of users. When selected, you can choose the
+              groups allowed.
+            system_link: System admin
+            title: Awesome authorizations
+          list_authorization_groups:
+            actions: Actions
+            confirm_destroy: Are you sure you want to destroy this authorization group?
+              All users in this group will lose their authorization.
+            destroy: Remove group
+            edit: Edit group
+            granted_count: Authorized
+            group_name: Group name
+            manage: Manage members
+            members_count: Users
+            no_groups: No authorization groups created yet
+            out_of_sync: Out of sync
+            sync: Synchronize authorizations
+            sync_status: Sync status
+            synced: Synced
+          new:
+            create: Create
+            title: New authorization group
+          sync:
+            success: Synchronization has started
+          update:
+            error: Error updating authorization group! %{error}
+            success: Authorization group updated successfully
+        checks:
+          index:
+            admin_head_tags: Awesome tags included in the admin application header
+            awesome_update_available: 'A new version is available: %{latest_version}'
+            awesome_version: Decidim Awesome version %{version}
+            decidim-admin: From Admin module
+            decidim-assemblies: From Assemblies module
+            decidim-conferences: From Conferences module
+            decidim-core: From Core module
+            decidim-participatory_processes: From Participatory Processes module
+            decidim-proposals: From Proposals module
+            decidim-verifications: From Verifications module
+            decidim_update_available: 'A new version is available: %{latest_version}'
+            decidim_version: Decidim version %{version}
+            errors:
+              CSS: Head does not contain the required <link> stylesheet entries. To
+                solve it, you can manually add it to your custom _head.html.erb
+              JavaScript: Head does not contain the required <script> Javascript entries.
+                To solve it, you can manually add it to your custom admin/_header.html.erb
+            head_tags: Awesome tags included in the application header
+            link_admins: Login into /system panel
+            view_release: View release notes
+        config:
+          anonymous: Non-logged users
+          caution: 'NOTE: This feature heavily modifies some default behaviors that
+            might lead to unexpected results. Use it with caution!'
+          constraints:
+            add_condition: Add case
+            always: Always
+            cannot_be_destroyed: Sorry, this cannot be deleted. This configuration
+              needs at least one constraint.
+            delete: Delete
+            edit: Edit
+            title: 'Applicable only in these cases:'
+          create_force_authorization:
+            error: Error creating a new authorization group! %{error}
+            success: Authorization group %{key} created successfully
+          create_proposal_custom_field:
+            error: Error creating a new "custom field" box! %{error}
+            success: '"custom field" box %{key} created successfully'
+          create_scoped_admin:
+            error: Error creating a new Admin group! %{error}
+            success: Admin group %{key} created successfully
+          create_scoped_style:
+            error: Error creating a new CSS box! %{error}
+            success: CSS box %{key} created successfully
+          destroy_force_authorization:
+            error: Error removing authorization group! %{error}
+            success: Authorization group %{key} removed successfully
+          destroy_proposal_custom_field:
+            error: Error removing "custom field" box! %{error}
+            success: '"custom field" box %{key} removed successfully'
+          destroy_scoped_admin:
+            error: Error removing Admin group! %{error}
+            success: Admin group %{key} removed successfully
+          destroy_scoped_style:
+            error: Error removing CSS box! %{error}
+            success: CSS box %{key} removed successfully
+          disabled: Disabled
+          enabled: Enabled
+          force_authorizations: Authorization groups
+          form:
+            additional_proposal_sortings:
+              enable_all: Enable all additional sorting options
+              help: These sorting options are additional to the default ones. Also,
+                remember that you can choose the default order in the proposals component
+                settings.
+              title: Customize sorting options for the proposals list
+            edit_label: Rename label
+            errors:
+              incorrect_css: 'CSS in box #%{key} is invalid'
+              incorrect_json: 'JSON definition in box #%{key} is invalid'
+            force_authorization_help_text: Help text for the authorization page
+            help:
+              allow_images_in_editors: This will add an image uploader icon in all
+                the WYSIWYG editors
+              allow_images_in_proposals: This will allow to upload images in the proposals
+                editor, available to any user. Images will be presented as links in
+                the public proposal view.
+              allow_videos_in_editors: This will add an video link icon in all the
+                WYSIWYG editors
+              auto_save_forms: This will use LocalStorage to automatically save data
+                introduced by users in surveys and other forms while they are filling
+                it. Data will be restored in a future visit with the same browser
+                in case the form is not submitted. If the form is submitted, data
+                will be removed. If users remove their LocalStorage data, data won't
+                be restored either.
+              drag_and_drop_supported: When uploading images, Drag & Drop is supported.
+                Images will be uploaded to the server and inserted as external resources
+                (it doesn't use base64 inline encoding).
+              force_authorization_help_text: Add a custom text to explain why authorization
+                is required. Also make sure you add a contact method in case users
+                need help.
+              hashcash_i18n_key: 'You can customize the text that is shown to users
+                in the login/sign up submit buttons with the i18n key: %{key}'
+              hashcash_login: |
+                Protect Rails applications against bots and brute force attacks without annoying humans.
+                Hashcash is a proof-of-work system that requires users to solve a computational puzzle (performed automatically by the browser) before they can sign up.
+              hashcash_login_bits: This parameter defines the number of bits that
+                the Hashcash algorithm will use to generate the proof-of-work. It
+                is recommended to use a value between 16 (easy) and 30 (extremely
+                hard) bits. The default value for login forms is %{bits} bits.
+              hashcash_signup: |
+                Protect Rails applications against bots and brute force attacks without annoying humans.
+                Hashcash is a proof-of-work system that requires users to solve a computational puzzle (performed automatically by the browser) before they can sign up.
+              hashcash_signup_bits: This parameter defines the number of bits that
+                the Hashcash algorithm will use to generate the proof-of-work. It
+                is recommended to use a value between 16 (easy) and 30 (extremely
+                hard) bits. The default value for sign up forms is %{bits} bits.
+              intergram_about: Intergram uses Telegram messenger to handle a live
+                support chat widget embedded in the bottom of the page.
+              intergram_config: Invite the <a href="https://web.telegram.org/#/im?p=@IntergramBot">@Intergram
+                bot</a> to your group or start a chat with it directly. <a href="https://github.com/idoco/intergram#embed-intergram-in-your-website-with-these-2-simple-steps">+
+                info</a>
+              original_editor_override: Since version 0.26, it is possible (for admins
+                only) to upload images into the editors. Therefore, image settings
+                in here only affect the public editors (admin will always have it
+                available).
+              proposal_custom_fields: Create custom proposal fields that applies only
+                in certain parts of the public web (use the restrictions editor for
+                that)
+              proposal_custom_fields_example: Data is stored in a XML object using
+                compatible HTML attributes (dl,dt,dd elements) replacing the "body"
+                in a normal proposal.
+              proposal_custom_fields_translations: |-
+                Labels, help text, placeholders and default values can use your application custom translations.
+                For that, instead of using a string literal, use the i18n key (it must contain at least one dot).
+                For instance:
+                - "activemodel.attributes.proposal.title" instead of "Title"
+                - "activemodel.attributes.proposal.address" instead of "Address"
+                Or use your own keys in combination with other tools to define translations (eg: using the module Term Customizer):
+                 - "myapp.custom_fields.bio" instead of "Biography"
+              proposal_private_custom_fields: Similar as public fields, but this information
+                won't be disclosed publicly (only admins will have access to it).
+              proposal_private_custom_fields_translations: |
+                Private custom fields are displayed in distinct box with this information text:
+                %{warning}
+                This text can be customized with a custom translation by using the key:
+                %{key}
+              scoped_admin_styles: Be aware that hidding things here might left the
+                admin unusable. Please act with caution.
+              scoped_admin_styles_variables: 'You can use the following CSS variables
+                for organization customized color:'
+              scoped_admin_styles_warning: "<strong>Warning</strong>: In here add
+                custom CSS that applies only in this admin."
+              scoped_admins: Promote regular user to admins that can only administrate
+                certain parts of the public web (use the restrictions editor for that).
+                Note that users who already have regular admin permissions will be
+                ignored.
+              scoped_styles: Create custom CSS that applies only in certain parts
+                of the public web (use the restrictions editor for that)
+              scoped_styles_variables: 'You can use the following CSS variables for
+                organization customized colors:'
+              user_timezone: This will a add a select box in the user profile to set
+                the timezone. This will be used to show dates and times in the user
+                local time.
+              validate_body_max_caps_percent: Zero won't allow any capital letter,
+                100 will force to write everything in capital letters
+              validate_body_max_marks_together: 'Limit the number of question and
+                exclamation marks that can be written together. Ie: if it is 2, then
+                ''!!!'' won''t be allowed in the text'
+              validate_body_min_length: This number can be zero, this will effectively
+                make this field non-mandatory
+              validate_title_max_caps_percent: Zero won't allow any capital letter,
+                100 will force to write everything in capital letters
+              validate_title_max_marks_together: 'Limit the number of question and
+                exclamation marks that can be written together. Ie: if it is 2, then
+                ''!!!'' won''t be allowed in the text'
+              validate_title_min_length: Title is always mandatory and this number
+                cannot be zero
+              verifications_html: |
+                Here you can put additional access restrictions to participatory spaces or components that will force users to be verified before accessing certain locations (ie: to prevent spam).<br>
+                Restrictions apply to all users but administrators will always have access to the /admin panel.
+            validators:
+              body: User input validations for the "body" field
+              title: User input validations for the "title" field
+          form_force_authorizations:
+            delete: Delete
+            force_authorizations_html: |
+              Define verification groups. Each group can require users to be verified
+              by one or more methods to access specific areas of the platform.
+            help: You can define groups of authorization methods and restrict access
+              based on them.
+            new: Add a new authorization group
+            remove: Remove this "authorization group"
+            sure_to_remove: Are you sure you want to destroy this authorization group?
+            title: 'Restrict access with:'
+          form_proposal_custom_fields:
+            delete: Delete
+            new: Add a new "custom fields" box
+            remove: Remove this "custom fields" box
+            sure_to_remove: Are you sure you want to destroy this fields box?
+          form_proposal_private_custom_fields:
+            delete: Delete
+            new: Add a new "private custom fields" box
+            remove: Remove this "private custom fields" box
+            sure_to_remove: Are you sure you want to destroy this private fields box?
+          form_scoped_admin_styles:
+            delete: Delete
+            new: Add a new "admin panel" CSS box
+            remove: Remove this CSS box
+            sure_to_remove: Are you sure you want to destroy this CSS box?
+          form_scoped_admins:
+            delete: Delete
+            new: Add a new "Scoped Admins" group
+            remove: Remove this "Scoped Admins" group
+            sure_to_remove: Are you sure you want to destroy this "Scoped Admins"
+              group?
+          form_scoped_styles:
+            delete: Delete
+            new: Add a new "public frontend" CSS box
+            remove: Remove this CSS box
+            sure_to_remove: Are you sure you want to destroy this CSS box?
+          none: "⛔ Never! - Deactivate any other constraint"
+          process_groups: Process groups
+          show:
+            title: Tweaks for %{setting}
+            update: Update configuration
+          system: Everywhere except participatory spaces
+          title:
+            admins: Scoped Admins
+            cookie_management: Cookie Management
+            editors: Editor Hacks
+            livechat: Live Chat
+            proposal_custom_fields: 'Proposals Custom Fields: Public fields'
+            proposal_private_custom_fields: 'Proposals Custom Fields: Private fields'
+            proposals: Proposals Hacks
+            scoped_admin_styles: 'Custom Styles: Admin panel'
+            scoped_styles: 'Custom Styles: Public frontend'
+            styles: Custom Styles
+            surveys: Surveys & Forms
+            verifications: Verifications / Authorization Hacks
+          update:
+            error: Error updating configuration! %{error}
+            success: Configuration updated successfully
+          user_logged_in: Logged in users
+        constraints:
+          create:
+            error: Error creating condition case
+            success: Condition case created successfully
+          destroy:
+            error: Error removing condition case
+            success: Condition case removed successfully
+          errors:
+            not_unique: Same condition already exists
+          new:
+            cancel: Cancel
+            constraint: New condition case
+            save: Save
+          show:
+            cancel: Cancel
+            constraint: Edit condition case
+            save: Save
+          update:
+            error: Error updating condition case
+            success: Condition case updated successfully
+        cookie_categories:
+          cookie_management_warning_html: Note that Decidim will force the user to
+            accept ALL cookies in order to display iframes. In order to be GDPR compliant,
+            ensure you add all the cookies that will be used in iframes in their proper
+            cookie categories.
+          create:
+            error: Error creating cookie category! %{error}
+            success: Cookie category created successfully
+          destroy:
+            error: Error removing cookie category! %{error}
+            success: Cookie category removed successfully
+          edit:
+            cancel: Cancel
+            items: Edit category items
+            save: Save
+            title: Edit cookie category
+          form:
+            slug_help: Unique identifier used in scripts to reference this category.
+            visibility:
+              hidden: Hidden
+              visible: Visible
+          index:
+            cannot_remove_default: Default categories cannot be removed
+            confirm_reset: Are you sure to remove this customization?
+            description_html: |
+              Cookie categories and items only control the consent UI and documentation.<br>
+              To make preferences effective, third-party scripts and services must be configured to load only after consent is granted.<br>
+              This extra script configuration is not necessary for video iframe embeds, as Decidim already includes built-in consent handling for those embeds.<br>
+              Follow the official guide: <a href="https://docs.decidim.org/en/develop/customize/data_consent.html#_adding_scripts_which_require_data_consent" target="_blank" rel="noopener">Adding scripts which require data consent</a>.
+            edit: Edit category
+            items: Category items
+            new: New category
+            reset: Remove customization
+            title: Cookie Management
+          new:
+            cancel: Cancel
+            save: Save
+            title: New cookie category
+          script_config:
+            script_consent_help_html: |
+              <p>Scripts tied to this category only respect consent when they are added inside a script with the attribute <span class="label">data-consent="%{category}"</span>.</p>
+              <p>Recommended place to add them are in <span class="label">app/views/layouts/decidim/_head_extra.html.erb</span> or in the header snippets (if enabled).</p>
+              <p>Example:</p><br><pre>%{example}</pre><br>
+              <p>Without <span class="label">type="text/plain"</span>, the user's data consent setting has no effect.<br>Read more at <a href="https://docs.decidim.org/en/develop/customize/data_consent.html#_adding_scripts_which_require_data_consent" target="_blank" rel="noopener">Adding scripts which require data consent</a>.</p>
+          update:
+            error: Error updating cookie category! %{error}
+            success: Cookie category updated successfully
+        cookie_items:
+          cookie_item_dropdown:
+            button: Common cookie services
+          cookie_item_presets:
+            descriptions:
+              consent: Used for functionality. Lasts for 2 years, Google uses it to
+                store a user's state regarding their cookies choices. Read more at
+                How Google uses cookies
+              decidim_consent: Stores information about the cookies allowed by the
+                user on this website.
+              emoji_picker_recent: Stores your most recently selected emojis
+              facebook_fr: Used by Meta to deliver, measure and improve ad relevance.
+              fbp: Identifies browser sessions for Facebook Pixel tracking.
+              ga_gat: Used to throttle the request rate sent to Google Analytics.
+              ga_gid: Used to distinguish users for analytics purposes. Expires after
+                24 hours.
+              ga_main: Used to distinguish users by assigning a unique identifier.
+              ga_property: Used in GA4 to persist session state and counters for a
+                specific property.
+              graphiql_doc_explorer_open: Saves whether you have the documentation
+                panel open when using the GraphQL API
+              graphiql_editor_flex: Saves your tab preference when using the GraphQL
+                API
+              graphiql_history_pane_open: Saves whether you have the history panel
+                open when using the GraphQL API
+              graphiql_queries: Saves the history of your queries when using the GraphQL
+                API
+              graphiql_query: Saves your last query when using the GraphQL API
+              graphiql_tab_state: Saves your tab configuration when using the GraphQL
+                API
+              gtm_dc: Used by Google Tag Manager for tag loading and diagnostics.
+              gtm_debug: Stores Google Tag Manager debug mode state.
+              gtm_gcl_au: Used by Google services to experiment with advertising efficiency.
+              hcaptcha_accessibility: Stores accessibility-related preferences for
+                hCaptcha challenges.
+              hcaptcha_session: Stores temporary hCaptcha session state to validate
+                challenges.
+              jitsi_amp: Used for Amplitude Analytics
+              jitsi_amplitude_unsent_identify: Used for Amplitude Analytics
+              jitsi_amplitude_unset: Used for Amplitude Analytics
+              jitsi_calendar_sync: Used for the calendar sync feature.
+              jitsi_callstats_username: Used to save the user session on Jitsi.
+              jitsi_dropbox: Used for the dropbox integration feature.
+              jitsi_endpoint_id: Used for communication purposes with the Jitsi server.
+              jitsi_known_domains: Save a list of known domains
+              jitsi_language: Save your language preference
+              jitsi_prejoin: Used for the prejoin screen feature.
+              jitsi_recent_list: Used for the recent list feature.
+              jitsi_settings: Used your save your Jitsi settings.
+              jitsi_video_quality: Used for the video quality persistent storage feature.
+              jitsi_virtual_background: Used for the video background feature.
+              linkedin_li_gc: Stores consent state for LinkedIn services.
+              linkedin_lidc: Used by LinkedIn for routing and load balancing.
+              linkedin_user_match_history: Tracks ad interaction timing and conversion
+                attribution for LinkedIn campaigns.
+              maps_1p_jar: Stores Google Maps usage/preferences and ad personalization
+                signals.
+              maps_consent: Stores user consent state for Google services when using
+                maps embeds.
+              maps_nid: Stores Google Maps preferences and security-related browser
+                information.
+              matomo_mtm_consent: Stores the user's consent status for Matomo tracking.
+              matomo_pk_id: Used to store a unique visitor ID and identify returning
+                visitors.
+              matomo_pk_ref: Used to store attribution information (the referrer that
+                brought the user to the website).
+              matomo_pk_ses: Used to store temporary session data for the current
+                visit.
+              osm_location: Stores map location/zoom defaults for OpenStreetMap interactions.
+              osm_session: Stores temporary session data for OpenStreetMap user interactions.
+              osm_totp_token: Stores temporary 2FA-related token data for OpenStreetMap
+                account workflows.
+              pref: Used for functionality. YouTube uses this cookie to store information
+                such as your preferred page configuration and playback preferences
+                like explicit autoplay choices, shuffle content, and player size.
+                Read more at How Google uses cookies
+              recaptcha_grecaptcha: Used by reCAPTCHA to provide spam protection and
+                risk analysis.
+              recaptcha_rc_a: Stores reCAPTCHA risk analysis metadata in browser storage.
+              recaptcha_rc_c: Stores reCAPTCHA challenge/session metadata in browser
+                storage.
+              remember_user_token: Allows to keep your session open if you click on
+                "Remember me" when logging in.
+              session_id: Allows websites to remember user within a website when they
+                move between web pages.
+              turnstile_cf_bm: Helps Cloudflare detect and mitigate automated traffic.
+              turnstile_cf_clearance: Stores proof that a visitor passed a previous
+                security challenge.
+              turnstile_cfuvid: Helps Cloudflare distinguish individual users sharing
+                the same IP address.
+              vimeo_player: Stores Vimeo player preferences such as volume, quality,
+                or autoplay behavior.
+              vimeo_vuid: Stores a unique Vimeo visitor identifier used for analytics.
+              visitor_info1_live: Used for functionality, analytics, advertising,
+                and personalization. Read more at How Google uses cookies
+              ysc: Used for security. Lasts for the duration of a user's browsing
+                session. Used to ensure that requests within a browsing session are
+                made by the user, and not by other sites. This cookie prevents malicious
+                sites from acting on behalf of a user without that user's knowledge.
+                Read more at How Google uses cookies
+              yt_remote_connected_devices: Stores list of connected devices for YouTube
+                player controls.
+              yt_remote_device_id: Stores a device identifier for YouTube player remote
+                interactions.
+              ytidb_last_result_entry_key: Stores the latest YouTube player result
+                metadata in local storage.
+            explanations:
+              cloudflare_turnstile: |-
+                Add these cookies when Cloudflare Turnstile is enabled to protect forms against abuse and automated traffic. They support bot detection, session validation, and challenge continuity.
+
+                Recommended category: Essential
+              decidim_essential: |-
+                Add these essential cookies that are required for the core functionality of your Decidim platform. These cookies enable user authentication, session management, and consent tracking.
+
+                Recommended category: Essential
+              emoji_picker: |-
+                Add this cookie when you enable the emoji picker feature in text editors. It stores recently used emojis to personalize the user experience.
+
+                Recommended category: Preferences
+              facebook_pixel: |-
+                Add these cookies when you use Meta (Facebook) Pixel for conversion tracking or ad attribution. They help identify browser sessions and measure campaign performance.
+
+                Recommended category: Marketing
+              google_analytics: |-
+                Add these cookies when you use Google Analytics (GA4/gtag.js) to measure traffic and user behavior. They identify visitors, distinguish sessions, and help generate usage statistics.
+
+                Recommended category: Analytics
+              google_maps_embeds: |-
+                Add these cookies when embedding Google Maps on your pages (for example, map widgets or location blocks). They help with map preferences, consent state, and usage metrics.
+
+                Recommended category: Preferences or Analytics
+              google_tag_manager: |-
+                Add these cookies when your analytics or marketing tags are delivered through Google Tag Manager. Some tags can set additional tracking cookies based on your GTM configuration.
+
+                Recommended category: Analytics or Marketing
+              graphiql: |-
+                Add these cookies when you enable the GraphQL API explorer (/api/graphiql) for developers. They store the explorer's interface preferences, query history, and tab configurations.
+
+                Recommended category: Preferences
+              hcaptcha: |-
+                Add these cookies/storage entries when hCaptcha is enabled in forms. They are used for bot detection, accessibility options, and challenge/session handling.
+
+                Recommended category: Essential
+              jitsi_meet: |-
+                Add these cookies when you integrate Jitsi Meet video conferencing meetings in your platform. They store user settings, language preferences, video quality options, and session data for the video conferencing service.
+
+                Recommended category: Preferences
+              linkedin_insight: |-
+                Add these cookies when using the LinkedIn Insight Tag to measure campaign performance and visitor conversions from LinkedIn ads.
+
+                Recommended category: Marketing
+              matomo: |-
+                Add these cookies when you use Matomo analytics to collect website statistics. They identify returning visitors, track sessions, and store referral information used for aggregated reports.
+
+                Recommended category: Analytics
+              openstreetmap_tiles: |-
+                Add these cookies when your map experience depends on OpenStreetMap-hosted resources that may set cookies (for example embedded maps or OSM account-aware features).
+
+                Recommended category: Preferences
+              recaptcha: |-
+                Add these cookies/storage entries when Google reCAPTCHA protects forms against abuse and bots. They help evaluate user interactions and security signals.
+
+                Recommended category: Essential
+              vimeo_embeds: |-
+                Add these cookies when you embed Vimeo videos in pages, proposals, or comments. Vimeo can use them to remember player settings and measure playback interactions.
+
+                Recommended category: Preferences or Analytics
+              youtube_embeds: |-
+                Add these cookies when you allow YouTube video embeds in content (proposals, comments, etc.). YouTube sets analytics and tracking cookies that collect information about video playback and user behavior.
+
+                Recommended category: Preferences (if the videos are an integral part of the content), Analytics (for tracking/statistics) or Marketing (if used for advertising purposes)
+              youtube_nocookie: |-
+                Add these storage keys when you use YouTube's privacy-enhanced mode (youtube-nocookie.com). They are used to persist player state and device/session preferences.
+
+                Recommended category: Preferences
+            labels:
+              cloudflare_turnstile:
+                one: Cloudflare Turnstile (%{count} cookie)
+                other: Cloudflare Turnstile (%{count} cookies)
+              decidim_essential:
+                one: Decidim Essential (%{count} cookie)
+                other: Decidim Essential (%{count} cookies)
+              emoji_picker:
+                one: Emoji Picker (%{count} cookie)
+                other: Emoji Picker (%{count} cookies)
+              facebook_pixel:
+                one: Facebook Pixel (%{count} cookie)
+                other: Facebook Pixel (%{count} cookies)
+              google_analytics:
+                one: Google Analytics (%{count} cookie)
+                other: Google Analytics (%{count} cookies)
+              google_maps_embeds:
+                one: Google Maps embeds (%{count} cookie)
+                other: Google Maps embeds (%{count} cookies)
+              google_tag_manager:
+                one: Google Tag Manager (%{count} cookie)
+                other: Google Tag Manager (%{count} cookies)
+              graphiql:
+                one: GraphiQL API Explorer (%{count} cookie)
+                other: GraphiQL API Explorer (%{count} cookies)
+              hcaptcha:
+                one: hCaptcha (%{count} cookie)
+                other: hCaptcha (%{count} cookies)
+              jitsi_meet:
+                one: Jitsi Meet (%{count} cookie)
+                other: Jitsi Meet (%{count} cookies)
+              linkedin_insight:
+                one: LinkedIn Insight (%{count} cookie)
+                other: LinkedIn Insight (%{count} cookies)
+              matomo:
+                one: Matomo (%{count} cookie)
+                other: Matomo (%{count} cookies)
+              openstreetmap_tiles:
+                one: OpenStreetMap tiles (%{count} cookie)
+                other: OpenStreetMap tiles (%{count} cookies)
+              recaptcha:
+                one: reCAPTCHA (%{count} cookie)
+                other: reCAPTCHA (%{count} cookies)
+              vimeo_embeds:
+                one: Vimeo embeds (%{count} cookie)
+                other: Vimeo embeds (%{count} cookies)
+              youtube_embeds:
+                one: YouTube embeds (%{count} cookie)
+                other: YouTube embeds (%{count} cookies)
+              youtube_nocookie:
+                one: YouTube no-cookie (%{count} cookie)
+                other: YouTube no-cookie (%{count} cookies)
+            services:
+              cloudflare_turnstile: Cloudflare Turnstile
+              decidim_essential: This website
+              emoji_picker: This website
+              facebook_pixel: Meta (Facebook)
+              google_analytics: Google Analytics
+              google_maps_embeds: Google Maps
+              google_tag_manager: Google Tag Manager
+              graphiql: This website
+              hcaptcha: hCaptcha
+              jitsi_meet: Jitsi Meet
+              linkedin_insight: LinkedIn
+              matomo: Matomo
+              openstreetmap_tiles: OpenStreetMap
+              recaptcha: Google reCAPTCHA
+              vimeo_embeds: Vimeo
+              youtube_embeds: YouTube
+              youtube_nocookie: YouTube (privacy-enhanced mode)
+          create:
+            error: Error creating cookie item! %{error}
+            success: Cookie item created successfully
+          create_preset:
+            error: Error adding preset cookie item! %{error}
+            not_found: Preset not found
+            success: Preset cookie item added successfully
+          destroy:
+            error: Error removing cookie item! %{error}
+            success: Cookie item removed successfully
+          edit:
+            cancel: Cancel
+            save: Save
+            title: Edit cookie item
+          form:
+            description_item_help: Indicates the purpose of this cookie and the information
+              it stores
+            expiration_item_help: Expiration time of the cookie. This is only informative,
+              it won't affect the actual cookie expiration time.
+            service_item_help: This is a short description indicating where this is
+              used (for instance "This website", "Youtube embeds", "Jitsi meets",
+              etc)
+            title_item_help: You can find the cookies by using the inspector (storage
+              section). It should contain no spaces.
+          index:
+            back_to_categories: Back to categories
+            cannot_remove_default: Default items cannot be removed
+            confirm_reset: Are you sure to remove this customization?
+            edit: Edit item
+            new: New item
+            reset: Remove customization
+            title: "%{category}: Cookie items"
+          new:
+            cancel: Cancel
+            save: Save
+            title: New cookie item
+          update:
+            error: Error updating cookie item! %{error}
+            success: Cookie item updated successfully
+        custom_redirects:
+          create:
+            error: Error creating redirection! %{error}
+            success: Redirection created successfully
+          destroy:
+            error: Error removing redirection! %{error}
+            success: Redirection removed successfully
+          edit:
+            save: Save
+            title: Edit redirection
+          form:
+            destination_help: Absolute routes (start with "/") or external URLs (http://..)
+            origin_help: Only absolute routes, start with "/"
+            pass_query_help: |
+              Activate this option if you want that the query string to be copied to the destination.<br>
+              For instance, if having configured /my-origin => /my-destination, a request to /my-origin?locale=ca  will be redirected to "/my-destination?locale=ca".
+          index:
+            check_redirections: "✔ Check redirections"
+            confirm_destroy: Are you sure to remove this redirection?
+            description: |
+              You can define any route (starting with <code>/</code>) to redirect any visitor to a destination URL.<br>
+              Destination can be an absolute path (ie: <code>/processes/some-process</code>) or start with <code>https://</code> (ie: <code>http://decidim.org</code>)<br><br>
+              Take into account that a redirection only works if none other route matches. It is not possible to override original routes (this is by design).<br>
+              If unsure, use the check redirections button to test for incompatibilities.
+            edit: Edit redirection
+            new: New redirection
+            remove: Remove redirection
+            title: Custom Redirections
+          new:
+            save: Save
+            title: New redirection
+          origin_exists: The same origin is already configured, please edit that instead
+            of creating it again.
+          origin_missing: This origin has not been found in the list
+          update:
+            error: Error updating redirection! %{error}
+            success: Redirection updated successfully
+        hashcash:
+          filters:
+            ip_addresses: View IP addresses
+            stamps: View Hashcash stamps
+          index:
+            bits: Bits
+            created_at: Created at
+            help_html: |
+              This page shows the Hashcash stamps that have been detected in the system. Hashcash is a proof-of-work system that requires users to solve a computational puzzle (performed automatically by the browser) before they can sign up.
+              <br><br>
+              Each entry in this list represents a Hashcash stamp that has been generated by a user every time they have signed up or logged in.
+            ip_address: IP address
+            no_data: No Hashcash stamps found
+            request_path: Request path
+          ip_addresses:
+            help_html: This page list all the IP addresses that have been detected
+              in the system ordered by the number of Hashcash stamps they have generated.
+              <br><br> Each stamp is either a login or a sign up action by a user.
+              You can use this information to detect suspicious activity.
+            ip_address: IP address
+            no_data: No IP addresses found
+            stamps: Hashcash stamps
+        landing_menu_items:
+          form:
+            preset: Autofill presets
+            preset_content_blocks: Existing content blocks
+            preset_global_menu: Decidim usual suspects
+            select_a_preset: "— Select a common menu item —"
+            url_help_html: "<b>#section-id</b> — scrolls to a section on this page<br><b>/path</b>
+              — internal page (e.g. /processes)<br><b>https://example.com</b> — external
+              link (opens in a new tab automatically)"
+          new:
+            save: Save
+            title: New menu item
+          show:
+            save: Save
+            title: Edit menu item
+        menu:
+          admins: Scoped Admins
+          cookie_management: Cookie management
+          custom_redirects: Custom Redirections
+          editors: Editor Hacks
+          livechat: Live Chat
+          maintenance:
+            checks: System Compatibility
+            hashcash: Hashcash stamps
+            maintenance: Maintenance
+            private_data: Private data
+          menu_hacks: Menu Tweaks
+          proposal_custom_fields: Proposals Custom Fields
+          proposals: Proposals Hacks
+          styles: Custom Styles
+          surveys: Surveys & Forms
+          verifications:
+            awesome_authorizations: Awesome Authorizations
+            force_authorizations: Force Authorizations
+            verifications: Verifications
+        menu_hacks:
+          create:
+            error: Error creating menu item! %{error}
+            success: Menu item created successfully
+          destroy:
+            error: Error removing menu item! %{error}
+            success: Menu item removed successfully
+          edit:
+            save: Save
+            title: Edit menu item
+          form:
+            label_help: Translations aren't automatically detected, be sure to fill
+              in all the fields!
+            target:
+              blank: New window
+              self: Same window
+            visibility:
+              default: Visible
+              hidden: Always hidden
+              logged: Only visible for logged users
+              non_logged: Only visible for non-logged users
+              verified_user: Only visible for users with a valid authorization
+          index:
+            confirm_destroy: Are you sure to remove this customization?
+            edit: Edit
+            home_content_block_menu:
+              title: Global menu home block
+            menu:
+              title: Main menu
+            mobile_menu:
+              title: Mobile menu
+            new: New item
+            remove: Remove addition
+            remove_hack: Remove customization
+          new:
+            save: Save
+            title: New menu item
+          update:
+            error: Error updating menu item! %{error}
+            success: Menu item updated successfully
+          url_exists: The same URL is already configured, please edit that instead
+            of creating it again.
+        officializations:
+          authorizations: Authorizations
+          verification_modal:
+            authorizations_for: Authorizations for %{user}
+            close: Close
+        private_data:
+          private_data:
+            component: Space / Component
+            confirm_delete: Are you sure you want to delete all private data for this
+              resource? This cannot be undone.
+            delete: Delete all
+            destroying: Private data for %{title} is set to be destroyed. Please check
+              again in a few minutes.
+            done: Done
+            help_html: |
+              This tool allows you to delete all private data for a specific participatory space or component. This action is irreversible and will remove all private data from the database.
+              <br><br>
+              <strong>What is considered private data?</strong>
+              <br>
+              Private data is any information that is not publicly available and is only accessible to administrators. This, at the moment, includes private custom fields information.
+              <br><br>
+              <strong>What happens when I delete private data?</strong>
+              <br>
+              When you delete private data, all private information for the selected participatory space or component will be permanently removed from the database. A log of this action will be stored in the system for auditing purposes.
+              <br><br>
+              <strong>What happens to public data?</strong>
+              <br>
+              Public data will not be affected by this action. Only private data will be deleted.
+              <br><br>
+              <strong>Is there a minimum time to wait before deleting private data?</strong>
+              <br>
+              Yes, you cannot delete private data if the last update was less than %{time_ago} ago. You can change this configuration in the initializer file.
+            items_count: Total affected
+            last_date: Last update
+            no_data: No private data found older than %{time_ago} ago
+            not_destroyable: This resource cannot be destroyed yet
+            removing: Removing...
+            time_ago: "%{time} ago"
+        proposal_custom_fields:
+          menu:
+            title: Public fields
+          private_body: Private body
+          private_data_last_remove: This data was destroyed %{time_ago} ago.
+          private_data_last_update: This data was last updated %{time_ago} ago.
+          proposal_private_custom_fields: Private fields
+          remove_private_data: "👉 You might want to remove it"
+        scoped_admin_styles:
+          menu:
+            title: Admin panel
+        scoped_styles:
+          menu:
+            title: Public frontend
+        visibility:
+          info_html: You can manage additional access restrictions using verifications
+            with %{awesome_link}.
+          restricted_html: This space is using additional access restrictions with
+            %{awesome_link}.
+      admin_log:
+        component:
+          destroy_private_data: "%{user_name} destroyed %{count} items of private
+            data for %{resource_name} in %{space_name}"
+        user:
+          admin_creates_authorization: "%{user_name} verified %{resource_name} with
+            %{handler_name}"
+          admin_destroys_authorization: "%{user_name} destroyed the verification %{handler_name}
+            on %{resource_name}"
+          admin_forces_authorization: "%{user_name} forced the verification %{handler_name}
+            on %{resource_name}. Reason: %{reason}"
+      amendments:
+        modal:
+          amendment_exists: An amendment already exists
+          current_amendment_html: <p>You can <a href="%{amendment_link}">access the
+            current amendment here</a>.</p>
+          dismiss: Ok, got it
+          explanation_html: |
+            <p>Currently, there's another amendment being evaluated for this proposal. In order to create a new one, you must wait until the current one is accepted or rejected.</p>
+            <p>You can also reach the author of this proposal by <a href="%{proposal_link}">leaving a comment</a> and try to speed up the resolution of the current amendment.</p>
+        pending_limit_reached: Sorry, there can only be one pending amendment at a
+          time. Please wait until "%{emendation}" is accepted or rejected.
+      awesome_authorization_handler:
+        admin_managed_html: This authorization is managed automatically usually. If
+          you think you should be verified try to press the button "Send" below.<br>If
+          that does not work, please contact the administrators of the platform.
+        errors:
+          user_not_in_group: According to your email (%{email}), you are not a member
+            of any group that can verify you.
+        explanation: Get verified as a member of an organization group
+        member_of: Member of %{groups}
+        name: Organization Group's Authorization
+      config:
+        intergram:
+          auto_no_response: It seems that no one is available to answer right now.
+            Please tell us how we can contact you, and we will get back to you as
+            soon as we can.
+          auto_response: Looking for the first available admin (It might take a minute)
+          intro_message: Hello! How can we help you?
+          title_closed: Click to chat!
+          title_open: Let's chat!
+      content_blocks:
+        awesome_process_groups:
+          active: Active
+          all: All
+          all_taxonomies: All categories
+          default_title: Participatory processes
+          filter_by_label: 'Filter by:'
+          max_count: Maximum amount of elements to show
+          name: Awesome group processes
+          past: Past
+          remove_filter: Remove filter
+          results_count:
+            one: "%{count} process found"
+            other: "%{count} processes found"
+          status_label: 'Status:'
+          title: Block title
+          upcoming: Upcoming
+        awesome_processes:
+          active_spaces: Participatory processes
+          any_group: Any group
+          group_label: Group
+          max_results: Maximum amount of elements to show
+          move_down: Move down
+          move_up: Move up
+          name: Awesome Processes
+          process_group: Restrict to process group
+          process_status: Process status filter
+          process_statuses:
+            active: Only active processes
+            all: All processes
+            past: Only past processes
+            upcoming: Only future processes
+          process_type: Type of processes
+          process_type_mixed_hint: Shows all processes up to the maximum amount.
+          process_types:
+            all: All processes
+            groups: Only process groups
+            processes: Only processes
+          processes: Processes
+          see_all_spaces: See all processes
+          selection_criteria: Selection criteria
+          selection_criteria_options:
+            automatic: Automatic
+            manual: Manual
+          title: Block title
+        landing_menu:
+          alignment: Menu position
+          alignment_center: Center
+          alignment_help: Align menu items to the left, center, or right of the page
+          alignment_left: Left
+          alignment_right: Right
+          css_comment_hover: Style for menu link on hover
+          css_comment_link: Style for individual menu link
+          css_comment_menu: Style for the whole menu block
+          css_help_html: 'You can further customize this menu by creating a %{link}
+            for it, use this code to reference different elements in it:'
+          css_help_link: custom style
+          delete_confirm: Are you sure you want to delete this item?
+          drag: Drag to reorder
+          edit_item: Edit item
+          empty_item: New empty item
+          name: Awesome global menu
+          new_item: Add new item
+          presets: Presets
+          show_on_mobile: Show on mobile screens
+          sticky: Sticky (always visible on scrolling)
+          table:
+            actions: Actions
+            hidden: Hidden
+            name: Name
+            url: URL
+            visible: Visible
+          title: Jump to ...
+        map:
+          collapse: Start with collapsed menu
+          map_center: Map center (Latitude, Longitude)
+          map_center_help: 'Use decimal points (ie: 41.38879, 2.15899). Leave it empty
+            to automatically fit all the markers'
+          map_height: Map height (px)
+          map_settings: Map settings
+          map_zoom: Zoom (any number betwen 0 and 18)
+          map_zoom_help: Only applies if a map center is defined
+          menu_amendments: Show amendments
+          menu_meetings: Show meetings
+          menu_merge_components: Merge all components of the same type in the menu
+          name: Awesome Map
+          show_accepted: Show accepted proposals
+          show_evaluating: Show evaluating proposals
+          show_not_answered: Show not answered proposals
+          show_rejected: Show rejected proposals
+          show_withdrawn: Show withdrawn proposals
+          taxonomies: Taxonomies
+          text_settings: Text settings
+          title: Title
+          truncate: Maximum characters for popup descriptions
+        rich_text:
+          add_column: Add a new column
+          background_image: Background image
+          background_image_help: Optional image displayed behind the column content.
+            Recommended minimum width 1920px.
+          background_image_placement: Image placement
+          background_image_placement_help: How the background image is displayed within
+            the column. Applies only when a background image is uploaded.
+          background_image_placements:
+            contain_center: Contain (centered)
+            cover_bottom: Cover (bottom-aligned)
+            cover_center: Cover (centered)
+            cover_top: Cover (top-aligned)
+            repeat: Repeat (tiled)
+          block_id: Internal label
+          block_id_help: This value will be used as the section anchor in the URL.
+            It must be unique per page (e.g. "our-team").
+          block_id_placeholder: internal reference name (not publicly used)
+          column_title: Column
+          css_comment_this_column: Style for column %{number}
+          css_comment_title: Style for the block title
+          css_help_html: 'You can further customize this block by creating a %{link}
+            for it, use this code to reference different elements in it:'
+          css_help_link: custom style
+          name: Awesome Rich Text block
+          remove_column: Remove
+          restrict_links: Prevent links in the text to be displayed unless the user
+            is logged-in
+          restrict_videos: Prevent embed videos in the text to be displayed unless
+            the user is logged-in
+          sign_in_to_watch: Sign in to watch this video
+          title: Block title
+      credits: Decidim Awesome %{version} · Maintained with ♥ by %{company}
+      custom_fields:
+        errors:
+          invalid_fields: Content couldn't be parsed but has been assigned to the
+            field '%{field}'
+          invalid_xml: 'Content couldn''t be parsed: DL/DD elements not found in the
+            XML'
+      map_component:
+        map:
+          api_not_ready: |
+            <b>Warning:</b> This Decidim installation has the API configured to a maximum complexity of <b>%{current_complexity}</b>.
+            This component probably won't work under this configuration. We recommend you to set up in a initializer
+            (for instance at the end of the <code>config/initializers/decidim.rb</code>) the following lines:<br>
+            <br>
+            <pre># Api configuration
+            Rails.application.config.to_prepare do
+              Decidim::Api::Schema.max_complexity = 5000
+              Decidim::Api::Schema.max_depth = 50
+            end</pre>
+          error:
+            unavailable: The map is unavailable. Please configure geocoding to enable
+              this component.
+          show:
+            view_meeting: View meeting
+            view_proposal: View proposal
+      proposal_private_custom_fields_disclosure: This information won't be published
+      proposals:
+        votes:
+          blocked_by_status: Voting unavailable
+      required_authorizations:
+        index:
+          authorization_options_invalid: Unfortunately, although you have this authorization,
+            the data used to verify you is not valid in this context.
+          cancel: I'll do this in another moment, %{link}.
+          granted_title: Granted verifications
+          logout: let me logout
+          missing_title: Not verified yet
+          resume_title: Pending verifications
+          resume_with_method: Resume verification with %{name}
+          title: Verify your identity
+          verify_with_all_these_options: 'Please verify yourself with all these methods
+            before being able to access the platform:'
+          verify_with_any_of_these_options: 'Please verify yourself with at least
+            one of these options before being able to access the platform:'
+          verify_with_method: Verify with %{name}
+      session:
+        authorization_is_required: In order to access this part of the platform, you
+          need to authorize your account with a valid authorization (%{authorizations}).
+        login_and_authorization_is_required: In order to access this part of the platform,
+          you need to log in and authorize your account.
+      system:
+        organizations:
+          admin_allowed_authoritzations_help_html: |
+            Admins will be able to manually verify users with these authorizations.
+            <br>Use this feature with caution, as it can lead to security issues.
+          awesome_tweaks: Decidim Awesome Tweaks
+      validators:
+        too_much_caps: Is using too many capital letters (over %{percent}% of the
+          text)
+      voting:
+        voting_cards:
+          abstained: "✔ Abstained"
+          change_vote: Change my vote
+          default_box_title: Vote on this proposal
+          default_instructions_html: "<p>Please read the election rules carefully
+            to understand how your vote will be used by %{organization}</p>"
+          modal:
+            cancel: Cancel
+            message: Your vote will be considered final on %{date}. You can change
+              it until then
+            proceed: Proceed
+            skip: Check here to skip this window in the future
+          vote_button: Click to vote
+          voted: Voted
+          voting_for: My vote on "%{proposal}" is "%{type}"
+          weights:
+            weight_0: Abstain
+            weight_0_short: 'A:'
+            weight_1: Red
+            weight_1_short: 'R:'
+            weight_2: Yellow
+            weight_2_short: 'Y:'
+            weight_3: Green
+            weight_3_short: 'G:'
+    download_your_data:
+      show:
+        admin_actions: Admin actions
+        awesome_private_proposals: Proposals export with private fields
+    meetings:
+      meetings_map:
+        view_meeting: View meeting
+    proposals:
+      admin:
+        exports:
+          awesome_private_proposals: Proposals with private data
+      proposals:
+        orders:
+          az: A-Z (Alphabetical)
+          supported_first: Supported first
+          supported_last: Supported last
+          za: Z-A (Reverse alphabetical)
+        proposal:
+          view_proposal: View proposal
+  layouts:
+    decidim:
+      data_consent:
+        details:
+          columns:
+            expiration: Expiration
+          items:
+            _session_id:
+              expiration: session
+            decidim-consent:
+              expiration: 1 year
+            pwaInstallPromptSeen:
+              expiration: persistent
+      decidim_awesome:
+        admin:
+          maintenance:
+            title: 'Maintenance tools: %{title}'
+            titles:
+              checks: System Compatibility Checks
+              hashcash: Hashcash stamps
+              private_data: Private Data Clean-Up
+        awesome_config:
+          amendments: Amendments
+          autosaved_error: LocalStorage is not supported in your browser, form cannot
+            be saved automatically.
+          autosaved_retrieved: Data for this form has been recovered from a previous
+            session
+          autosaved_success: Data saved in local storage
+          awesome_authorization_groups_placeholder: All groups allowed
+          drag_and_drop_image: Add images by dragging & dropping or pasting them.
+          hashtags: Hashtags
+          items: items
+          meetings: Meetings
+          proposals: Proposals
+          select_deselect_all: Select/deselect all
+          taxonomies: Taxonomies

@@ -1,0 +1,65 @@
+# Decidim 0.32 / Ruby 3.4 side path.
+# Default local + CI path is docker-compose.yml (0.29).
+#
+#   docker compose -f docker-compose.0.32.yml up -d
+#   docker compose -f docker-compose.0.32.yml exec extra-blocks bash
+#   bundle install
+#   bundle exec rake test_app   # regenerate dummy — migrations differ from 0.29
+#   unset DATABASE_URL && bundle exec rspec
+#
+# Host ports differ from 0.29 compose to allow both stacks briefly.
+
+name: extra-blocks-032
+
+services:
+  extra-blocks:
+    command: bash -c "sleep infinity"
+    image: octree/decidim-dev:0.32
+    entrypoint: ""
+    working_dir: /home/module
+    volumes:
+      - .:/home/module
+      - bundle_032:/home/decidim/vendor
+      - node_modules_032:/home/decidim/node_modules
+    environment:
+      - PORT=3000
+      - DATABASE_HOST=extra-blocks-pg
+      - DATABASE_USERNAME=decidim
+      - DATABASE_PASSWORD=pleaseChangeMe
+      - DEV_MODULE=decidim-extra_blocks
+      - RAILS_ENV=development
+      - DISABLED_DOCKER_COMPOSE=true
+      - DISABLE_SPRING=true
+      - DECIDIM_FORCE_SSL=false
+      - RAILS_FORCE_SSL=false
+      - BUNDLE_GEMFILE=/home/module/gemfiles/decidim_0.32.gemfile
+      - DECIDIM_VERSION=~> 0.32.0
+      - SHAKAPACKER_DEV_SERVER_HOST=0.0.0.0
+      - SHAKAPACKER_DEV_SERVER_PORT=3035
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+      - WEBPACKER_DEV_SERVER_PORT=3035
+    depends_on:
+      extra-blocks-pg:
+        condition: service_healthy
+    ports:
+      - 3014:3000
+      - 3135:3035
+
+  extra-blocks-pg:
+    image: postgres:17
+    volumes:
+      - extra-blocks-pg-data-032:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DATABASE=decidim
+      - POSTGRES_USER=decidim
+      - POSTGRES_PASSWORD=pleaseChangeMe
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U decidim"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  node_modules_032: {}
+  bundle_032: {}
+  extra-blocks-pg-data-032: {}

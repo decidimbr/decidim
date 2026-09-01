@@ -1,0 +1,110 @@
+<!--
+  Force tailwind to compile these classes
+  class="!fill-success !fill-alert fill-success fill-alert"
+-->
+
+<div class="card-section decidim-version">
+  <p>
+    <span class="label <%= decidim_version_valid? ? "success" : "alert" %>"><%= t ".decidim_version", version: decidim_version %></span>
+    <%= check decidim_version_valid? %>
+  </p>
+  <% if decidim_version_outdated? %>
+    <div class="callout warning mt-4">
+      <p>
+        <strong><%= t ".decidim_update_available", latest_version: decidim_latest_version %></strong>
+      </p>
+      <p>
+        <%= link_to t(".view_release"), "https://github.com/decidim/decidim/releases/tag/v#{decidim_latest_version}", target: "_blank", rel: "noopener" %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<div class="card-section awesome-version">
+  <p>
+    <span class="label <%= awesome_version_outdated? ? "alert" : "success" %>">
+      <%= t ".awesome_version", version: awesome_version %>
+    </span>
+    <%= check !awesome_version_outdated? %>
+  </p>
+  <% if awesome_version_outdated? %>
+    <div class="callout warning mt-4">
+      <p>
+        <strong><%= t ".awesome_update_available", latest_version: awesome_latest_version %></strong>
+      </p>
+      <p>
+        <%= link_to t(".view_release"), "https://github.com/decidim-ice/decidim-module-decidim_awesome/releases/tag/v#{awesome_latest_version}", target: "_blank", rel: "noopener" %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<% if system_admin? %>
+<div class="card-section">
+  <p>
+    <%= link_to t(".link_admins"), decidim_admin_decidim_awesome.checks_path, method: :post, target: "_blank", class: "button button__primary button__xs", data: { "external-domain-link" => false } %>
+  </p>
+</div>
+<% end %>
+
+<div class="card-section">
+  <ul class="vertical menu">
+    <% overrides.each do |group, props| %>
+      <li>
+        <strong><%= t ".#{group}" %></strong>
+        <ul class="vertical menu">
+          <% props.files.each do |file, md5| %>
+          <% next unless exists?(props.spec, file) %>
+          <li>
+            <%= file %>
+            <%= check(valid?(props.spec, file)) %>
+          </li>
+          <% end %>
+        </ul>
+        <br>
+      </li>
+    <% end %>
+  </ul>
+  <ul class="vertical menu heads">
+    <li>
+      <strong><%= t ".head_tags" %></strong>
+      <ul class="vertical menu">
+        <% {
+             CSS: "//head/link[@rel='stylesheet'][contains(@href,'decidim_decidim_awesome')]",
+             JavaScript: "//script[contains(@src,'decidim_decidim_awesome')]"
+           }.each do |part, xpath| %>
+          <li>
+            <%= part %>
+            <% if head.xpath(xpath).count.positive? %>
+              <%= check true %>
+            <% else %>
+              <%= check false %>
+              <p class="help-text"><%= t ".errors.#{part}" %>:</p>
+              <code class="help-text code-block"><%= head_addons(part) %></code>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+    <li>
+      <strong><%= t ".admin_head_tags" %></strong>
+      <ul class="vertical menu">
+        <% {
+             CSS: "//head/link[@rel='stylesheet'][contains(@href,'decidim_admin_decidim_awesome')]",
+             JavaScript: "//script[contains(@src,'decidim_admin_decidim_awesome')]"
+           }.each do |part, xpath| %>
+          <li>
+            <%= part %>
+            <% if admin_head.xpath(xpath).count.positive? %>
+              <%= check true %>
+            <% else %>
+              <%= check false %>
+              <p class="help-text"><%= t ".errors.#{part}" %>:</p>
+              <code class="help-text code-block"><%= admin_addons(part) %></code>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+</div>

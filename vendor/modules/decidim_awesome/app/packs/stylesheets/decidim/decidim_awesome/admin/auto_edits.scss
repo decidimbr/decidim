@@ -1,0 +1,15 @@
+a.awesome-auto-edit {
+  @apply inline-block;
+}
+
+a.awesome-auto-delete {
+  @apply float-right;
+}
+
+.form-defaults input[type="text"].awesome-auto-edit {
+  @apply inline-block m-0 py-[2px] px-[4px] h-auto w-auto leading-none outline-1 text-xs;
+}
+
+span.awesome-auto-edit {
+  @apply bg-background-4 px-2 rounded m-0 font-semibold;
+}

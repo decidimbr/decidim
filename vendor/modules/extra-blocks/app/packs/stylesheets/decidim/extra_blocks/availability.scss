@@ -1,0 +1,37 @@
+/* Hide Extra Blocks when Toggle disables the module or a layout category.
+ * Public flags: extra_blocks_public_layout_container_data_attributes on .layout-container.
+ * Admin flags: extra_blocks_admin_body_data_attributes on <body>.
+ * Cell / list markers: layout cells + admin content_block list Deface. */
+
+[data-extra-blocks-enabled="false"] {
+  a[href*="manifest_name=extra_block"],
+  li:has(a[href*="manifest_name=extra_block"]),
+  [data-extra-blocks-manifest="extra_block"],
+  [data-extra-blocks-category] {
+    display: none !important;
+  }
+}
+
+[data-extra-blocks-cta-enabled="false"] [data-extra-blocks-category="cta"] {
+  display: none !important;
+}
+
+[data-extra-blocks-hero-enabled="false"] [data-extra-blocks-category="hero"] {
+  display: none !important;
+}
+
+[data-extra-blocks-text-enabled="false"] [data-extra-blocks-category="text"] {
+  display: none !important;
+}
+
+[data-extra-blocks-fast-proposal-enabled="false"] [data-extra-blocks-category="fast_proposal"] {
+  display: none !important;
+}
+
+[data-extra-blocks-misc-enabled="false"] [data-extra-blocks-category="misc"] {
+  display: none !important;
+}
+
+[data-extra-blocks-timelines-enabled="false"] [data-extra-blocks-category="timelines"] {
+  display: none !important;
+}

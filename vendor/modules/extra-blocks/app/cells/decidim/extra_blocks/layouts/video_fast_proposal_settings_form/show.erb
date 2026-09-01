@@ -1,0 +1,32 @@
+<%= hidden_field_tag "content_block[settings][layout]", content_block.settings.layout %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <% form.fields_for :images, form.object.images do |images_fields| %>
+    <%= render partial: "decidim/extra_blocks/layouts/shared/fast_proposal_settings_fields",
+               locals: {
+                 settings_fields:,
+                 images_fields:,
+                 proposal_components:,
+                 gate_callout:,
+                 with_background_image: false,
+                 with_eyebrow: true,
+                 with_form_side: false
+               } %>
+
+    <div class="row column">
+      <%= images_fields.upload :background_video_webm,
+                               label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.background_video_webm"),
+                               max_file_size: Decidim::ExtraBlocks::BackgroundVideoUploader::MAX_FILE_SIZE,
+                               button_class: "button button__sm button__transparent-secondary" %>
+      <p class="help-text"><%= t("decidim.extra_blocks.layouts.fast_proposal_settings_form.background_video_webm_help") %></p>
+    </div>
+
+    <div class="row column">
+      <%= images_fields.upload :background_video,
+                               label: t("decidim.extra_blocks.layouts.fast_proposal_settings_form.background_video"),
+                               max_file_size: Decidim::ExtraBlocks::BackgroundVideoUploader::MAX_FILE_SIZE,
+                               button_class: "button button__sm button__transparent-secondary" %>
+      <p class="help-text"><%= t("decidim.extra_blocks.layouts.fast_proposal_settings_form.background_video_help") %></p>
+    </div>
+  <% end %>
+<% end %>

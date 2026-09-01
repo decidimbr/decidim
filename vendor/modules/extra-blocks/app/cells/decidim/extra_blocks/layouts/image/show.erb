@@ -1,0 +1,16 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-image extra-blocks-image--#{media_width}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "misc" },
+  style: section_style
+) do %>
+  <% if block_image? %>
+    <div class="extra-blocks-image__inner">
+      <%= extra_blocks_picture_tag block_image_uploader,
+                                   mode: picture_mode,
+                                   class: "extra-blocks__media extra-blocks-image__img not-prose",
+                                   alt: "" %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,27 @@
+.extra-blocks-video {
+  width: 100%;
+  min-width: 100%;
+  background: var(--eb-bg, var(--eb-color-ink));
+  margin: 0;
+  padding: 0;
+
+  &__inner {
+    width: 100%;
+  }
+
+  &--boxed &__inner {
+    max-width: var(--eb-inner-max);
+    margin: 0 auto;
+  }
+
+  &__player {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: 60vh;
+    object-fit: cover;
+    vertical-align: top;
+    background: var(--eb-color-ink);
+  }
+}

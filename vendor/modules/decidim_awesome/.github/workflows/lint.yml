@@ -1,0 +1,62 @@
+name: "[CI] Lint"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  RUBY_VERSION: 3.3.11
+  NODE_VERSION: 22.14.0
+  SHAKAPACKER_RUNTIME_COMPILE: "false"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-report:
+    strategy:
+      fail-fast: false
+      matrix:
+        command:
+          - bundle exec rubocop -P
+          - npm run lint
+          - npm run stylelint
+          - bundle exec erb_lint app/**/*.erb
+    name: Lint code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Get npm cache directory path
+        id: npm-cache-dir-path
+        run: echo "dir=$(npm get cache)-lint" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-
+      - name: Install JS dependencies
+        run: npm ci
+      - name: Prepare RuboCop config
+        run: |
+          # RuboCop resolves remote `inherit_from` via Ruby HTTP/OpenSSL. In GH Actions this
+          # can fail intermittently (`OpenSSL::Buffering::Buffer` errors), so we prefetch the
+          # upstream Decidim config files and point `.rubocop.yml` to a local copy.
+          curl -fsSL https://raw.githubusercontent.com/decidim/decidim/release/0.31-stable/.rubocop.yml -o .rubocop.decidim-ci.yml
+          curl -fsSL https://raw.githubusercontent.com/decidim/decidim/release/0.31-stable/.rubocop_todo.yml -o .rubocop_todo.yml
+          sed -i 's#https://raw.githubusercontent.com/decidim/decidim/release/0.31-stable/.rubocop.yml#.rubocop.decidim-ci.yml#' .rubocop.yml
+      - run: ${{ matrix.command }}
+        name: ${{ matrix.command }}

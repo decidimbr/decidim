@@ -1,0 +1,78 @@
+# frozen_string_literal: true
+
+FactoryBot.define do
+  factory :awesome_config, class: "Decidim::DecidimAwesome::AwesomeConfig" do
+    var { Faker::Hacker.noun }
+    value { Decidim::DecidimAwesome.config.to_a.sample(1).to_h }
+    organization
+  end
+
+  factory :config_constraint, class: "Decidim::DecidimAwesome::ConfigConstraint" do
+    settings { { Faker::Hacker.noun => Faker::Hacker.noun } }
+    awesome_config
+  end
+
+  factory :awesome_editor_image, class: "Decidim::DecidimAwesome::EditorImage" do
+    file { Decidim::Dev.test_file("city.jpeg", "image/jpeg") }
+    path { Faker::Internet.url(host: "", scheme: "") }
+    author { association :user }
+    organization
+  end
+
+  factory :paper_trail_version, class: "Decidim::DecidimAwesome::PaperTrailVersion" do
+    item_id { user.id }
+    item_type { "Decidim::ParticipatoryProcessUserRole" }
+    event { "create" }
+    created_at { 1.hour.ago }
+  end
+
+  factory :map_component, parent: :component do
+    name { Decidim::Components::Namer.new(participatory_space.organization.available_locales, :proposals).i18n_name }
+    manifest_name { :awesome_map }
+    participatory_space { association(:participatory_process, :with_steps, organization:) }
+  end
+
+  factory :iframe_component, parent: :component do
+    name { Decidim::Components::Namer.new(participatory_space.organization.available_locales, :proposals).i18n_name }
+    manifest_name { :awesome_iframe }
+    participatory_space { association(:participatory_process, :with_steps, organization:) }
+  end
+
+  factory :awesome_vote_weight, class: "Decidim::DecidimAwesome::VoteWeight" do
+    vote { association(:proposal_vote) }
+    sequence(:weight) { |n| n }
+  end
+
+  factory :awesome_proposal_extra_fields, class: "Decidim::DecidimAwesome::ProposalExtraField" do
+    proposal
+
+    trait :with_votes do
+      after :create do |weight|
+        5.times.collect do |n|
+          vote = create(:proposal_vote, proposal: weight.proposal, author: create(:user, organization: weight.proposal.organization))
+          create(:awesome_vote_weight, vote:, weight: n + 1)
+        end
+      end
+    end
+  end
+
+  factory :awesome_authorization_group, class: "Decidim::DecidimAwesome::AuthorizationGroup" do
+    transient do
+      skip_injection { false }
+    end
+
+    name { generate_localized_title(:awesome_authorization_group_name, skip_injection:) }
+    purpose { generate_localized_description(:awesome_authorization_group_purpose, skip_injection:) }
+
+    organization
+  end
+
+  factory :awesome_authorization_member, class: "Decidim::DecidimAwesome::AuthorizationMember" do
+    transient do
+      skip_injection { false }
+    end
+
+    email { Faker::Internet.email }
+    authorization_group { association(:awesome_authorization_group) }
+  end
+end

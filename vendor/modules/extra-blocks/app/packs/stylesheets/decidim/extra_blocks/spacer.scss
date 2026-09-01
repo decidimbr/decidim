@@ -1,0 +1,10 @@
+.extra-blocks-spacer {
+  display: block;
+  width: 100%;
+  min-width: 100%;
+  height: var(--eb-spacer-height, 3rem);
+  background: var(--eb-bg, transparent);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}

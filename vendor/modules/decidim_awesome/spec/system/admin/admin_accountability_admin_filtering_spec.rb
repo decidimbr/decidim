@@ -1,0 +1,198 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+require "decidim/decidim_awesome/test/shared_examples/admin_accountability_contexts"
+
+describe "Filter Admin actions" do
+  let(:login_date) { 3.days.ago }
+  let(:organization) { create(:organization) }
+  let!(:user) { create(:user, :confirmed, organization:) }
+  let!(:admin) { create(:user, :admin, :confirmed, organization:) }
+  let!(:admin2) { create(:user, :admin, :confirmed, name: "Lorry 1", email: "test@test.com", organization:, created_at: 6.days.ago) }
+  let!(:manager) { create(:user, :user_manager, :confirmed, organization:, created_at: 5.days.ago, last_sign_in_at: login_date) }
+  let!(:manager2) { create(:user, :user_manager, :confirmed, name: "Lorry 2", email: "test2@test.com", organization:, created_at: 4.days.ago) }
+
+  let(:resource_controller) { Decidim::DecidimAwesome::Admin::AdminAccountabilityController }
+
+  include_context "with filterable context"
+  include_context "with admin accountability helpers"
+
+  before do
+    decidim_response = double(
+      success?: true,
+      body: [{ "tag_name" => "v0.31.2", "prerelease" => false, "draft" => false }].to_json
+    )
+    awesome_response = double(
+      success?: true,
+      body: [{ "tag_name" => "v0.14.1", "prerelease" => false, "draft" => false }].to_json
+    )
+
+    allow(Faraday).to receive(:get).with("https://api.github.com/repos/decidim/decidim/releases")
+                                   .and_return(decidim_response)
+    allow(Faraday).to receive(:get).with("https://api.github.com/repos/decidim-ice/decidim-module-decidim_awesome/releases")
+                                   .and_return(awesome_response)
+
+    # ensure papertrail has the same created_at date as the object being mocked
+    Decidim::DecidimAwesome::PaperTrailVersion.admin_role_actions.map { |v| v.update(created_at: v.item.created_at) }
+
+    switch_to_host(organization.host)
+    login_as admin, scope: :user
+
+    visit decidim_admin_decidim_awesome.admin_accountability_path
+
+    click_link_or_button "List global admins"
+  end
+
+  def apply_admin_filter(options, filter)
+    within(".admin-accountability-filters") do
+      click_on "Filter"
+      click_on options
+      click_on filter
+    end
+  end
+
+  with_versioning do
+    it "shows filters" do
+      expect(page).to have_content("Filter")
+      expect(page).to have_css("#q_user_name_or_user_email_cont")
+      expect(page).to have_css("#q_created_at_gteq_date")
+      expect(page).to have_css("#q_created_at_lteq_date")
+    end
+
+    it "displays the filter labels" do
+      click_on "Filter"
+      expect(page).to have_no_content("Participatory space type")
+      expect(page).to have_content("Role type")
+
+      find("a", text: "Role type").click
+
+      expect(page).to have_content("Super admin")
+      expect(page).to have_content("User manager")
+    end
+
+    it "displays all the admins" do
+      expect(page).to have_content("Super admin", count: 2)
+      expect(page).to have_content("User manager", count: 2)
+      expect(page).to have_content(admin.name, count: 1)
+      expect(page).to have_content(admin2.name, count: 1)
+      expect(page).to have_content(manager.name, count: 1)
+      expect(page).to have_content(manager2.name, count: 1)
+      expect(page).to have_no_content(user.name, count: 1)
+
+      expect(page).to have_content(login_date.strftime("%d/%m/%Y %H:%M"))
+      expect(page).to have_content("Currently active", count: 4)
+    end
+
+    context "when filtering admin_actions by ROLE TYPE" do
+      it "Admin role type" do
+        apply_admin_filter("Role type", "Super admin")
+
+        within "tbody" do
+          expect(page).to have_content("Super admin", count: 2)
+        end
+      end
+
+      it "User manager role type" do
+        apply_admin_filter("Role type", "User manager")
+
+        within "tbody" do
+          expect(page).to have_content("User manager", count: 2)
+        end
+      end
+    end
+
+    context "when searching by name or email" do
+      it "searches by name" do
+        search_by_text("Lorry")
+
+        within "tbody" do
+          expect(page).to have_content("Lorry", count: 2)
+        end
+      end
+
+      it "searches by email" do
+        search_by_text("@test.com")
+
+        within "tbody" do
+          expect(page).to have_content("@test.com", count: 2)
+        end
+      end
+    end
+
+    context "when searching by date" do
+      context "when the start date is earlier" do
+        it "displays all entries" do
+          search_by_date(7.days.ago, "")
+
+          within "tbody" do
+            expect(page).to have_css("tr", count: 4)
+          end
+        end
+      end
+
+      context "when the start date is later" do
+        it "displays no entries" do
+          search_by_date(1.day.from_now, "")
+
+          within "tbody" do
+            expect(page).to have_css("tr", count: 0)
+          end
+        end
+      end
+
+      context "when the end date is later" do
+        it "displays all entries" do
+          search_by_date("", 5.days.from_now)
+
+          within "tbody" do
+            expect(page).to have_css("tr", count: 4)
+          end
+        end
+      end
+
+      context "when the end date is earlier" do
+        it "displays no entries" do
+          search_by_date("", 7.days.ago)
+
+          within "tbody" do
+            expect(page).to have_css("tr", count: 0)
+          end
+        end
+      end
+
+      context "when searching in range" do
+        it "displays entries in range" do
+          search_by_date(6.days.ago, 5.days.ago)
+
+          within "tbody" do
+            expect(page).to have_css("tr", count: 2)
+            expect(page).to have_content("Super admin", count: 1)
+            expect(page).to have_content("User manager", count: 1)
+            expect(page).to have_content(admin2.name, count: 1)
+            expect(page).to have_content(manager.name, count: 1)
+          end
+        end
+
+        it "exports the result" do
+          search_by_date(6.days.ago, 5.days.ago)
+
+          click_on "Export this search"
+
+          click_link_or_button "Export as CSV"
+
+          within ".flash.success" do
+            expect(page).to have_content("Export job has been enqueued. You will receive an email when it's ready.")
+          end
+
+          perform_enqueued_jobs
+
+          expect(last_email.subject).to eq(%(Your export "admin_actions" is ready))
+          expect(Decidim::PrivateExport.count).to eq(1)
+          expect(Decidim::PrivateExport.last.export_type).to eq("admin_actions")
+          expect(current_url).to include(decidim_admin_decidim_awesome.admin_accountability_path)
+          expect(current_url).to include("admins=true")
+        end
+      end
+    end
+  end
+end

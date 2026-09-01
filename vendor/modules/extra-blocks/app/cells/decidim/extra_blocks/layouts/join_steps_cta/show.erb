@@ -1,0 +1,42 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-join-steps-cta #{prose_classes}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "cta" },
+  style: section_style
+) do %>
+  <div class="extra-blocks-join-steps-cta__inner">
+    <% if background_image? %>
+      <%= extra_blocks_picture_tag background_image_uploader,
+                                    mode: :full_width,
+                                    class: "extra-blocks__media extra-blocks-join-steps-cta__image not-prose",
+                                    alt: "" %>
+    <% end %>
+    <% if title.present? %>
+      <h2 class="extra-blocks__title extra-blocks-join-steps-cta__title"><%= title %></h2>
+    <% end %>
+    <% if steps.any? %>
+      <ol class="extra-blocks-join-steps-cta__steps">
+        <% steps.each do |step| %>
+          <li class="extra-blocks-join-steps-cta__step">
+            <span class="extra-blocks-join-steps-cta__number" aria-hidden="true"><%= step[:number] %></span>
+            <div class="extra-blocks-join-steps-cta__step-content">
+              <% if step[:title].present? %>
+                <h3 class="extra-blocks-join-steps-cta__step-title"><%= step[:title] %></h3>
+              <% end %>
+              <% if step[:body].present? %>
+                <p class="extra-blocks-join-steps-cta__step-body"><%= step[:body] %></p>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
+    <% if show_button? %>
+      <div class="extra-blocks__action extra-blocks-join-steps-cta__action">
+        <%= link_to button_label, button_url,
+                    class: "button button__lg button__primary extra-blocks__button extra-blocks-join-steps-cta__button not-prose" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

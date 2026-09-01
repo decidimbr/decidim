@@ -1,0 +1,11 @@
+<%# locals: settings_fields %>
+<fieldset class="row column">
+  <legend><%= t("decidim.extra_blocks.layouts.shared.background_fit") %></legend>
+  <% Decidim::ExtraBlocks::Layouts::RegisterDefaults::BACKGROUND_FITS.each do |choice| %>
+    <label class="radio-label">
+      <%= settings_fields.radio_button :background_fit, choice,
+                                       label: t("decidim.extra_blocks.layouts.shared.background_fit_#{choice.tr("-", "_")}") %>
+    </label>
+  <% end %>
+  <p class="help-text"><%= t("decidim.extra_blocks.layouts.shared.background_fit_help") %></p>
+</fieldset>

@@ -1,0 +1,432 @@
+# frozen_string_literal: true
+
+require "fileutils"
+require "rake"
+require "rake/file_utils"
+require "yaml"
+
+require "decidim/dev/common_rake"
+
+def base_app_name
+  "decidim_extra_blocks"
+end
+
+# Appraisal/CI often set a relative BUNDLE_GEMFILE; dummy chdir breaks that path.
+def expand_bundle_gemfile!
+  gemfile = ENV["BUNDLE_GEMFILE"]
+  return if gemfile.nil? || gemfile.empty? || File.absolute_path?(gemfile)
+
+  ENV["BUNDLE_GEMFILE"] = File.expand_path(gemfile, __dir__)
+end
+
+def legacy_decidim?
+  Gem.loaded_specs.fetch("decidim-core").version < Gem::Version.new("0.32")
+end
+
+# Decidim 0.29 expects Rails 7.0 defaults. Some generators leave Rails 8-shaped
+# application.rb (load_defaults 8.1 + autoload_lib) which boots fail on 7.0.10.
+def patch_dummy_app_rails70!(dummy_root)
+  return unless legacy_decidim?
+
+  application_rb = File.join(dummy_root, "config/application.rb")
+  return unless File.exist?(application_rb)
+
+  contents = File.read(application_rb)
+  patched = contents
+            .gsub(/config\.load_defaults\s+[\d.]+/, "config.load_defaults 7.0")
+            .gsub(/^[ \t]*config\.autoload_lib\(.*\n/, "")
+  File.write(application_rb, patched) if patched != contents
+end
+
+def run!(cwd, command)
+  FileUtils.chdir(cwd) { sh(command) }
+end
+
+# Keep the file: stub aligned with the Shakapacker gem used by each appraisal.
+def ensure_shakapacker_stub!(dummy_root)
+  stub_dir = File.join(dummy_root, "packages/shakapacker-stub")
+  FileUtils.mkdir_p(stub_dir)
+  File.write(File.join(stub_dir, "package.json"), <<~JSON)
+    {"name": "shakapacker", "version": "#{legacy_decidim? ? "7.1.0" : "9.7.0"}"}
+  JSON
+end
+
+def copy_env_storage_config!(dummy_root)
+  generators = Gem.loaded_specs.fetch("decidim-generators").full_gem_path
+  source = File.join(generators, "lib/decidim/generators/app_templates/storage.yml")
+  FileUtils.cp(source, File.join(dummy_root, "config/storage.yml"))
+end
+
+def prepare_dummy_decidim_boot_files!(dummy_root)
+  return ensure_dummy_decidim_boot_files!(dummy_root) if legacy_decidim?
+
+  FileUtils.rm_f(File.join(dummy_root, "config/secrets.yml"))
+  FileUtils.rm_f(File.join(dummy_root, "config/initializers/decidim.rb"))
+  FileUtils.rm_f(File.join(dummy_root, "package-lock.json"))
+  copy_env_storage_config!(dummy_root)
+end
+
+def normalize_variant_migrations!(dummy_root)
+  pattern = File.join(dummy_root, "db/migrate/*_create_active_storage_variant_records.decidim.rb")
+  migrations = Dir.glob(pattern)
+  FileUtils.rm_f(legacy_decidim? ? migrations : migrations[0...-1])
+end
+
+# Drop migrations not shipped by the installed Decidim 0.29.* / toggle gems
+# (vendor volumes or mixed installs can leave newer Migration[7.2]/[8.x] files).
+def purge_non_legacy_dummy_migrations!(dummy_root)
+  migrate_dir = File.join(dummy_root, "db/migrate")
+  return unless Dir.exist?(migrate_dir)
+
+  allowed_origins = {}
+  Gem.loaded_specs.each_value do |spec|
+    next unless spec.name.start_with?("decidim") || spec.name == "activestorage"
+
+    Dir.glob(File.join(spec.full_gem_path, "db/migrate/*.rb")).each do |path|
+      basename = File.basename(path)
+      origin = basename[/\A(\d+)/, 1]
+      allowed_origins[origin] = true if origin
+    end
+  end
+
+  Dir.glob(File.join(migrate_dir, "*.rb")).each do |path|
+    contents = File.read(path)
+    if contents.match?(/ActiveRecord::Migration\[(?:7\.[1-9]|8)/)
+      FileUtils.rm_f(path)
+      next
+    end
+
+    origin = contents[/originally (\d+)/, 1]
+    next unless origin
+    next if allowed_origins[origin]
+
+    FileUtils.rm_f(path)
+  end
+end
+
+# Generators sometimes omit or later cleanup wipes these; Decidim 0.29 needs both to boot.
+def ensure_dummy_decidim_boot_files!(dummy_root)
+  secrets = File.join(dummy_root, "config/secrets.yml")
+  unless File.exist?(secrets)
+    File.write(secrets, <<~YAML)
+      # Be sure to restart your server when you modify this file.
+
+      decidim_default: &decidim_default
+        application_name: "Extra Blocks Test"
+        mailer_sender: "change-me@example.org"
+        available_locales: ["en", "ca", "es"]
+        default_locale: en
+        # false (boolean) — string "false" is .present? and wrongly enables force_ssl.
+        force_ssl: false
+        enable_html_header_snippets: "false"
+        currency_unit: "€"
+        cors_enabled: "false"
+        image_uploader_quality: 80
+        maximum_attachment_size: 10
+        maximum_avatar_size: 5
+        max_reports_before_hiding: 3
+        track_newsletter_links: "true"
+        download_your_data_expiry_time: 7
+        throttling_max_requests: 100
+        throttling_period: 1
+        unconfirmed_access_for: 0
+        system_accesslist_ips: []
+        base_uploads_path:
+        default_csv_col_sep: ";"
+        consent_cookie_name: "decidim-consent"
+        cache_key_separator: "/"
+        cache_expiry_time: 1440
+        stats_cache_expiry_time: 10
+        expire_session_after: 30
+        session_timeout_interval: 10
+        enable_remember_me: "true"
+        follow_http_x_forwarded_host: "false"
+        maximum_conversation_message_length: 1000
+        password_similarity_length: 4
+        denied_passwords: []
+        allow_open_redirects: "false"
+        social_share_services: ["X", "Facebook", "WhatsApp", "Telegram"]
+        service_worker_enabled: "false"
+        page_blocks: ["terms-of-service"]
+        admin_password:
+          expiration_days: 90
+          min_length: 15
+          repetition_times: 5
+          strong: "true"
+        api:
+          schema_max_per_page: 50
+          schema_max_complexity: 5000
+          schema_max_depth: 15
+        proposals:
+          participatory_space_highlighted_proposals_limit: 4
+          process_group_highlighted_proposals_limit: 3
+        meetings:
+          upcoming_meeting_notification: 2
+          enable_proposal_linking: "true"
+          embeddable_services: []
+        budgets:
+          enable_proposal_linking: "true"
+        accountability:
+          enable_proposal_linking: "true"
+        initiatives:
+          creation_enabled: "true"
+          minimum_committee_members: 2
+          default_signature_time_period_length: 120
+          default_components: ["pages", "meetings"]
+          first_notification_percentage: 33
+          second_notification_percentage: 66
+          stats_cache_expiration_time: 5
+          max_time_in_validating_state: 60
+          print_enabled: "true"
+          do_not_require_authorization: "false"
+        verifications:
+          document_types: ["identification_number", "passport"]
+
+      storage_default: &storage_default
+        provider: "local"
+
+      default: &default
+        secret_key_base: "6a8af371b2b759541f253fd351431319d1c6d6ee8073419b911737e820a54cd7d6f00ac4e40c6dc107b3ee70d312dfe0ff236e49f9d95cfb10df2f8746b25712"
+        decidim:
+          <<: *decidim_default
+        omniauth:
+          facebook:
+            enabled: "false"
+          twitter:
+            enabled: "false"
+          google_oauth2:
+            enabled: "false"
+        maps:
+          dynamic_provider: ""
+          static_provider: ""
+        storage:
+          <<: *storage_default
+        vapid:
+          enabled: "false"
+
+      development:
+        <<: *default
+
+      test:
+        <<: *default
+        omniauth:
+          facebook:
+            enabled: true
+            app_id: fake-facebook-app-id
+            app_secret: fake-facebook-app-secret
+          twitter:
+            enabled: true
+            api_key: fake-twitter-api-key
+            api_secret: fake-twitter-api-secret
+          google_oauth2:
+            enabled: true
+            client_id:
+            client_secret:
+          test:
+            enabled: true
+            icon: tools-line
+
+      production:
+        <<: *default
+    YAML
+  end
+
+  initializer = File.join(dummy_root, "config/initializers/decidim.rb")
+  return if File.exist?(initializer)
+
+  template = Gem.loaded_specs["decidim-generators"]&.full_gem_path
+  template &&= File.join(template, "lib/decidim/generators/app_templates/initializer.rb")
+  if template && File.exist?(template)
+    FileUtils.cp(template, initializer)
+  end
+end
+
+desc "Generates a dummy app for testing"
+task :test_app do
+  expand_bundle_gemfile!
+  # Do not wrap in Bundler.with_original_env — that can pick a non-BUNDLE_PATH
+  # Rails and emit Rails 8-shaped templates under a 0.29 image.
+  generate_decidim_app(
+    "spec/decidim_dummy_app",
+    "--app_name",
+    "#{base_app_name}_test_app",
+    "--path",
+    "../..",
+    "--skip_spring",
+    "--demo",
+    "--force_ssl",
+    "false",
+    "--locales",
+    "en,ca,es"
+  )
+
+  dummy_root = File.expand_path("spec/decidim_dummy_app", __dir__)
+  dummy_gemfile = File.join(dummy_root, "Gemfile")
+  gemfile_contents = File.read(dummy_gemfile)
+  File.open(dummy_gemfile, "a") do |f|
+    unless gemfile_contents.include?("decidim-extra_blocks")
+      f.puts %(gem "decidim-extra_blocks", path: "../..")
+    end
+    # Shakapacker 7.1 + rack-proxy 1.x → 502 on /decidim-packs (0.29)
+    if legacy_decidim? && !gemfile_contents.include?(%(gem "rack-proxy"))
+      f.puts %(gem "rack-proxy", "< 1.0")
+    end
+  end
+
+  patch_dummy_app_rails70!(dummy_root)
+
+  # Generators may leave a mismatched .ruby-version (e.g. 3.4) under 0.29.
+  ruby_version_file = File.join(dummy_root, ".ruby-version")
+  if File.exist?(ruby_version_file)
+    File.write(ruby_version_file, "#{legacy_decidim? ? "3.2.2" : "3.4.7"}\n")
+  end
+
+  # Keep JS packs on the Decidim minor under test (generator/npm may write 0.32 pins).
+  package_json = File.join(dummy_root, "package.json")
+  if File.exist?(package_json) && ENV.fetch("DECIDIM_VERSION", "~> 0.29.7").include?("0.29")
+    ensure_shakapacker_stub!(dummy_root)
+    File.write(
+      package_json,
+      <<~JSON
+        {
+          "name": "decidim-extra-blocks-test-app",
+          "private": true,
+          "version": "0.1.0",
+          "dependencies": {
+            "@decidim/browserslist-config": "0.29.7",
+            "@decidim/core": "0.29.7",
+            "@decidim/webpacker": "0.29.7",
+            "sass-embedded": "1.69.5"
+          },
+          "devDependencies": {
+            "@decidim/dev": "0.29.7",
+            "shakapacker": "file:packages/shakapacker-stub"
+          },
+          "browserslist": [
+            "extends @decidim/browserslist-config"
+          ],
+          "overrides": {
+            "sass-embedded": "1.69.5"
+          }
+        }
+      JSON
+    )
+  end
+
+  ensure_shakapacker_stub!(dummy_root)
+  prepare_dummy_decidim_boot_files!(dummy_root)
+
+  # Decidim 0.29 needs config/initializers/decidim.rb + secrets.yml (do not remove).
+  File.write(File.join(dummy_root, ".decidim_appraisal"), ENV.fetch("BUNDLE_GEMFILE", "Gemfile"))
+
+  run!(dummy_root, "bundle install")
+
+  Rake::Task["prepare_tests"].invoke
+end
+
+desc "Prepare test database for dummy app (optional Docker compose)"
+task :prepare_tests do
+  expand_bundle_gemfile!
+  disable_docker_compose = ENV.fetch("DISABLED_DOCKER_COMPOSE", "false") == "true"
+  unless disable_docker_compose
+    compose = File.expand_path("docker-compose.yml", __dir__)
+    system("docker-compose -f #{compose} down -v --remove-orphans") if File.exist?(compose)
+    system("docker-compose -f #{compose} up -d") if File.exist?(compose)
+  end
+
+  common_db_config = {
+    "adapter" => "postgresql",
+    "encoding" => "unicode",
+    "host" => ENV.fetch("DATABASE_HOST", "localhost"),
+    "port" => ENV.fetch("DATABASE_PORT", "5432").to_i,
+    "username" => ENV.fetch("DATABASE_USERNAME", "decidim"),
+    "password" => ENV.fetch("DATABASE_PASSWORD", "decidim")
+  }
+
+  dummy_root = File.expand_path("spec/decidim_dummy_app", __dir__)
+  patch_dummy_app_rails70!(dummy_root)
+  ensure_shakapacker_stub!(dummy_root)
+  prepare_dummy_decidim_boot_files!(dummy_root)
+  ruby_version_file = File.join(dummy_root, ".ruby-version")
+  if File.exist?(ruby_version_file)
+    File.write(ruby_version_file, "#{legacy_decidim? ? "3.2.2" : "3.4.7"}\n")
+  end
+
+  # System specs use HTTP; never leave force_ssl on in the dummy test env.
+  test_env = File.join(dummy_root, "config/environments/test.rb")
+  if File.exist?(test_env)
+    contents = File.read(test_env)
+    unless contents.include?("config.force_ssl")
+      File.write(
+        test_env,
+        contents.sub(
+          "Rails.application.configure do\n",
+          "Rails.application.configure do\n  config.force_ssl = false\n"
+        )
+      )
+    end
+  end
+
+  config_file = File.join(dummy_root, "config/database.yml")
+  FileUtils.mkdir_p(File.dirname(config_file))
+  File.open(config_file, "w") do |f|
+    YAML.dump(
+      {
+        "test" => common_db_config.merge("database" => "#{base_app_name}_test_app_test"),
+        "development" => common_db_config.merge("database" => "#{base_app_name}_test_app_development")
+      },
+      f
+    )
+  end
+
+  prior_database_url = ENV.delete("DATABASE_URL")
+  prior_rails_env = ENV["RAILS_ENV"]
+  prior_disable_spring = ENV["DISABLE_SPRING"]
+  prior_db_env_check = ENV["DISABLE_DATABASE_ENVIRONMENT_CHECK"]
+  begin
+    ENV["RAILS_ENV"] = "test"
+    ENV["DISABLE_SPRING"] = "1"
+    ENV["DISABLE_DATABASE_ENVIRONMENT_CHECK"] = "1"
+
+    run!(dummy_root, "bundle exec rake decidim:choose_target_plugins")
+    prepare_dummy_decidim_boot_files!(dummy_root)
+    run!(dummy_root, "bundle exec rails railties:install:migrations")
+    prepare_dummy_decidim_boot_files!(dummy_root)
+    purge_non_legacy_dummy_migrations!(dummy_root) if legacy_decidim?
+
+    normalize_variant_migrations!(dummy_root)
+
+    run!(dummy_root, "bundle exec rake db:drop db:create db:migrate db:schema:dump")
+    prepare_dummy_decidim_boot_files!(dummy_root)
+
+    # Rails 7.0 Active Storage may not ship variant_records; Decidim attachments expect it.
+    if legacy_decidim?
+      run!(
+        dummy_root,
+        "bundle exec rails runner \"" \
+        "unless ActiveRecord::Base.connection.table_exists?(:active_storage_variant_records); " \
+        "ActiveRecord::Base.connection.create_table(:active_storage_variant_records) do |t|; " \
+        "t.belongs_to :blob, null: false, index: false; t.string :variation_digest, null: false; " \
+        "t.index %i[blob_id variation_digest], name: 'index_active_storage_variant_records_uniqueness', unique: true; " \
+        "end; end\""
+      )
+    end
+  ensure
+    if prior_rails_env
+      ENV["RAILS_ENV"] = prior_rails_env
+    else
+      ENV.delete("RAILS_ENV")
+    end
+    ENV["DATABASE_URL"] = prior_database_url if prior_database_url
+    if prior_disable_spring
+      ENV["DISABLE_SPRING"] = prior_disable_spring
+    else
+      ENV.delete("DISABLE_SPRING")
+    end
+    if prior_db_env_check
+      ENV["DISABLE_DATABASE_ENVIRONMENT_CHECK"] = prior_db_env_check
+    else
+      ENV.delete("DISABLE_DATABASE_ENVIRONMENT_CHECK")
+    end
+  end
+end

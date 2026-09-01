@@ -1,0 +1,51 @@
+/* Shared Extra Blocks design tokens. Override in the host app via CSS. */
+:root {
+  --eb-space-xs: 0.25rem;
+  --eb-space-sm: 0.5rem;
+  --eb-space-md: 1rem;
+  --eb-space-lg: 1.5rem;
+  --eb-space-xl: 2rem;
+  --eb-space-2xl: 3rem;
+
+  --eb-section-pad: 2rem;
+  --eb-section-pad-lg: 3rem;
+
+  --eb-font-size-sm: 0.875rem;
+  --eb-font-size-md: 1rem;
+  --eb-font-size-lg: 1.25rem;
+  --eb-font-size-h2: 2rem;
+  --eb-font-size-stat: 3rem;
+
+  --eb-line-height-sm: 1.286;
+  --eb-line-height-md: 1.25;
+  --eb-line-height-lg: 1.25;
+  --eb-line-height-h2: 40px;
+  --eb-line-height-stat: 48px;
+
+  /* Aliases kept for any leftover xs references. */
+  --eb-font-size-xs: var(--eb-font-size-sm);
+  --eb-line-height-xs: var(--eb-line-height-sm);
+
+  --eb-color-ink: #020203;
+  --eb-color-paper: #ffffff;
+  --eb-color-bg: #fafbfc;
+  --eb-color-border: #e1e5ef;
+  --eb-color-muted: #6b7280;
+  --eb-color-success: #28a745;
+
+  --eb-radius: 0.25rem;
+
+  --eb-gap-sm: 0.5rem;
+  --eb-gap-md: 1rem;
+  --eb-gap-lg: 1.5rem;
+
+  --eb-inner-max: 72rem;
+  --eb-prose-max: 42rem;
+  --eb-inner-pad-x: 1rem;
+  --eb-inner-pad-x-lg: 4rem;
+
+  --eb-cols: 12;
+  --eb-gutter: 16px;
+  --eb-bl: 8px;
+  --eb-lh: 24px;
+}

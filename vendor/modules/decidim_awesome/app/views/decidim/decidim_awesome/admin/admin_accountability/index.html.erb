@@ -1,0 +1,70 @@
+  <div class="item_show__header">
+    <h1 class="item_show__header-title">
+      <div><%= t(".title") %></div>
+      <div class="flex items-center gap-x-4">
+        <%= link_to t(global? ? ".see_spaces" : ".see_global"), admin_accountability_path(admins: !global?), class: "button button__sm button__transparent-secondary" %>
+        <div class="relative">
+          <button class="button button__sm button__transparent-secondary" data-controller="dropdown" data-target="export-dropdown">
+            <%= t "exports.button", scope: "decidim.decidim_awesome.admin.admin_accountability" %>
+            <%= icon "arrow-down-s-line" %>
+            <%= icon "arrow-down-s-line" %>
+          </button>
+
+          <ul id="export-dropdown" class="dropdown dropdown__bottom" aria-hidden="true">
+            <% %w(CSV JSON Excel).each do |format| %>
+              <li class="dropdown__item">
+                <%= link_to t("decidim.decidim_awesome.admin.admin_accountability.exports.export_as", export_format: format.upcase),
+                            export_admin_accountability_path(export_params.merge(format:)),
+                            class: "dropdown__button",
+                            method: :post %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </h1>
+  </div>
+
+  <%= render partial: "decidim/decidim_awesome/admin/shared/filters_with_date", locals: { i18n_ctx: "admin_accountability" } %>
+
+    <p class="help-text mt-3 mb-3"><%= t(global? ? ".global_description" : ".description") %></p>
+
+    <% if global_users_missing_date %>
+      <div class="callout warning"><%= t(".missing_users", date: l(global_users_missing_date, format: :decidim_short)) %></div>
+    <% end %>
+
+    <div class="table-scroll">
+      <table class="table-list">
+        <thead>
+        <tr>
+          <th><%= t("role", scope: "decidim.decidim_awesome.admin.admin_accountability") %></th>
+          <th><%= t("name", scope: "decidim.decidim_awesome.admin.admin_accountability") %></th>
+          <th><%= t("email", scope: "decidim.decidim_awesome.admin.admin_accountability") %></th>
+          <% unless global? %>
+            <th><%= t("participatory_space", scope: "decidim.decidim_awesome.admin.admin_accountability") %></th>
+          <% end %>
+          <th><%= t("last_login", scope: "decidim.decidim_awesome.admin.admin_accountability") %></th>
+          <th><%= t("created_at", scope: "decidim.decidim_awesome.admin.admin_accountability") %></th>
+          <th><%= t("removal_date", scope: "decidim.decidim_awesome.admin.admin_accountability") %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% admin_actions.each do |log| %>
+          <tr class="<%= log.present.destroyed? ? "text-muted" : nil %>">
+            <td><%= log.present.role_name %></td>
+            <td><%= log.present.user_name %></td>
+            <td><%= link_to(log.present.user_email, "mailto:#{log.present.user_email}") if log.present.user_email %></td>
+            <% unless global? %>
+              <td><%= link_to log.present.participatory_space_name, log.present.participatory_space_path %></td>
+            <% end %>
+            <td><%= log.present.last_sign_in_date %></td>
+            <td><%= log.present.created_date %></td>
+            <td><%= log.present.removal_date %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <%= paginate admin_actions, theme: "decidim" %>
+    </div>
+  </div>
+<% append_stylesheet_pack_tag "decidim_admin_decidim_awesome_search_form" %>

@@ -1,0 +1,25 @@
+.extra-blocks-dynamic-slot-list {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__row {
+    border: 1px solid var(--gray-3, #e1e5ef);
+    border-radius: var(--eb-radius, 0.25rem);
+    padding: 1rem;
+    margin: 0;
+  }
+
+  &__pool,
+  &__uploads {
+    display: none;
+  }
+
+  &__empty,
+  &__max {
+    margin-bottom: 0.75rem;
+  }
+}

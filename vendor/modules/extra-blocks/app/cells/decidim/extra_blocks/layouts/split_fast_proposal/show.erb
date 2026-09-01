@@ -1,0 +1,34 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-split-fast-proposal #{prose_classes} extra-blocks-split-fast-proposal--form-#{form_side}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "fast_proposal" },
+  style: section_style
+) do %>
+  <% if background_image? %>
+    <%= extra_blocks_picture_tag background_image_uploader,
+                                  mode: :full_width,
+                                  class: "extra-blocks__media extra-blocks-split-fast-proposal__image not-prose",
+                                  alt: "" %>
+  <% end %>
+  <div class="extra-blocks-split-fast-proposal__inner">
+    <div class="extra-blocks-split-fast-proposal__form">
+      <%= cell(
+            "decidim/extra_blocks/layouts/fast_proposal_form",
+            model,
+            proposal_component:
+          ) %>
+    </div>
+    <div class="extra-blocks-split-fast-proposal__text">
+      <% if eyebrow.present? %>
+        <p class="extra-blocks__eyebrow extra-blocks-split-fast-proposal__eyebrow"><%= eyebrow %></p>
+      <% end %>
+      <% if title.present? %>
+        <h2 class="extra-blocks__title extra-blocks-split-fast-proposal__title"><%= title %></h2>
+      <% end %>
+      <% if description.present? %>
+        <div class="extra-blocks__description extra-blocks-split-fast-proposal__description"><%= description %></div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

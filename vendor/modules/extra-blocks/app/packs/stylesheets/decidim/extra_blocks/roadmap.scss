@@ -1,0 +1,129 @@
+.extra-blocks-roadmap {
+  --eb-marker-size: 1rem;
+
+  background: var(--eb-bg, var(--eb-color-paper));
+  width: 100%;
+  min-width: 100%;
+  padding-block: var(--eb-section-pad);
+
+  &__inner {
+    max-width: var(--eb-inner-max);
+    margin: 0 auto;
+  }
+
+  &__title {
+    margin: 0 0 var(--eb-gap-lg);
+  }
+
+  ol#{&}__events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-top: calc(var(--eb-marker-size) / 2);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--eb-gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &__event {
+    flex: 0 0 min(16rem, 80vw);
+    scroll-snap-align: start;
+    position: relative;
+    list-style: none;
+    padding-top: calc((var(--eb-marker-size) / 2) + var(--eb-space-sm));
+
+    &::marker {
+      content: none;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: calc(var(--eb-gutter) / -2);
+      right: calc(var(--eb-gutter) / -2);
+      height: 2px;
+      transform: translateY(-50%);
+      background: currentColor;
+      opacity: 0.25;
+    }
+
+    &:first-child::before {
+      left: 0;
+    }
+
+    &:last-child::before {
+      right: 0;
+    }
+  }
+
+  &__marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: var(--eb-marker-size);
+    height: var(--eb-marker-size);
+    transform: translateY(-50%);
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0 0 3px var(--eb-bg, var(--eb-color-paper));
+  }
+
+  &__event--highlighted {
+    .extra-blocks-roadmap__marker {
+      background: var(--primary);
+    }
+
+    .extra-blocks-roadmap__event-title {
+      color: var(--primary);
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--eb-space-xs);
+  }
+
+  &__date {
+    margin: 0;
+    font-size: var(--eb-font-size-sm);
+    line-height: var(--eb-line-height-sm);
+    font-weight: 600;
+  }
+
+  &__event-title {
+    margin: 0;
+    font-size: var(--eb-font-size-lg);
+    font-weight: 600;
+    line-height: var(--eb-line-height-lg);
+  }
+
+  &__event-body {
+    margin: 0;
+    font-size: var(--eb-font-size-sm);
+    line-height: var(--eb-line-height-sm);
+  }
+
+  &__action {
+    margin-top: var(--eb-space-xs);
+  }
+
+  @media (min-width: 768px) {
+    padding-block: var(--eb-section-pad-lg);
+
+    ol#{&}__events {
+      overflow-x: visible;
+      padding-top: 0;
+    }
+
+    &__event {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+}

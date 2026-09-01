@@ -1,0 +1,47 @@
+services:
+  extra-blocks:
+    command: bash -c "sleep infinity"
+    image: octree/decidim-dev:0.29
+    entrypoint: ""
+    working_dir: /home/module
+    volumes:
+      - .:/home/module
+      - bundle:/home/decidim/vendor
+      - node_modules:/home/decidim/node_modules
+    environment:
+      - PORT=3000
+      - DATABASE_HOST=extra-blocks-pg
+      - DATABASE_USERNAME=decidim
+      - DATABASE_PASSWORD=pleaseChangeMe
+      - DEV_MODULE=decidim-extra_blocks
+      - RAILS_ENV=development
+      - DISABLED_DOCKER_COMPOSE=true
+      - DISABLE_SPRING=true
+      - DECIDIM_FORCE_SSL=false
+      - RAILS_FORCE_SSL=false
+    depends_on:
+      extra-blocks-pg:
+        condition: service_healthy
+    ports:
+      - 3004:3000
+      # Host 3035 is often taken (decidim-voca webpack). Compile packs instead of publishing it.
+      # - 3035:3035
+
+  extra-blocks-pg:
+    image: postgres:17
+    volumes:
+      - extra-blocks-pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DATABASE=decidim
+      - POSTGRES_USER=decidim
+      - POSTGRES_PASSWORD=pleaseChangeMe
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U decidim"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  node_modules: {}
+  bundle: {}
+  extra-blocks-pg-data: {}

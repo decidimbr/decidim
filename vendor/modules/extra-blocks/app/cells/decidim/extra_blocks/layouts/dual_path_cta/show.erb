@@ -1,0 +1,43 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-dual-path-cta #{alignment_class}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "cta" },
+  style: section_style
+) do %>
+  <% if background_image? %>
+    <%= extra_blocks_picture_tag background_image_uploader,
+                                  mode: :full_width,
+                                  class: "extra-blocks__media extra-blocks-dual-path-cta__image not-prose",
+                                  alt: "" %>
+  <% end %>
+  <div class="extra-blocks-dual-path-cta__inner">
+    <% if title.present? %>
+      <h2 class="extra-blocks__title extra-blocks-dual-path-cta__title <%= prose_classes %>"><%= title %></h2>
+    <% end %>
+    <div class="extra-blocks-dual-path-cta__paths">
+      <%= content_tag(path_tag(:primary), path_html_options(:primary)) do %>
+        <% if primary_title.present? %>
+          <h3 class="extra-blocks-dual-path-cta__path-title"><%= primary_title %></h3>
+        <% end %>
+        <% if primary_body.present? %>
+          <div class="extra-blocks-dual-path-cta__path-body"><%= primary_body %></div>
+        <% end %>
+        <% if show_primary_button? %>
+          <span class="button button__lg button__primary extra-blocks__action extra-blocks__button extra-blocks-dual-path-cta__button not-prose"><%= primary_button_label %></span>
+        <% end %>
+      <% end %>
+      <%= content_tag(path_tag(:secondary), path_html_options(:secondary)) do %>
+        <% if secondary_title.present? %>
+          <h3 class="extra-blocks-dual-path-cta__path-title"><%= secondary_title %></h3>
+        <% end %>
+        <% if secondary_body.present? %>
+          <div class="extra-blocks-dual-path-cta__path-body"><%= secondary_body %></div>
+        <% end %>
+        <% if show_secondary_button? %>
+          <span class="button button__lg button__primary extra-blocks__action extra-blocks__button extra-blocks-dual-path-cta__button not-prose"><%= secondary_button_label %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

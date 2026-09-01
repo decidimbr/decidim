@@ -1,0 +1,7 @@
+.awesome_autosave-notice {
+  @apply bg-success/90 fixed top-[2%] right-[2%] p-4 rounded border border-success font-semibold text-white z-[1000];
+
+  &.error {
+    @apply bg-alert/90;
+  }
+}

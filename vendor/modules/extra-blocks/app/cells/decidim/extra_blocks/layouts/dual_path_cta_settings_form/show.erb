@@ -1,0 +1,94 @@
+<%= hidden_field_tag "content_block[settings][layout]", content_block.settings.layout %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <fieldset class="row column">
+    <legend><%= t(".alignment") %></legend>
+    <% %w(left center).each do |choice| %>
+      <label class="radio-label">
+        <%= settings_fields.radio_button :alignment, choice, label: t(".alignment_#{choice}") %>
+      </label>
+    <% end %>
+  </fieldset>
+
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :title, label: t(".title") %>
+  </div>
+
+  <fieldset class="row column">
+    <legend><%= t(".primary_path") %></legend>
+    <div class="row column">
+      <%= settings_fields.translated :text_field, :primary_title, label: t(".path_title") %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.translated :editor, :primary_body, label: t(".path_body"), toolbar: :content, lines: 6 %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.translated :text_field, :primary_button_label, label: t(".button_label") %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.text_field :primary_button_url, label: t(".button_url") %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.color_field :primary_background_color, label: t(".path_background_color") %>
+    </div>
+    <fieldset class="row column">
+      <legend><%= t(".path_text_color") %></legend>
+      <% %w(white black).each do |choice| %>
+        <label class="radio-label">
+          <%= settings_fields.radio_button :primary_text_color, choice, label: t(".text_color_#{choice}") %>
+        </label>
+      <% end %>
+    </fieldset>
+  </fieldset>
+
+  <fieldset class="row column">
+    <legend><%= t(".secondary_path") %></legend>
+    <div class="row column">
+      <%= settings_fields.translated :text_field, :secondary_title, label: t(".path_title") %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.translated :editor, :secondary_body, label: t(".path_body"), toolbar: :content, lines: 6 %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.translated :text_field, :secondary_button_label, label: t(".button_label") %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.text_field :secondary_button_url, label: t(".button_url") %>
+    </div>
+    <div class="row column">
+      <%= settings_fields.color_field :secondary_background_color, label: t(".path_background_color") %>
+    </div>
+    <fieldset class="row column">
+      <legend><%= t(".path_text_color") %></legend>
+      <% %w(white black).each do |choice| %>
+        <label class="radio-label">
+          <%= settings_fields.radio_button :secondary_text_color, choice, label: t(".text_color_#{choice}") %>
+        </label>
+      <% end %>
+    </fieldset>
+  </fieldset>
+
+  <div class="row column">
+    <%= settings_fields.color_field :background_color, label: t(".background_color") %>
+  </div>
+
+  <fieldset class="row column">
+    <legend><%= t(".text_color") %></legend>
+    <% %w(white black).each do |choice| %>
+      <label class="radio-label">
+        <%= settings_fields.radio_button :text_color, choice, label: t(".text_color_#{choice}") %>
+      </label>
+    <% end %>
+  </fieldset>
+<% end %>
+
+<% form.fields_for :images, form.object.images do |images_fields| %>
+  <div class="row column">
+    <%= images_fields.upload :background_image, label: t(".background_image") %>
+  </div>
+<% end %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <%= render partial: "decidim/extra_blocks/layouts/shared/background_fit_fieldset",
+             locals: { settings_fields: } %>
+<% end %>

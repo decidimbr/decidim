@@ -1,0 +1,9 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-spacer",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "misc" },
+  style: "#{section_style} --eb-spacer-height: #{spacer_height};",
+  "aria-hidden": true
+) do %>
+<% end %>

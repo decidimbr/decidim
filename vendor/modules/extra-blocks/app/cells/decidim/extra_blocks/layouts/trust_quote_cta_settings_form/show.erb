@@ -1,0 +1,42 @@
+<%= hidden_field_tag "content_block[settings][layout]", content_block.settings.layout %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <div class="row column">
+    <%= settings_fields.translated :text_area, :quote, label: t(".quote"), rows: 4 %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :attribution_name, label: t(".attribution_name") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :attribution_role, label: t(".attribution_role") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :button_label, label: t(".button_label") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.text_field :button_url, label: t(".button_url") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.color_field :background_color, label: t(".background_color") %>
+  </div>
+
+  <fieldset class="row column">
+    <legend><%= t(".text_color") %></legend>
+    <% %w(white black).each do |choice| %>
+      <label class="radio-label">
+        <%= settings_fields.radio_button :text_color, choice, label: t(".text_color_#{choice}") %>
+      </label>
+    <% end %>
+  </fieldset>
+<% end %>
+
+<% form.fields_for :images, form.object.images do |images_fields| %>
+  <div class="row column">
+    <%= images_fields.upload :portrait, label: t(".portrait") %>
+  </div>
+<% end %>

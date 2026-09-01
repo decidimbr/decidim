@@ -1,0 +1,16 @@
+---
+base_locale: en
+locales: [en, pt-BR]
+
+data:
+  read:
+    - config/locales/%{locale}.yml
+  write:
+    - config/locales/%{locale}.yml
+  yaml:
+    write:
+      line_width: -1
+
+# Locale file parity only — avoid scanning cell relative keys.
+search:
+  paths: []

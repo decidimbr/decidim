@@ -1,0 +1,96 @@
+<%# locals: settings_fields, images_fields (optional), content_block, with_images:, with_buttons: %>
+<%
+  scope = "decidim.extra_blocks.layouts.shared.dynamic_events"
+  slot_count = Decidim::ExtraBlocks::Layouts::DynamicEvents::SLOT_COUNT
+  events_json = Decidim::ExtraBlocks::Layouts::DynamicEvents.form_json_for_settings(
+    content_block,
+    settings_fields.object
+  )
+%>
+
+<div class="row column">
+  <%= cell(
+        "decidim/announcement",
+        { title: t("#{scope}.callout_title"), body: t("#{scope}.callout_body") },
+        callout_class: "warning"
+      ) %>
+</div>
+
+<div
+  class="extra-blocks-dynamic-events"
+  data-dynamic-events
+  data-slot-count="<%= slot_count %>"
+>
+  <%= settings_fields.hidden_field :events_json,
+                                   value: events_json,
+                                   data: { dynamic_events_json: true } %>
+
+  <p class="help-text extra-blocks-dynamic-events__empty" data-dynamic-events-empty hidden>
+    <%= t("#{scope}.empty") %>
+  </p>
+  <p class="help-text extra-blocks-dynamic-events__max" data-dynamic-events-max hidden>
+    <%= t("#{scope}.max", count: slot_count) %>
+  </p>
+
+  <div class="extra-blocks-dynamic-events__list" data-dynamic-events-list></div>
+
+  <div class="row column">
+    <button type="button" class="button button__sm button__secondary" data-dynamic-events-add>
+      <%= t("#{scope}.add") %>
+    </button>
+  </div>
+
+  <template data-dynamic-events-row-template>
+    <fieldset class="extra-blocks-dynamic-events__row" data-dynamic-events-row>
+      <legend>
+        <%= t("#{scope}.event") %>
+        #<span data-dynamic-events-slot-label></span>
+      </legend>
+
+      <div class="row column" data-dynamic-events-fields-mount></div>
+
+      <div class="row column">
+        <label>
+          <input type="checkbox" data-dynamic-events-highlighted>
+          <%= t("#{scope}.highlighted") %>
+        </label>
+      </div>
+
+      <div class="row column">
+        <button type="button" class="button button__sm button__transparent-secondary" data-dynamic-events-remove>
+          <%= t("#{scope}.remove") %>
+        </button>
+      </div>
+    </fieldset>
+  </template>
+
+  <div class="extra-blocks-dynamic-events__pool" data-dynamic-events-pool hidden>
+    <% (1..slot_count).each do |slot| %>
+      <div data-dynamic-events-fields="<%= slot %>">
+        <div class="row column">
+          <%= settings_fields.translated :text_field, :"event_#{slot}_date", label: t("#{scope}.event_date") %>
+        </div>
+        <div class="row column">
+          <%= settings_fields.translated :text_field, :"event_#{slot}_title", label: t("#{scope}.event_title") %>
+        </div>
+        <div class="row column">
+          <%= settings_fields.translated :text_area, :"event_#{slot}_body", label: t("#{scope}.event_body"), rows: 3 %>
+        </div>
+        <% if with_buttons %>
+          <div class="row column">
+            <%= settings_fields.translated :text_field, :"event_#{slot}_button_label", label: t("#{scope}.event_button_label") %>
+          </div>
+          <div class="row column">
+            <%= settings_fields.text_field :"event_#{slot}_button_url", label: t("#{scope}.event_button_url") %>
+          </div>
+        <% end %>
+        <% if with_images && images_fields %>
+          <div class="row column">
+            <%= images_fields.upload :"event_#{slot}_image",
+                                     label: t("#{scope}.event_image", number: slot) %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

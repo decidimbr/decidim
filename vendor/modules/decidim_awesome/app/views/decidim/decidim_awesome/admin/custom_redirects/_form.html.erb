@@ -1,0 +1,27 @@
+<div class="form__wrapper">
+  <div class="card pt-4">
+    <div class="card-section">
+      <div class="row column">
+        <%= form.text_field :origin, class: "h-12 w-full" %>
+        <p class="help-text">
+          <%= t(".origin_help") %>
+        </p>
+      </div>
+      <div class="row column">
+        <%= form.text_field :destination, class: "h-12 w-full" %>
+        <p class="help-text">
+          <%= t(".destination_help") %>
+        </p>
+      </div>
+      <div class="row column">
+        <%= form.check_box :active %>
+      </div>
+      <div class="row column">
+        <%= form.check_box :pass_query %>
+        <p class="help-text">
+            <%= t(".pass_query_help").html_safe %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

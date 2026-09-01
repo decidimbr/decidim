@@ -1,0 +1,35 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-impact-milestones #{prose_classes}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "timelines" },
+  style: section_style
+) do %>
+  <div class="extra-blocks-impact-milestones__inner">
+    <% if title.present? %>
+      <h2 class="extra-blocks__title extra-blocks-impact-milestones__title"><%= title %></h2>
+    <% end %>
+    <% if events.any? %>
+      <ol class="extra-blocks-impact-milestones__events">
+        <% events.each do |event| %>
+          <li class="extra-blocks-impact-milestones__event<%= " extra-blocks-impact-milestones__event--highlighted" if event[:highlighted] %>">
+            <div class="extra-blocks-impact-milestones__rail" aria-hidden="true">
+              <span class="extra-blocks-impact-milestones__marker"></span>
+            </div>
+            <div class="extra-blocks-impact-milestones__content">
+              <% if event[:date].present? %>
+                <p class="extra-blocks-impact-milestones__date"><%= event[:date] %></p>
+              <% end %>
+              <% if event[:title].present? %>
+                <h3 class="extra-blocks-impact-milestones__event-title"><%= event[:title] %></h3>
+              <% end %>
+              <% if event[:body].present? %>
+                <p class="extra-blocks-impact-milestones__event-body"><%= event[:body] %></p>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
+  </div>
+<% end %>

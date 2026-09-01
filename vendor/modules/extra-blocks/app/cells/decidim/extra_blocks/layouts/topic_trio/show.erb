@@ -1,0 +1,44 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-topic-trio #{prose_classes}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "text" },
+  style: section_style
+) do %>
+  <div class="extra-blocks-topic-trio__inner">
+    <% if eyebrow.present? %>
+      <p class="extra-blocks__eyebrow extra-blocks-topic-trio__eyebrow"><%= eyebrow %></p>
+    <% end %>
+    <% if title.present? %>
+      <h2 class="extra-blocks__title extra-blocks-topic-trio__title"><%= title %></h2>
+    <% end %>
+    <% if body.present? %>
+      <div class="extra-blocks__description extra-blocks-topic-trio__description"><%= body %></div>
+    <% end %>
+    <% if topics.any? %>
+      <ul class="extra-blocks-topic-trio__topics">
+        <% topics.each do |topic| %>
+          <li class="extra-blocks-topic-trio__topic">
+            <% if topic[:image_uploader].present? %>
+              <div class="extra-blocks__media extra-blocks-topic-trio__media">
+                <%= extra_blocks_picture_tag topic[:image_uploader], mode: :fixed, class: "extra-blocks-topic-trio__image not-prose", alt: "" %>
+              </div>
+            <% end %>
+            <% if topic[:title].present? %>
+              <h3 class="extra-blocks-topic-trio__topic-title"><%= topic[:title] %></h3>
+            <% end %>
+            <% if topic[:body].present? %>
+              <p class="extra-blocks-topic-trio__topic-body"><%= topic[:body] %></p>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if show_button? %>
+      <div class="extra-blocks__action extra-blocks-topic-trio__action">
+        <%= link_to button_label, button_url,
+                    class: "button button__lg button__primary extra-blocks__button extra-blocks-topic-trio__button not-prose" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

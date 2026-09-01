@@ -1,0 +1,16 @@
+<%= hidden_field_tag "content_block[settings][layout]", content_block.settings.layout %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <% form.fields_for :images, form.object.images do |images_fields| %>
+    <%= render partial: "decidim/extra_blocks/layouts/shared/fast_proposal_settings_fields",
+               locals: {
+                 settings_fields:,
+                 images_fields:,
+                 proposal_components:,
+                 gate_callout:,
+                 with_background_image: true,
+                 with_eyebrow: true,
+                 with_form_side: false
+               } %>
+  <% end %>
+<% end %>

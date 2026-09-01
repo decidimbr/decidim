@@ -1,0 +1,18 @@
+<main class="participatory-space__container">
+  <% announcement = translated_attribute(current_settings.announcement).presence || translated_attribute(component_settings.announcement).presence %>
+  <% if strip_tags(announcement).present? %>
+    <section>
+      <%= cell("decidim/announcement", announcement, local_assigns.merge(callout_class: "editor-content")) %>
+    </section>
+  <% end %>
+
+  <%= render partial: "api_ready" %>
+
+  <section id="map-block" class="awesome-iframe layout-main__section">
+    <%= awesome_map_for map_components do %>
+      <% tf = Decidim::TaxonomyFilter.where(id: current_component.settings.taxonomy_filters) %>
+      <% taxonomies = tf.map(&:root_taxonomy) %>
+      <%= render partial: "map_template", locals: { taxonomies: taxonomies, map_height: current_component.settings.map_height } %>
+    <% end %>
+  </section>
+</main>

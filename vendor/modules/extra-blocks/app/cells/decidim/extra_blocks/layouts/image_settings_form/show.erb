@@ -1,0 +1,20 @@
+<%= hidden_field_tag "content_block[settings][layout]", content_block.settings.layout %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <div class="row column">
+    <%= settings_fields.color_field :background_color, label: t(".background_color") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.select :media_width,
+                               media_widths.map { |w| [t(".media_widths.#{w}"), w] },
+                               {},
+                               label: t(".media_width") %>
+  </div>
+<% end %>
+
+<% form.fields_for :images, form.object.images do |images_fields| %>
+  <div class="row column">
+    <%= images_fields.upload :block_image, label: t(".block_image") %>
+  </div>
+<% end %>

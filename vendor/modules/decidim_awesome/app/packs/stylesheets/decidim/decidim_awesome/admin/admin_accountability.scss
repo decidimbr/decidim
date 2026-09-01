@@ -1,0 +1,49 @@
+.admin-accountability-filters {
+  &__grid {
+    @apply grid gap-3 items-start xl:grid-cols-[auto_1fr_auto_auto_auto];
+
+    grid-template-columns: auto 1fr 1fr 1fr auto;
+  }
+
+  label {
+    @apply block w-full;
+  }
+
+  .relative button[type="button"],
+  .flex-shrink-0 button[type="submit"] {
+    margin-top: 1.5rem;
+  }
+
+  input[type="search"],
+  input[type="date"],
+  .datepicker__date-column > input {
+    @apply w-full;
+
+    height: 2.5rem;
+  }
+
+  .datepicker__calendar-button {
+    @apply top-0;
+
+    right: 0.5rem;
+  }
+
+  label:has(input[type="date"]),
+  div:has(> label input[type="date"]) {
+    @apply flex flex-col;
+  }
+
+  label:has(input[type="date"]) + .datepicker__help-text-container {
+    order: 3;
+  }
+
+  label:has(input[type="date"])
+    + .datepicker__help-text-container
+    + .datepicker__datepicker-row {
+    order: 2;
+  }
+
+  .datepicker__help-date {
+    @apply w-full;
+  }
+}

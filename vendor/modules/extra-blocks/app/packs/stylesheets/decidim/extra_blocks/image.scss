@@ -1,0 +1,25 @@
+.extra-blocks-image {
+  width: 100%;
+  min-width: 100%;
+  background: var(--eb-bg, transparent);
+  margin: 0;
+  padding: 0;
+
+  &__inner {
+    width: 100%;
+  }
+
+  &--boxed &__inner {
+    max-width: var(--eb-inner-max);
+    margin: 0 auto;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: 60vh;
+    object-fit: cover;
+  }
+}

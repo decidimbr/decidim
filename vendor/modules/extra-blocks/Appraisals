@@ -1,0 +1,31 @@
+# frozen_string_literal: true
+
+# Decidim version matrix (thoughtbot/appraisal).
+#
+#   bundle exec appraisal install
+#   BUNDLE_GEMFILE=gemfiles/decidim_0.29.gemfile bundle exec rake test_app
+#   BUNDLE_GEMFILE=gemfiles/decidim_0.29.gemfile bundle exec rspec
+#   BUNDLE_GEMFILE=gemfiles/decidim_0.32.gemfile bundle exec rake test_app
+#   BUNDLE_GEMFILE=gemfiles/decidim_0.32.gemfile bundle exec rspec
+#
+# Migrations differ between 0.29 and 0.32 — regenerate the dummy app when switching.
+
+appraise "decidim-0.29" do
+  gem "decidim", "~> 0.29.0"
+  gem "decidim-dev", "~> 0.29.0"
+  gem "decidim-conferences", "~> 0.29.0"
+  gem "decidim-initiatives", "~> 0.29.0"
+  gem "decidim-ephemeral_participation",
+      git: "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-ephemeral_participation",
+      tag: "v0.0.9"
+end
+
+appraise "decidim-0.32" do
+  gem "decidim", "~> 0.32.0"
+  gem "decidim-dev", "~> 0.32.0"
+  gem "decidim-conferences", "~> 0.32.0"
+  gem "decidim-initiatives", "~> 0.32.0"
+  gem "decidim-ephemeral_participation",
+      git: "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-ephemeral_participation",
+      tag: "v0.0.9"
+end

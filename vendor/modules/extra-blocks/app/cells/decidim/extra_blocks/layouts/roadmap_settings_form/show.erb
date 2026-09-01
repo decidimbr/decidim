@@ -1,0 +1,29 @@
+<%= hidden_field_tag "content_block[settings][layout]", content_block.settings.layout %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :title, label: t(".title") %>
+  </div>
+
+  <%= render partial: "decidim/extra_blocks/layouts/shared/dynamic_events_fields",
+             locals: {
+               settings_fields:,
+               images_fields: nil,
+               content_block:,
+               with_images: false,
+               with_buttons: true
+             } %>
+
+  <div class="row column">
+    <%= settings_fields.color_field :background_color, label: t(".background_color") %>
+  </div>
+
+  <fieldset class="row column">
+    <legend><%= t(".text_color") %></legend>
+    <% %w(white black).each do |choice| %>
+      <label class="radio-label">
+        <%= settings_fields.radio_button :text_color, choice, label: t(".text_color_#{choice}") %>
+      </label>
+    <% end %>
+  </fieldset>
+<% end %>

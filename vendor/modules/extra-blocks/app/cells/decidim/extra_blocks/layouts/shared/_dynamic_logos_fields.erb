@@ -1,0 +1,81 @@
+<%# locals: settings_fields, images_fields, content_block, available_locales %>
+<%
+  scope = "decidim.extra_blocks.layouts.shared.dynamic_logos"
+  slot_count = Decidim::ExtraBlocks::Layouts::DynamicLogos::SLOT_COUNT
+  logos_json = settings_fields.object.try(:logos_json).presence || "[]"
+  callout = {
+    title: t("#{scope}.callout_title"),
+    body: t("#{scope}.callout_body")
+  }
+  # Placeholder replaced by JS with the slot number before Foundation tabs init.
+  slot_placeholder = "SLOT"
+%>
+
+<div class="row column">
+  <%= cell("decidim/announcement", callout, callout_class: "warning") %>
+</div>
+
+<div
+  class="extra-blocks-dynamic-logos"
+  data-dynamic-logos
+  data-slot-count="<%= slot_count %>"
+  data-slot-placeholder="<%= slot_placeholder %>"
+>
+  <%= settings_fields.hidden_field :logos_json,
+                                   value: logos_json,
+                                   data: { dynamic_logos_json: true } %>
+
+  <p class="help-text extra-blocks-dynamic-logos__empty" data-dynamic-logos-empty hidden>
+    <%= t("#{scope}.empty") %>
+  </p>
+  <p class="help-text extra-blocks-dynamic-logos__max" data-dynamic-logos-max hidden>
+    <%= t("#{scope}.max", count: slot_count) %>
+  </p>
+
+  <div class="extra-blocks-dynamic-logos__list" data-dynamic-logos-list></div>
+
+  <div class="row column">
+    <button type="button" class="button button__sm button__secondary" data-dynamic-logos-add>
+      <%= t("#{scope}.add") %>
+    </button>
+  </div>
+
+  <template data-dynamic-logos-row-template>
+    <fieldset class="extra-blocks-dynamic-logos__row" data-dynamic-logos-row>
+      <legend>
+        <%= t("#{scope}.logo") %>
+        #<span data-dynamic-logos-slot-label></span>
+      </legend>
+
+      <div class="row column" data-dynamic-logos-alt-field>
+        <%# enable_tabs: false — JS sets data-tabs and calls window.initFoundation after clone (Decidim admin dynamic_fields pattern). %>
+        <%= translated_field_tag(
+              :text_field_tag,
+              "dynamic_logos[#{slot_placeholder}]",
+              "alt",
+              {},
+              label: t("#{scope}.alt"),
+              tabs_id: "extra-blocks-logo-alt-#{slot_placeholder}",
+              enable_tabs: false
+            ) %>
+      </div>
+
+      <div class="row column" data-dynamic-logos-upload-mount></div>
+
+      <div class="row column">
+        <button type="button" class="button button__sm button__transparent-secondary" data-dynamic-logos-remove>
+          <%= t("#{scope}.remove") %>
+        </button>
+      </div>
+    </fieldset>
+  </template>
+
+  <div class="extra-blocks-dynamic-logos__uploads" data-dynamic-logos-uploads hidden>
+    <% (1..slot_count).each do |slot| %>
+      <div data-dynamic-logos-upload="<%= slot %>">
+        <%= images_fields.upload :"logo_#{slot}",
+                                 label: t("#{scope}.image", number: slot) %>
+      </div>
+    <% end %>
+  </div>
+</div>

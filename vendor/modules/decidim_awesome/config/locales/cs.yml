@@ -1,0 +1,1022 @@
+cs:
+  active_hashcash:
+    submit_filter: Filtr
+    waiting_label: Čekání na ověření...
+  activemodel:
+    attributes:
+      config:
+        additional_proposal_sortings: Povoleny další možnosti řazení
+        allow_images_in_editors: Povolit obrázky v HTML editoru
+        allow_images_in_proposals: Povolit obrázky v editoru návrhů
+        allow_videos_in_editors: Povolit videa v HTML editoru
+        authorization_options_form: Možnosti autorizace
+        auto_save_forms: Automaticky ukládat formuláře v místním úložišti
+        force_authorizations: Autorizační skupina %{id}
+        hashcash_login: Povolit ochranu Hashcash bota pro existující uživatele (přihlášení)
+        hashcash_login_bits: Počet bitů pro hashcash algoritmus (přihlášení)
+        hashcash_signup: Povolit ochranu Hashcash bota pro nové uživatele (registrace)
+        hashcash_signup_bits: Počet bitů pro Hashcash algoritmus (přihlášení)
+        intergram_auto_no_response: Zpráva, která je odeslána jednu minutu poté, co uživatel odešle svou první zprávu a nebyla obdržena odpověď
+        intergram_auto_response: Zpráva, která je odeslána okamžitě poté, co uživatel odešle svou první zprávu
+        intergram_chat_id: ID Chatu
+        intergram_color: Barva widgetu
+        intergram_for_admins: Povolit Intergram chat v administraci
+        intergram_intro_message: První zpráva při prvním otevření chatu
+        intergram_require_login: Pouze pro přihlášené uživatele
+        intergram_title_closed: Titulek uzavřeného chatu
+        intergram_title_open: Titulek otevřeného chatu
+        intergram_use_floating_button: Je-li zaškrtnuto, uzavřený chat je vždy tlačítko místo textu
+        proposal_custom_fields: 'Uživatelská pole #%{id}'
+        proposal_private_custom_fields: Soukromá vlastní pole %{id}
+        scoped_admin_styles: Vlastní styly číslo %{id}
+        scoped_admins: 'Skupina Škálovaní administrátoři #%{id}'
+        scoped_styles: Vlastní styly číslo %{id}
+        user_timezone: Umožnit uživatelům nastavit časové pásmo v profilu
+        validate_body_max_caps_percent: Maximální povolený procentní podíl velkých písmen pro tělo zprávy
+        validate_body_max_marks_together: Maximální počet po sobě jdoucích značek povolených v těle zprávy
+        validate_body_min_length: Minimální požadované znaky pro tělo zprávy
+        validate_body_start_with_caps: Vynutit začít tělo textu velkým písmenem
+        validate_title_max_caps_percent: Maximální povolený procentní podíl velkých písmen pro nadpis zprávy
+        validate_title_max_marks_together: Maximální počet po sobě jdoucích značek povolených v těle zprávy
+        validate_title_min_length: Minimální počet znaků pro tělo zprávy
+        validate_title_start_with_caps: Vynutit začít tělo textu velkým písmenem
+      constraint:
+        application_context: Pouze pro
+        component_id: nebo konkrétně v
+        component_manifest: Pouze v komponentách typu
+        participatory_space_manifest: Použít na participační prostory typu
+        participatory_space_slug: Pouze v
+      content_block_attachment:
+        background_image_0: Obrázek pozadí
+        background_image_1: Obrázek pozadí
+        background_image_2: Obrázek pozadí
+        background_image_3: Obrázek pozadí
+        background_image_4: Obrázek pozadí
+      cookie_category:
+        mandatory: Vyžadováno
+        slug: ID
+        title: Název kategorie
+        total_cookies: Celkem cookies
+        visibility: Viditelnost
+      cookie_item:
+        expiration: Vypršení platnosti
+        name: Název souboru cookie
+        service: Služba
+        type: Typ
+        types:
+          cookie: Cookie
+          local_storage: Místní úložiště
+      custom_redirect:
+        active: Aktivní
+        destination: Cíl
+        origin: Původ
+        pass_query: Předložte řetězec dotazu k cíli
+        status: Stav
+      menu:
+        position: Pozice
+        raw_label: Popisek
+        target: Otevře se v
+        url: URL
+        visibility: Viditelnost
+      organization:
+        awesome_admins_available_authorizations: Povolit správcům ručně ověřit uživatele s těmito autorizacemi
+      user:
+        user_time_zone: Osobní časové pásmo
+    errors:
+      models:
+        cookie_item:
+          attributes:
+            base:
+              category_not_found: Kategorie nebyla nalezena
+            name:
+              cannot_change_default_item_name: Název předdefinované položky nelze změnit
+              invalid_format: Název může obsahovat pouze písmena, čísla, podtržítka (_) a pomlčky (-) - nejsou povoleny mezery ani speciální znaky
+  decidim:
+    admin:
+      actions:
+        manage: Spravovat
+      filters:
+        admin_accountability:
+          admin_role_type:
+            label: Typ role
+          participatory_space_type_eq:
+            label: Typ participačního prostoru
+          role:
+            label: Role
+          role_type_eq:
+            label: Typ role
+        label:
+          search_field_end_date: 'Do dne:'
+          search_field_start_date: 'Od dne:'
+        search_placeholder:
+          user_name_or_user_email_cont: Hledat podle uživatelského jména, emailu
+      menu:
+        admin_accountability: Odpovědnost správce
+        decidim_awesome: Úžasné Decidim
+    components:
+      awesome_iframe:
+        name: Celá obrazovka Iframe
+        settings:
+          global:
+            announcement: Oznámení
+            iframe: Kód Iframe
+            iframe_help: 'Zadejte kód jako html: <iframe width="100%" height="700" frameBorder="0" allowFullscreen src="..."></iframe>. Obsah bude vylepšen z jiných HTML tagů. Pro vyplnění obrazovky použijte 100% šířku.'
+            viewport_width: Omezit maximální šířku na zobrazení aplikace
+          step:
+            announcement: Oznámení
+            iframe: Kód Iframe
+      awesome_map:
+        name: Úžasná mapa
+        settings:
+          global:
+            announcement: Oznámení
+            collapse: Začít se sbaleným menu
+            map_center: Střed mapy (zeměpisná šířka, zeměpisná délka)
+            map_center_help: 'Použijte desetinné body (ie: 41.38879, 2.15899). Nechte prázdné, aby se automaticky vešly všechny značky'
+            map_height: Výška mapy (px)
+            map_zoom: Zvětšení (libovolné číslo mezi 0 a 18)
+            map_zoom_help: Použije se pouze v případě, že je definován střed mapy
+            menu_amendments: Zobrazit pozměňovací návrhy
+            menu_hashtags: Zobrazit nabídku hledání Hashtagu
+            menu_meetings: Zobrazit schůzky
+            menu_merge_components: Sloučit všechny komponenty stejného typu v menu
+            menu_taxonomies: Zobrazit nabídku vyhledávání taxonomie
+            taxonomy_filters: Vyberte filtry pro komponentu
+            taxonomy_filters_add: Přidat filtr
+            truncate: Maximum znaků pro popisy vyskakovacích oken
+          step:
+            announcement: Oznámení
+            show_accepted: Zobrazit přijaté návrhy
+            show_evaluating: Zobrazit hodnocení návrhů
+            show_not_answered: Zobrazit nezodpovězené návrhy
+            show_rejected: Zobrazit odmítnuté návrhy
+            show_withdrawn: Zobrazit stažené návrhy
+      proposals:
+        settings:
+          global:
+            awesome_voting_manifest: Typ podpory
+            awesome_voting_manifest_help_html: <strong class="text-alert">Uvědomte si, že změna tohoto nastavení uprostřed hlasovacího období může mít za následek nepřesné nebo neočekávané výsledky.</strong><br>Všimněte si, že toto nastavení může být upraveno pouze v případě, že komponenta nemá zatím žádnou podporu.
+            awesome_voting_manifest_options:
+              default: Jednoduché hlasování (výchozí)
+              voting_cards: Hlasování pomocí barevných karet
+            default_sort_order_options:
+              az: A-Z (abecední)
+              supported_first: Nejdříve podporováno
+              supported_last: Naposledy podporováno
+              za: Z-A (obrácená abeceda)
+            limit_pending_amendments: Povolit pouze jeden čekající pozměňovací návrh ke každému návrhu.
+            sort_orders_enabled: Typy řazeníí povoleny
+            voting_cards_box_title: Název hlasovacího pole
+            voting_cards_box_title_help: Výchozí hodnota je "Hlasovat pro tento návrh". Použijte "-" pro jeho schování.
+            voting_cards_instructions: Instrukce podpory/nápověda (zrušitelné modální okno)
+            voting_cards_instructions_help: Výchozí hodnota je "Přečtěte si pečlivě pravidla voleb, abyste pochopili, jak bude vaše hlasování použito %{organization}""
+            voting_cards_show_abstain: Přidat možnost zdržet se hlasování
+            voting_cards_show_modal_help: Po kliknutí na podporu zobrazit instrukce/nápovědu
+          step:
+            default_sort_order_options:
+              az: A-Z (abecední)
+              supported_first: Nejdříve podporováno
+              supported_last: Naposledy podporováno
+              za: Z-A (obrácená abeceda)
+    decidim_awesome:
+      account:
+        timezone_select:
+          time_zone_helper: Použijte vaše osobní časové pásmo pro zobrazení dat v místním čase, když jste přihlášeni.
+      admin:
+        actions: Akce
+        admin_accountability:
+          admin_roles:
+            admin: Super správce
+            user_manager: Správce uživatelů
+          created_at: Role vytvořena v
+          currently_active: Nyní aktivní
+          deleted_user: Smazat uživatele
+          email: E-mail
+          exports:
+            button: Exportovat toto hledání
+            export_as: Export jako %{export_format}
+            export_format:
+              csv: CSV
+              json: JSON
+              xlsx: XLSX
+            notice: Export úlohy byl zařazen do fronty. Až bude připraven, obdržíte e-mail.
+          index:
+            description: Zde najdete všechny uživatele, kteří měli nějakou roli ve správě participačního prostoru. Běžní správci nejsou uvedeni.
+            global_description: Zde najdete všechny uživatele, kteří měli nějakou globální roli ve správě participačního prostoru. Běžní správci nejsou uvedeni.
+            missing_users: 'POZNÁMKA: Tento seznam nemusí zahrnovat uživatele vytvořené/odebrané před %{date}. Je to proto, že "sledovatelnost uživatele" byla zavedena v Decidim v0.24 a tato instalace je pravděpodobně starší.'
+            see_global: Seznam globálních správců
+            see_spaces: Seznam administrátorů participačního prostoru
+            title: Odpovědnost správce
+          last_login: Datum posledního přihlášení
+          missing_info: "(chybějící informace)"
+          missing_user: Uživatel není v databázi
+          name: Jméno
+          never_logged: Nikdy nepřihlášen
+          participatory_space: Participační prostor
+          removal_date: Role odebrána v
+          role: Role
+          roles:
+            admin: Administrátor
+            collaborator: Spolupracovník
+            evaluator: Hodnotitel
+            moderator: Moderátor
+        admin_authorizations:
+          authorization:
+            confirm_destroy: Opravdu chcete zničit tuto autorizaci? To může ovlivnit přístup uživatele k platformě.
+            destroy: Zničit
+            granted_at: Uděleno v %{date}
+            metadata: Obsahuje metadata? %{metadata}
+          authorization_destroyed: Autorizace byla úspěšně zničena.
+          authorization_not_destroyed: Autorizaci nelze zničit!
+          authorization_transferred: 'Varování: Došlo k ověřovacímu konfliktu a ověření bylo převedeno na %{user}'
+          conflict: Existuje konflikt s existující autorizací
+          conflict_help_html: "Musíte vyřešit konflikt s uživatelem %{user} předtím, než budete moci autorizovat uživatele s touto autorizací.\n<br><br>\nKonflikt ověření se stane, když jiný uživatel má stejná data jako uživatel, který se pokoušíte autorizovat \nTento konflikt můžete vyřešit odstraněním konfliktní autorizace od jiného uživatele nebo použitím jiných dat tohoto uživatele.\n"
+          edit:
+            authorize: Autorizovat %{user} s %{name}
+            do_it_if_sure: Udělejte to pouze v případě, že jste si jisti, že uživatel má tuto autorizaci.
+            force_verification: Vynutit ověření s aktuálními údaji
+            force_verification_help: Ověření se nezdařilo, ale pokud jste si jisti, že uživatel má tuto autorizaci, můžete ho vynutit.
+            force_verification_reason: 'Uveďte důvod pro vynucení ověření:'
+            warning: 'Upozornění: Vynucením této autorizace přepíšete aktuální stav autorizace uživatele.'
+          user_authorized: "%{user} úspěšně autorizován s %{name}"
+          user_not_authorized: "%{user} nemohl být autorizován s %{name}"
+        checks:
+          index:
+            admin_head_tags: Úžasné tagy zahrnuté v hlavičce administrace aplikace
+            awesome_update_available: 'Je dostupná nová verze: %{latest_version}'
+            awesome_version: Decidim Awesome verze %{version}
+            decidim-admin: Z modulu Admin
+            decidim-assemblies: Z modulu Shromáždění
+            decidim-conferences: Z Konferenční modulu
+            decidim-core: Z hlavního Core modulu
+            decidim-participatory_processes: Z modulu participačních procesů
+            decidim-proposals: Z modulu Návrhy
+            decidim_update_available: 'Je dostupná nová verze: %{latest_version}'
+            decidim_version: Decidim verze %{version}
+            errors:
+              CSS: Hlavička neobsahuje požadované položky <link> stylu. Chcete-li to vyřešit, můžete je ručně přidat do vlastního _head.html.erb
+              JavaScript: Hlavička neobsahuje požadované <script> položky javascriptu. Pro vyřešení je můžete ručně přidat do vlastního admin/_header.html.erb
+            head_tags: Úžasné tagy zahrnuté v hlavičce aplikace
+            link_admins: Přihlásit se do /system panelu
+            view_release: Zobrazit poznámky k vydání
+        config:
+          anonymous: Nepřihlášení uživatelé
+          caution: 'POZNÁMKA: Tato funkce silně mění některé výchozí chování, které by mohlo vést k neočekávaným výsledkům. Používejte ji s opatrností!'
+          constraints:
+            add_condition: Přidat případ
+            always: Vždy
+            cannot_be_destroyed: Omlouváme se, toto nelze odstranit. Tato konfigurace potřebuje alespoň jednu vazbu.
+            delete: Smazat
+            edit: Upravit
+            title: 'Platí pouze v těchto případech:'
+          create_force_authorization:
+            error: Chyba při vytváření nové autorizační skupiny! %{error}
+            success: Autorizační skupina %{key} byla úspěšně vytvořena
+          create_proposal_custom_field:
+            error: Chyba při vytváření nového pole "vlastní pole"! %{error}
+            success: '"vlastní pole" %{key} úspěšně vytvořeno'
+          create_scoped_admin:
+            error: Chyba při vytváření nové skupiny administrátorů! %{error}
+            success: Skupina administrátorů %{key} úspěšně vytvořena
+          create_scoped_style:
+            error: Chyba při vytváření nového CSS boxu! %{error}
+            success: CSS box %{key} úspěšně vytvořen
+          destroy_force_authorization:
+            error: Chyba při odstraňování autorizační skupiny! %{error}
+            success: Autorizační skupina %{key} byla úspěšně odstraněna
+          destroy_proposal_custom_field:
+            error: Chyba při odebírání "vlastního pole"! %{error}
+            success: '"vlastní pole" %{key} bylo úspěšně odebráno'
+          destroy_scoped_admin:
+            error: Chyba při odstraňování skupiny administrátorů! %{error}
+            success: Skupina administrátorů %{key} byla úspěšně odstraněna
+          destroy_scoped_style:
+            error: Chyba při odstraňování CSS boxu! %{error}
+            success: CSS box %{key} byl úspěšně odstraněn
+          force_authorizations: Autorizační skupiny
+          form:
+            additional_proposal_sortings:
+              enable_all: Povolit všechny další možnosti řazení
+              help: Tyto možnosti řazení jsou navíc k výchozím možnostem. Nezapomeňte, že si můžete vybrat výchozí pořadí v nastavení komponenty návrhu.
+              title: Přizpůsobit možnosti řazení seznamu návrhů
+            edit_label: Přejmenovat štítek
+            errors:
+              incorrect_css: 'CSS v poli #%{key} je neplatné'
+              incorrect_json: 'Definice JSON v poli #%{key} je neplatná'
+            force_authorization_help_text: Text nápovědy pro autorizační stránku
+            help:
+              allow_images_in_editors: Toto přidá ikonu pro nahrávání obrázků ve všech WYSIWYG editorech
+              allow_images_in_proposals: Toto umožní nahrávat obrázky do editoru návrhů, které jsou k dispozici každému uživateli
+              allow_videos_in_editors: Toto přidá ikonu video odkazu ve všech WYSIWYG editorech
+              auto_save_forms: Toto bude používat místní úložiště pro automatické ukládání dat zavedených uživateli do průzkumů a jiných formulářů během vyplňování. Data budou obnovena v budoucí návštěvě stejného prohlížeče v případě, že formulář nebude odeslán. Pokud je formulář odeslán, data budou odstraněna. Pokud uživatelé odstraní svá data z místního úložiště, data nebudou obnovena.
+              drag_and_drop_supported: Při nahrávání obrázků je podporováno vložení přetažením. Obrázky budou nahrány na server a vloženy jako externí zdroje (nepoužívá base64 inline kódování).
+              force_authorization_help_text: Přidejte vlastní text, který vysvětlí proč je potřeba autorizace. Také se ujistěte, že přidáte kontaktní metodu pro případ, že uživatelé potřebují pomoc.
+              hashcash_i18n_key: 'Text, který je zobrazen uživatelům v tlačítkách pro přihlášení / registraci pomocí klíče i18n: %{key}'
+              hashcash_login: |
+                Chraňte aplikace proti botům a brute force útokům, aniž by to obtěžovalo lidi.
+                Hashcash je proof-of-work systém, který vyžaduje, aby uživatelé vyřešili počítačovou hádanku (kterou provádí prohlížeč) před tím, než se mohou zaregistrovat.
+              hashcash_login_bits: Tento parametr definuje počet bitů, které bude používat algoritmus Hashcash pro generování důkazu práce. Doporučuje se použít hodnotu mezi 16 (jednoduchými) a 30 (extrémně těžkými) bity. Výchozí hodnota pro přihlašovací formuláře je %{bits} bity.
+              hashcash_signup: |
+                Chraňte aplikace proti botům a brute force útokům, aniž by to obtěžovalo lidi.
+                Hashcash je proof-of-work systém, který vyžaduje, aby uživatelé vyřešili počítačovou hádanku (kterou provádí prohlížeč) před tím, než se mohou zaregistrovat.
+              hashcash_signup_bits: Tento parametr definuje počet bitů, které bude používat algoritmus Hashcash pro generování důkazu práce. Doporučuje se použít hodnotu mezi 16 (jednoduchými) a 30 (extrémně těžkými) bity. Výchozí hodnota pro registrační formuláře je %{bits} bity.
+              intergram_about: Intergram používá Telegram messenger pro zpracování widgetu live podpory v dolní části stránky.
+              intergram_config: 'Pozvěte <a href="https://web.telegram.org/#/im?p=@IntergramBot">@Intergram bota</a> do vaší skupiny nebo začněte chatovat přímo. <a href="https://github.com/idoco/intergram#embed-intergram-in-your-website-with-these-2-simple-steps">+ info</a>'
+              original_editor_override: Od verze 0.26 je možné nahrávat obrázky do editorů (pouze pro administrátory). Proto zde nastavení obrázků ovlivňuje pouze veřejné editory (správce je bude mít vždy k dispozici).
+              proposal_custom_fields: Vytvoření vlastních polí návrhu, která se použijí pouze v určitých částech veřejného webu (použijte k tomu editor omezení)
+              proposal_custom_fields_example: Data jsou uložena v objektu XML pomocí kompatibilních atributů HTML (prvky dl,dt,dd), které v běžném návrhu nahrazují "tělo".
+              proposal_custom_fields_translations: "Štítky, nápověda, zástupné symboly a výchozí hodnoty mohou používat vlastní překlady aplikace. \nPro to použijte klíč i18n (musí obsahovat alespoň jednu tečku), místo použití textového literálu.\nNapříklad:\n- \"activemodel.attributes.proposal.title\" namísto \"Title\"\n- \"activemodel.attributes.proposal.address\" namísto \"Adresa\"\nNebo použijte vlastní klíče v kombinaci s jinými nástroji pro definování překladů (např. pomocí úpravy termínu modulu):\n - \"myapp.custom_fields.bio\" namísto „Životopis“"
+              proposal_private_custom_fields: Podobné jako veřejná pole, ale tyto informace nebudou zveřejněny (k nim budou mít přístup pouze administrátoři).
+              proposal_private_custom_fields_translations: |
+                Soukromá vlastní pole jsou zobrazena v jiném poli s tímto informačním textem:
+                %{warning}
+                Tento text lze přizpůsobit vlastním překladem pomocí klíče:
+                %{key}
+              scoped_admin_styles: Uvědomte si, že skrývání věcí zde může zanechat administrátorské prostředí nepoužitelné. Postupujte prosím opatrně.
+              scoped_admin_styles_variables: 'Můžete použít následující CSS proměnné pro nastavené barvy organizace:'
+              scoped_admin_styles_warning: "<strong>Varování</strong>: Zde přidejte vlastní CSS které platí pouze v tomto administrátoru."
+              scoped_admins: Povýšení běžného uživatele na administrátora, který může spravovat pouze určité části veřejného webu (k tomu použijte editor omezení). Všimněte si, že uživatelé, kteří již mají oprávnění běžného správce, budou ignorováni.
+              scoped_styles: Vytvořte vlastní CSS aplikovaný pouze na určitých částech veřejného webu (použijte pro to editor omezení)
+              scoped_styles_variables: 'Můžete použít následující CSS proměnné pro nastavené barvy organizace:'
+              user_timezone: Toto přidá vybrané pole do uživatelského profilu pro nastavení časového pásma. Toto bude použito k zobrazení dat a časů v místním čase uživatele.
+              validate_body_max_caps_percent: Nula nedovolí žádné velké písmeno, 100 bude nutit psát vše velkými písmeny
+              validate_body_max_marks_together: 'Omezit počet otazníků a vykřičníků, které lze psát dohromada. Např: Pokud je 2, pak ''!!!'' nebude v textu povoleno'
+              validate_body_min_length: Toto číslo může být nulové, toto pole bude ve skutečnosti nepovinné
+              validate_title_max_caps_percent: Nula nedovolí žádné velké písmeno, 100 bude nutit psát vše velkými písmeny
+              validate_title_max_marks_together: 'Omezit počet otazníků a vykřičníků, které lze psát dohromada. Např: Pokud je 2, pak ''!!!'' nebude v textu povoleno'
+              validate_title_min_length: Název je vždy povinný a toto číslo nemůže být nulové
+              verifications_html: |
+                Zde můžete nastavit další omezení přístupu do participačních prostor nebo součástí, které budou nutit uživatele k ověření před přístupem k určitým místům (např.: aby se zabránilo spamu).<br>
+                Omezení platí pro všechny uživatele, ale administrátoři budou mít vždy přístup do /admin panelu.
+            validators:
+              body: Ověření vstupu uživatele pro pole "tělo"
+              title: Ověření uživatelem pro pole "Název"
+          form_force_authorizations:
+            delete: Smazat
+            force_authorizations_html: |
+              Definujte ověřovací skupiny. Každá skupina může vyžadovat, aby byli uživatelé ověřeni
+              jednou nebo více metodami přístupu k určitým oblastem platformy.
+            help: Můžete definovat skupiny autorizačních metod a omezit přístup na základě nich.
+            new: Přidat novou autorizační skupinu
+            remove: Odstranit tuto "autorizační skupinu"
+            sure_to_remove: Opravdu chcete odstranit tuto autorizační skupinu?
+            title: 'Omezit přístup s:'
+          form_proposal_custom_fields:
+            delete: Smazat
+            new: Přidat nové pole "vlastní pole"
+            remove: Odstranit toto "vlastní pole"
+            sure_to_remove: Opravdu chcete zničit toto pole?
+          form_proposal_private_custom_fields:
+            delete: Smazat
+            new: Přidat nové "soukromé vlastní pole"
+            remove: Odstranit toto "ssoukromé vlastní pole"
+            sure_to_remove: Opravdu chcete zničit toto soukromé pole?
+          form_scoped_admin_styles:
+            delete: Smazat
+            new: Přidat nový "admin panel" CSS box
+            remove: Odstranit tento CSS box
+            sure_to_remove: Opravdu chcete zničit tento CSS box?
+          form_scoped_admins:
+            delete: Smazat
+            new: Přidání nové skupiny "Škálovaní administrátoři"
+            remove: Odstranit tuto skupinu "Škálovaní administrátoři""
+            sure_to_remove: Opravdu chcete zničit tuto skupinu "Škálovaní administrátoři"?
+          form_scoped_styles:
+            delete: Smazat
+            new: Přidat nový CSS box
+            remove: Odstranit tento CSS box
+            sure_to_remove: Opravdu chcete zničit tento CSS box?
+          none: "⛔ Nikdy! - Deaktivujte jiná omezení"
+          process_groups: Skupiny procesů
+          show:
+            title: Vylepšení pro %{setting}
+            update: Aktualizace konfigurace
+          system: Všude kromě participačních prostor
+          title:
+            admins: Škálovaní administrátoři
+            cookie_management: Správa souborů cookies
+            editors: Hack editoru
+            livechat: Živý chat
+            proposal_custom_fields: 'Vlastní pole návrhů: veřejná pole'
+            proposal_private_custom_fields: 'Vlastní pole návrhů: Soukromá pole'
+            proposals: Návrhy hacků
+            scoped_admin_styles: 'Vlastní styly: Panel administrace'
+            scoped_styles: 'Vlastní styly: Veřejné strany'
+            styles: Vlastní styly
+            surveys: Průzkumy a formuláře
+            verifications: Ověřovací / Schvalovací hacky
+          update:
+            error: Chyba při aktualizaci konfigurace! %{error}
+            success: Konfigurace byla úspěšně aktualizována
+          user_logged_in: Přihlášení uživatelé
+        constraints:
+          create:
+            error: Chyba při vytváření případu stavu
+            success: Případ stavu byl úspěšně vytvořen
+          destroy:
+            error: Chyba při odstraňování případu stavu
+            success: Případ stavu byl úspěšně odstraněn
+          errors:
+            not_unique: Stejná podmínka již existuje
+          new:
+            cancel: Zrušit
+            constraint: Nový případ podmínky
+            save: Uložit
+          show:
+            cancel: Zrušit
+            constraint: Upravit stav případu
+            save: Uložit
+          update:
+            error: Chyba při aktualizaci případu podmínky
+            success: Případ stavu byl úspěšně aktualizován
+        cookie_categories:
+          cookie_management_warning_html: Upozorňujeme, že Decidim přinutí uživatele přijmout všechny cookies pro zobrazení iframe Aby odpovídaly GDPR, ujistěte se, že přidáte do svých řádných kategorií cookies, které budou použity v iframe.
+          create:
+            error: Chyba při vytváření kategorie cookie! %{error}
+            success: Kategorie Cookie byla úspěšně vytvořena
+          destroy:
+            error: Chyba při odstraňování kategorie cookie! %{error}
+            success: Kategorie cookie byla úspěšně odstraněna
+          edit:
+            cancel: Zrušit
+            items: Upravit položky kategorie
+            save: Uložit
+            title: Upravit kategorii cookie
+          form:
+            slug_help: Jedinečný identifikátor použitý ve skriptech k odkazu na tuto kategorii.
+            visibility:
+              hidden: Skrytý
+              visible: Viditelný
+          index:
+            cannot_remove_default: Výchozí kategorie nelze odstranit
+            confirm_reset: Opravdu chcete odstranit toto přizpůsobení?
+            description_html: |
+              Kategorie a položky cookie kontrolují pouze rozhraní souhlasu a dokumentace.<br>
+              Aby nastavení byla účinná, musí být skripty a služby třetích stran nakonfigurovány, aby se načetly až po udělení souhlasu.<br>
+              Tato konfigurace extra skriptu není nutná pro vložení videa iframu, protože Decidim již obsahuje vestavěný souhlas pro tyto vložení.<br>
+              Postupujte podle oficiálního průvodce: <a href="https://docs.decidim.org/en/develop/customize/data_consent.html#_adding_scripts_which_require_data_consent" target="_blank" rel="noopener">Přidání skriptů, které vyžadují souhlas s daty</a>.
+            edit: Upravit kategorii
+            items: Položky kategorie
+            new: Nová kategorie
+            reset: Odstranit přizpůsobení
+            title: Správa souborů cookies
+          new:
+            cancel: Zrušit
+            save: Uložit
+            title: Nová kategorie cookie
+          script_config:
+            script_consent_help_html: |
+              <p>Skripty vázané na tuto kategorii respektují pouze souhlas, pokud jsou přidány uvnitř skriptu s atributem <span class="label">data-consent="%{category}"</span>.</p>
+              <p>Doporučené místo pro jejich přidání je v <span class="label">app/views/layouts/decidim/_head_extra.html.erb</span> nebo v záhlaví textových bloků (pokud je povoleno).</p>
+              <p>Příklad:</p><br><pre>%{example}</pre><br>
+              <p>Bez <span class="label">type="text/plain"</span>nastavení souhlasu uživatele nemá žádný účinek.<br>Přečtěte si více na <a href="https://docs.decidim.org/en/develop/customize/data_consent.html#_adding_scripts_which_require_data_consent" target="_blank" rel="noopener">Přidávání skriptů, které vyžadují datový souhlas</a>.</p>
+          update:
+            error: Chyba při aktualizaci kategorie cookie! %{error}
+            success: Kategorie cookie byla úspěšně aktualizována
+        cookie_items:
+          cookie_item_dropdown:
+            button: Běžné služby cookie
+          cookie_item_presets:
+            descriptions:
+              consent: Používá se pro funkčnost. Trvá 2 roky, Google ji používá k ukládání stavu uživatelů podle jejich volby cookies. Přečtěte si více o tom, jak Google používá cookies
+              decidim_consent: Uloží informace o cookies povolených uživatelem na této stránce.
+              emoji_picker_recent: Uloží vaše naposledy vybrané emoji
+              facebook_fr: Využívá společnost Meta k realizaci, měření a zlepšení relevance reklamy.
+              fbp: Identifikuje relace prohlížeče pro sledování Facebook Pixel.
+              ga_gat: Používá se ke snížení míry požadavku odeslané Google Analytics.
+              ga_gid: Používá se k rozlišení uživatelů pro analytické účely. Platí po 24 hodin.
+              ga_main: Slouží k rozlišení uživatelů přiřazením jedinečného identifikátoru.
+              ga_property: Používá se v GA4 k přetrvávání stavu relace a počitadel pro určitou vlastnost.
+              graphiql_doc_explorer_open: Uloží, zda máte panel s dokumentací otevřený při použití grafického API
+              graphiql_editor_flex: Uloží předvolbu záložky při používání grafického API
+              graphiql_history_pane_open: Uloží, zda máte panel historie otevřený při použití GraphQL API
+              graphiql_queries: Uloží historii dotazů při použití GraphQL API
+              graphiql_query: Uloží váš poslední dotaz při použití GraphQL API
+              graphiql_tab_state: Uloží konfiguraci záložky při použití GraphQL API
+              gtm_dc: Používá Google Tag Manager pro načítání a diagnostiku štítků.
+              gtm_debug: Uloží režim ladění Google Tag Manager.
+              gtm_gcl_au: Využívané službami Google k experimentování s efektivitou reklamy.
+              hcaptcha_accessibility: Uloží preference související s přístupností pro hCaptcha výzvy.
+              hcaptcha_session: Uloží stav dočasné relace hCaptcha pro potvrzení výzev.
+              jitsi_amp: Používá se pro analytiku Amplitude Analytics
+              jitsi_amplitude_unsent_identify: Používá se pro analytiku Amplitude Analytics
+              jitsi_amplitude_unset: Používá se pro analytiku Amplitude Analytics
+              jitsi_calendar_sync: Používá se pro funkci synchronizace kalendáře.
+              jitsi_callstats_username: Používá se k uložení relace uživatele na Jitsi.
+              jitsi_dropbox: Používá se pro integraci do dropboxu.
+              jitsi_endpoint_id: Používá se pro komunikační účely se serverem Jitsi.
+              jitsi_known_domains: Uloží seznam známých domén
+              jitsi_language: Uloží vaši předvolbu jazyka
+              jitsi_prejoin: Používá se pro funkci před připojením obrazovky.
+              jitsi_recent_list: Používá se pro funkci nedávného seznamu.
+              jitsi_settings: Používá se pro uložení nastavení Jitsi.
+              jitsi_video_quality: Používá se pro kvalitu videa a trvalé uložení.
+              jitsi_virtual_background: Používá se pro funkci videa na pozadí.
+              linkedin_li_gc: Ukládá stav souhlasu s LinkedIn službami.
+              linkedin_lidc: Používá LinkedIn pro směrování a vyrovnávání zátěže.
+              linkedin_user_match_history: Trasuje načasování a přiřazení konverze reklam pro kampaně LinkedIn.
+              maps_1p_jar: Ukládá použití/nastavení Google Mapy a signály přizpůsobení reklam.
+              maps_consent: Ukládá souhlas uživatele se službami Google, když používáte vložené mapy.
+              maps_nid: Ukládá nastavení Google Maps a informace o prohlížeči související s bezpečností.
+              matomo_mtm_consent: Uloží stav souhlasu uživatele pro sledování Matomo.
+              matomo_pk_id: Používá se k ukládání jedinečného ID návštěvníka a identifikaci vracejících se návštěvníků.
+              matomo_pk_ses: Používá se k ukládání dočasných dat relace pro aktuální návštěvu.
+              osm_location: Uloží výchozí polohu/přiblížení mapy pro interakce OpenStreetMap.
+              osm_session: Uloží dočasná data relace pro uživatelskou interakci OpenStreetMap.
+              pref: Používá se pro funkčnost. YouTube používá tuto cookie k ukládání informací, jako je vaše preferovaná konfigurace stránek a nastavení přehrávání, jako jsou explicitní možnosti automatického přehrávání, náhodný obsah a velikost přehrávače. Přečtěte si více o tom, jak Google používá cookies
+              recaptcha_grecaptcha: Používá se pro reCAPTCHA k zajištění ochrany proti spamu a analýzy rizik.
+            services:
+              cloudflare_turnstile: Cloudflare Turnstile
+              decidim_essential: Tento web
+              emoji_picker: Tento web
+              facebook_pixel: Meta (Facebook)
+              google_analytics: Google Analytics
+              google_maps_embeds: Google mapy
+              google_tag_manager: Google Tag Manager
+              graphiql: Tento web
+              hcaptcha: hCaptcha
+              jitsi_meet: Jitsi Meet
+              linkedin_insight: LinkedIn
+              matomo: Matomo
+              openstreetmap_tiles: OpenStreetMap
+              recaptcha: Google reCAPTCHA
+              vimeo_embeds: Vimeo
+              youtube_embeds: YouTube
+              youtube_nocookie: YouTube (rozšířený režim pro ochranu soukromí)
+          create:
+            error: Chyba při vytváření položky cookie! %{error}
+            success: Položka cookie byla úspěšně vytvořena
+          create_preset:
+            error: Chyba při přidávání přednastavení cookie! %{error}
+            not_found: Předvolba nebyla nalezena
+            success: Položka předvolby cookie byla úspěšně přidána
+          destroy:
+            error: Chyba při odstraňování položky cookie! %{error}
+            success: Položka cookie byla úspěšně odstraněna
+          edit:
+            cancel: Zrušit
+            save: Uložit
+            title: Upravit položku cookie
+          form:
+            description_item_help: Označuje účel této cookie a informace, které ukládá
+            expiration_item_help: Doba vypršení platnosti cookie. Toto je pouze informativní, nebude mít vliv na aktuální dobu vypršení platnosti cookie.
+            service_item_help: Toto je stručný popis označující, kde se toto používá (například "Tato stránka", "Vloženo do YouTube", "Jitsi meets", atd.)
+            title_item_help: Soubory cookie najdete pomocí inspektora (sekce úložiště). Nemělo by obsahovat žádné mezery.
+          index:
+            back_to_categories: Zpět do kategorií
+            cannot_remove_default: Výchozí položky nelze odstranit
+            confirm_reset: Opravdu chcete odstranit toto přizpůsobení?
+            edit: Upravit položku
+            new: Nová položka
+            reset: Odstranit přizpůsobení
+            title: "%{category}: Položky cookie"
+          new:
+            cancel: Zrušit
+            save: Uložit
+            title: Nová položka cookie
+          update:
+            error: Chyba při aktualizaci položky cookie! %{error}
+            success: Položka cookie byla úspěšně aktualizována
+        custom_redirects:
+          create:
+            error: Chyba při vytváření přesměrování! %{error}
+            success: Přesměrování úspěšně vytvořeno
+          destroy:
+            error: Chyba při odstraňování přesměrování! %{error}
+            success: Přesměrování úspěšně odstraněno
+          edit:
+            save: Uložit
+            title: Upravit přesměrování
+          form:
+            destination_help: Absolutní cesty (začněte "/") nebo externí URL (http://..)
+            origin_help: Pouze absolutní cesty, začněte "/"
+            pass_query_help: |
+              Aktivujte tuto možnost, pokud chcete, aby byl řetězec dotazu zkopírován do destinace.<br>
+              Například, pokud jste nakonfigurovali /my-origin => /my-destination, požadavek na /my-origin?locale=ca bude přesměrován na "/my-destination?locale=ca".
+          index:
+            check_redirections: "✔ Zkontrolovat přesměrování"
+            confirm_destroy: Opravdu chcete odstranit tuto přesměrování?
+            description: |
+              Můžete definovat jakoukoli cestu (počínaje <code>/</code>) pro přesměrování návštěvníka na cílovou URL.<br>
+              Místo určení může být absolutní cesta (ie: <code>/processes/some-process</code>) nebo začínat <code>https://://</code> (ie: <code>http://decidim. rg</code>)<br><br>
+              Vezměte v úvahu, že přesměrování funguje pouze v případě, že žádná jiná trasa neodpovídají. Není možné přepsat původní trasy (takto je to navrženo).<br>
+              Pokud si nejste jistí, použijte tlačítko "Přesměrování" pro otestování nekompatibility.
+            edit: Upravit přesměrování
+            new: Nové přesměrování
+            remove: Odstranit přesměrovaní
+            title: Vlastní přesměrování
+          new:
+            save: Uložit
+            title: Nové přesměrování
+          origin_exists: Stejný zdrojoý odkaz je již nakonfigurován, prosím upravte jej místo jeho nového vytvoření.
+          origin_missing: Tento zdrojvý odkaz nebyl nalezen v seznamu
+          update:
+            error: Chyba aktualizace přesměrování! %{error}
+            success: Přesměrování úspěšně aktualizováno
+        hashcash:
+          filters:
+            ip_addresses: Zobrazit IP adresy
+            stamps: Zobrazit Hashcash razítka
+          index:
+            bits: Bity
+            created_at: Vytvořeno
+            help_html: |
+              Tato stránka zobrazuje hashcash razítka, která byla zjištěna v systému. Hashcash je systém potvrzující práci, který vyžaduje, aby uživatelé vyřešili počítačovou hádanku (kterou provádí prohlížeč) před tím, než se mohou zaregistrovat.
+              <br><br>
+              Každá položka v tomto seznamu představuje hashcash razítko, které bylo vygenerováno uživatelem pokaždé, když se zaregistroval nebo se přihlásil.
+            ip_address: IP adresa
+            no_data: Nenalezena žádná Hashcash razítka
+            request_path: Cesta požadavku
+          ip_addresses:
+            help_html: Tato stránka obsahuje všechny IP adresy, které byly v systému zjištěny podle počtu Hashcash razítek, které vygenerovaly. <br><br> Každé razítko je buď přihlášení nebo registrace uživatelem. Tyto informace můžete použít k detekci podezřelé aktivity.
+            ip_address: IP adresa
+            no_data: Nebyly nalezeny žádné IP adresy
+            stamps: Hashcash razítka
+        landing_menu_items:
+          form:
+            preset: Přednastavení automatického vyplnění
+            preset_content_blocks: Existující bloky obsahu
+            select_a_preset: "— Vyberte společnou položku nabídky —"
+            url_help_html: "<b>#section-id</b> — posune se do sekce na této stránce<br><b>/path</b> — vnitřní stránka (např.. /processes)<br><b>https://example.com</b> – externí odkaz (automaticky se otevře v nové kartě)"
+          new:
+            save: Uložit
+            title: Nová položka menu
+          show:
+            save: Uložit
+            title: Upravit položku menu
+        menu:
+          admins: Škálovaní administrátoři
+          cookie_management: Správa souborů cookie
+          custom_redirects: Vlastní přesměrování
+          editors: Hack editoru
+          livechat: Live Chat
+          maintenance:
+            checks: Systémová kompatibilita
+            hashcash: Hashcash razítka
+            maintenance: Údržba
+            private_data: Soukromá data
+          menu_hacks: Vylepšení menu
+          proposal_custom_fields: Vlastní pole pro návrhy
+          proposals: Návrhy hacků
+          styles: Vlastní styly
+          surveys: Průzkumy a formuláře
+          verifications: Ověření
+        menu_hacks:
+          create:
+            error: Chyba při vytváření položky menu! %{error}
+            success: Položka menu byla úspěšně vytvořena
+          destroy:
+            error: Chyba při odstraňování položky menu! %{error}
+            success: Položka menu byla úspěšně smazána
+          edit:
+            save: Uložit
+            title: Upravit položku menu
+          form:
+            label_help: Překlady nejsou automaticky rozpoznány, nezapomeňte vyplnit všechna pole!
+            target:
+              blank: Nové okno
+              self: Stejné okno
+            visibility:
+              default: Viditelný
+              hidden: Vždy skryto
+              logged: Viditelné pouze pro přihlášené uživatele
+              non_logged: Viditelné pouze pro nepřihlášené uživatele
+              verified_user: Viditelné pouze pro uživatele s platnou autorizací
+          index:
+            confirm_destroy: Opravdu chcete odstranit toto přizpůsobení?
+            edit: Upravit
+            home_content_block_menu:
+              title: Blok Globální menu
+            menu:
+              title: Hlavní menu
+            mobile_menu:
+              title: Mobilní menu
+            new: Nová položka
+            remove: Odstranit přidání
+            remove_hack: Odstranit přizpůsobení
+          new:
+            save: Uložit
+            title: Nová položka menu
+          update:
+            error: Chyba při aktualizaci položky menu! %{error}
+            success: Položka menu byla úspěšne aktualizována
+          url_exists: Stejná adresa URL je již nakonfigurována, prosím upravte ji místo jejího vytvoření.
+        officializations:
+          authorizations: Autorizace
+          verification_modal:
+            authorizations_for: Autorizace pro %{user}
+            close: Zavřít
+        private_data:
+          private_data:
+            component: Prostor / komponenta
+            confirm_delete: Opravdu chcete odstranit všechna soukromá data tohoto zdroje? Tuto akci nelze vrátit zpět.
+            delete: Odstranit vše
+            destroying: Soukromá data pro %{title} jsou nastavena na zničení. Zkontrolujte prosím znovu za několik minut.
+            done: Hotovo
+            help_html: |
+              Tento nástroj umožňuje odstranit všechna soukromá data pro konkrétní participační prostor nebo komponentu. Tato akce je nevratná a odstraní všechna soukromá data z databáze.
+              <br><br>
+              <strong>Co je považováno za soukromá data?</strong>
+              <br>
+              Soukromá data jsou jakékoliv informace, které nejsou veřejně dostupné a jsou přístupné pouze správcům. To v současné době zahrnuje informace o soukromých vlastních polích.
+              <br><br>
+              <strong>Co se stane, když smažu soukromá data?</strong>
+              <br>
+              Když smažete soukromá data, všechny soukromé informace pro vybraný participační prostor nebo součást budou trvale odstraněny z databáze. Protokol této akce bude uložen v systému pro účely auditu.
+              <br><br>
+              <strong>Co se stane s veřejnými daty?</strong>
+              <br>
+              Veřejná data nebudou touto akcí dotčena. Budou odstraněna pouze soukromá data.
+              <br><br>
+              <strong>Je minimální čas počkat před odstraněním soukromých dat?</strong>
+              <br>
+              Ano, nemůžete smazat soukromá data, pokud byla poslední aktualizace menší než před %{time_ago}. Tuto konfiguraci můžete změnit v souboru inicializátoru.
+            items_count: Celkový dopad
+            last_date: Poslední aktualizace
+            no_data: Nejsou nalezena žádná soukromá data starší než před %{time_ago}
+            not_destroyable: Tento zdroj zatím nelze zničit
+            removing: Odstraňování...
+            time_ago: "Před %{time}"
+        proposal_custom_fields:
+          menu:
+            title: Veřejná pole
+          private_body: Tělo soukroméhho pole
+          private_data_last_remove: Tato data byla zničena před %{time_ago}.
+          private_data_last_update: Tato data byla naposledy aktualizována před %{time_ago}.
+          proposal_private_custom_fields: Soukromá pole
+          remove_private_data: "👉 Možná jej chcete odstranit"
+        scoped_admin_styles:
+          menu:
+            title: Panel administrace
+        scoped_styles:
+          menu:
+            title: Veřejný frontend
+        visibility:
+          info_html: Další omezení přístupu můžete spravovat pomocí ověření s %{awesome_link}.
+          restricted_html: Tento prostor používá další omezení přístupu s %{awesome_link}.
+      admin_log:
+        component:
+          destroy_private_data: "%{user_name} zničil %{count} položky soukromých dat pro %{resource_name} v %{space_name}"
+        user:
+          admin_creates_authorization: "%{user_name} ověřil %{resource_name} s %{handler_name}"
+          admin_destroys_authorization: "%{user_name} zničil ověření %{handler_name} na %{resource_name}"
+          admin_forces_authorization: "%{user_name} vynutil ověření %{handler_name} na %{resource_name}. Důvod: %{reason}"
+      amendments:
+        modal:
+          amendment_exists: Pozměňovací návrh již existuje
+          current_amendment_html: <p>Můžete <a href="%{amendment_link}">přistupovat k aktuálnímu pozměňovacímu návrhu zde</a>.</p>
+          dismiss: Ok, rozumím
+          explanation_html: |
+            <p>V současné době je pro tento návrh hodnocen další pozměňovací návrh. Chcete-li vytvořit nový, musíte počkat, až bude aktuální přijat nebo odmítnut.</p>
+            <p>Můžete se také ozvat autorovi tohoto návrhu <a href="%{proposal_link}">a zanechat komentář</a> a pokusit se urychlit řešení současného pozměňovacího návrhu.</p>
+        pending_limit_reached: Omlouváme se, ale v jednom okamžiku může být pouze jeden čekající pozměňovací návrh. Počkejte prosím, dokud nebude "%{emendation}" přijat nebo zamítnut.
+      config:
+        intergram:
+          auto_no_response: Zdá se, že právě teď nikdo není k dispozici odpovědět. Řekněte nám, jak vás můžeme kontaktovat, a co nejdříve se k vám vrátíme.
+          auto_response: Hledání prvního dostupného administrátora (může to chvíli trvat)
+          intro_message: Dobrý den! Jak Vám můžeme pomoci?
+          title_closed: Kliknutím chatujte!
+          title_open: Pojďme chatovat!
+      content_blocks:
+        awesome_process_groups:
+          active: Aktivní
+          all: Vše
+          all_taxonomies: Všechny kategorie
+          default_title: Participační procesy
+          filter_by_label: 'Filtrovat podle:'
+          max_count: Maximální počet prvků k zobrazení
+          name: Úžasné skupinové procesy
+          past: Uplynulé
+          remove_filter: Odstranit filtr
+          results_count:
+            one: "%{count} proces nalezen"
+            few: "%{count} procesy nalezeny"
+            many: "%{count} procesů nalezeno"
+            other: "%{count} nalezených procesů"
+          status_label: 'Stav:'
+          title: Název bloku
+          upcoming: Nadcházející
+        awesome_processes:
+          active_spaces: Participační procesy
+          any_group: Jakákoli skupina
+          group_label: Skupina
+          max_results: Maximální počet prvků k zobrazení
+          move_down: Posunout dolů
+          move_up: Posunout nahoru
+          name: Úžasné procesy
+          process_group: Omezit na skupinu procesu
+          process_status: Filtr stavu procesu
+          process_statuses:
+            active: Pouze aktivní procesy
+            all: Všechny procesy
+            past: Pouze minulé procesy
+            upcoming: Pouze budoucí procesy
+          process_type: Typ procesů
+          process_type_mixed_hint: Zobrazí všechny procesy až do maximálního množství.
+          process_types:
+            all: Všechny procesy
+            groups: Pouze skupiny procesu
+            processes: Pouze procesy
+          processes: Procesy
+          see_all_spaces: Zobrazit všechny procesy
+          selection_criteria: Kritéria výběru
+          selection_criteria_options:
+            automatic: Automaticky
+            manual: Ručně
+          title: Název bloku
+        landing_menu:
+          alignment: Pozice menu
+          alignment_center: Uprostřed
+          alignment_help: Zarovnejte položky nabídky vlevo, na střed nebo vpravo na stránce
+          alignment_left: Vlevo
+          alignment_right: Vpravo
+          css_comment_hover: Styl odkazu menu při přejetí myší
+          css_comment_link: Styl pro jednotlivé odkazy v menu
+          css_comment_menu: Styl pro celý blok menu
+          css_help_html: 'Toto menu můžete dále přizpůsobit vytvořením %{link} pro něj pomocí tohoto kódu odkazovat na různé prvky v něm:'
+          css_help_link: vlastní styly
+          delete_confirm: Opravdu chcete tuto položku odstranit?
+          drag: Přetažením přeskupíte
+          edit_item: Upravit položku
+          empty_item: Nová prázdná položka
+          name: Globální menu Awesome
+          new_item: Přidat novou položku
+          presets: Předvolby
+          show_on_mobile: Zobrazit na mobilních obrazovkách
+          sticky: Připnutý (při posouvání vždy viditelný)
+          table:
+            actions: Akce
+            hidden: Skrytý
+            name: Název
+            url: URL
+            visible: Viditelný
+          title: Přejít na ...
+        map:
+          collapse: Začít se sbaleným menu
+          map_center: Střed mapy (zeměpisná šířka, zeměpisná délka)
+          map_center_help: 'Použijte desetinné body (ie: 41.38879, 2.15899). Nechte prázdné, aby se automaticky vešly všechny značky'
+          map_height: Výška mapy (px)
+          map_settings: Nastavení mapy
+          map_zoom: Zvětšení (libovolné číslo mezi 0 a 18)
+          map_zoom_help: Použije se pouze v případě, že je definován střed mapy
+          menu_amendments: Zobrazit pozměňovací návrhy
+          menu_meetings: Zobrazit schůzky
+          menu_merge_components: Sloučit všechny komponenty stejného typu v menu
+          name: Úžasná mapa
+          show_accepted: Zobrazit přijaté návrhy
+          show_evaluating: Zobrazit hodnocení návrhů
+          show_not_answered: Zobrazit nezodpovězené návrhy
+          show_rejected: Zobrazit odmítnuté návrhy
+          show_withdrawn: Zobrazit stažené návrhy
+          taxonomies: Taxonomie
+          text_settings: Nastavení textu
+          title: Nadpis
+          truncate: Maximum znaků pro popisy vyskakovacích oken
+        rich_text:
+          add_column: Přidat nový sloupec
+          background_image: Obrázek pozadí
+          background_image_help: Volitelný obrázek zobrazený za obsahem sloupce. Doporučená minimální šířka 1920px.
+          background_image_placement: Umístění obrázku
+          background_image_placement_help: Jak je obrázek pozadí zobrazen ve sloupci. Použije se pouze při nahrání obrázku na pozadí.
+          background_image_placements:
+            contain_center: Obsahuje (vycentrováno)
+            cover_bottom: Cover (zarovnaný dole)
+            cover_center: Cover (vycentrováno)
+            cover_top: Cover (zarovnaný nahoru)
+            repeat: Opakovat (dlaždice)
+          block_id: Interní štítek
+          block_id_help: Tato hodnota bude použita jako kotvy sekcí v URL. Musí být unikátní na stránce (např. "Náš tým").
+          block_id_placeholder: interní referenční název (není veřejně použit)
+          column_title: Sloupec
+          css_comment_this_column: Styl pro sloupec %{number}
+          css_comment_title: Styl názvu bloku
+          css_help_html: 'Tento blok můžete dále přizpůsobit vytvořením %{link} pro něj pomocí tohoto kódu odkazovat na různé prvky v něm:'
+          css_help_link: vlastní styl
+          name: Awesome Rich Text blok
+          remove_column: Odebrat
+          restrict_links: Zabránit zobrazování odkazů v textu, pokud není uživatel přihlášen
+          restrict_videos: Zabránit zobrazování vložených videí v textu, pokud není uživatel přihlášen
+          sign_in_to_watch: Pro sledování tohoto videa se přihlaste
+          title: Název bloku
+      credits: Decidim Awesome %{version} · Udržováno s ♥ od %{company}
+      custom_fields:
+        errors:
+          invalid_fields: Obsah nemohl být analyzován, ale byl přiřazen do pole '%{field}'
+          invalid_xml: 'Obsah se nepodařilo analyzovat: DL/DD prvky nebyly v XML nalezeny'
+      map_component:
+        map:
+          api_not_ready: |
+            <b>Upozornění:</b> Tato instalace Decidim má API nastaveno na maximální složitost <b>%{current_complexity}</b>.
+            Tato komponenta pravděpodobně nebude fungovat v této konfiguraci. Doporučujeme nastavit v inicializátoru
+            (například na konci <code>config/initializers/decidim.rb</code>) následující řádky:<br>
+            <br>
+            <pre># Konfigurace Api
+            Rails.application.config.to_prepare do
+              Decidim::Api::Schema.max_complexity = 5000
+              Decidim::Api::Schema.max_depth = 50
+            end</pre>
+          error:
+            unavailable: Mapa není dostupná. Pro povolení této komponenty nakonfigurujte geocoding.
+          show:
+            view_meeting: Zobrazit schůzku
+            view_proposal: Zobrazit návrh
+      proposal_private_custom_fields_disclosure: Tyto informace nebudou publikovány
+      required_authorizations:
+        index:
+          authorization_options_invalid: Bohužel, i když máte tuto autorizaci, údaje použité k vašemu ověření v tomto kontextu neplatí.
+          cancel: Udělám to za chvíli, %{link}.
+          granted_title: Udělená ověření
+          logout: dovolte mi odhlásit se
+          missing_title: Zatím neověřeno
+          resume_title: Čeká se na ověření
+          resume_with_method: Pokračovat v ověřování pomocí %{name}
+          title: Ověřte svou totožnost
+          verify_with_all_these_options: 'Před přístupem k platformě se prosím ověřte všemi těmito metodami:'
+          verify_with_any_of_these_options: 'Před přístupem k platformě si prosím ověřte alespoň jednu z těchto možností:'
+          verify_with_method: Ověřit pomocí %{name}
+      session:
+        authorization_is_required: Chcete-li získat přístup k této části platformy, musíte svůj účet autorizovat pomocí platné autorizace (%{authorizations}).
+        login_and_authorization_is_required: Chcete-li získat přístup k této části platformy, musíte se přihlásit a autorizovat svůj účet.
+      system:
+        organizations:
+          admin_allowed_authoritzations_help_html: |
+            Správci budou moci uživatele s těmito oprávněními ručně ověřovat.
+            <br>Používejte tuto funkci opatrně, protože může vést k bezpečnostním problémům.
+          awesome_tweaks: Decidim Awesome Tweaks
+      validators:
+        too_much_caps: Používá příliš mnoho velkých písmen (více než %{percent}% textu)
+      voting:
+        voting_cards:
+          abstained: "✔️ Zdržel se hlasování"
+          change_vote: Změnit můj hlas
+          default_box_title: Hlasovat o tomto návrhu
+          default_instructions_html: "<p>Přečtěte si pečlivě pravidla voleb, abyste pochopili, jak bude vaše hlasování použito v %{organization}\"</p>"
+          modal:
+            cancel: Zrušit
+            message: Váš hlas bude považován za konečný v %{date}. Do té doby jej můžete změnit,
+            proceed: Provést
+            skip: Zaškrtněte pro přeskočení tohoto okna v budoucnu
+          vote_button: Kliknutím hlasujte
+          voted: Odhlasováno
+          voting_for: Můj hlas pro "%{proposal}" je "%{type}"
+          weights:
+            weight_0: Zdržet se
+            weight_0_short: 'A:'
+            weight_1: Červená
+            weight_1_short: 'R:'
+            weight_2: Žlutá
+            weight_2_short: 'Y:'
+            weight_3: Zelená
+            weight_3_short: 'G:'
+    download_your_data:
+      show:
+        admin_actions: Akce administrátora
+        awesome_private_proposals: Návrhy exportovány se soukromými poli
+    meetings:
+      meetings_map:
+        view_meeting: Zobrazit schůzku
+    proposals:
+      admin:
+        exports:
+          awesome_private_proposals: Návrhy se soukromými údaji
+      proposals:
+        orders:
+          az: A-Z (abecední)
+          supported_first: Nejdříve podporováno
+          supported_last: Naposledy podporováno
+          za: Z-A (obrácená abeceda)
+        proposal:
+          view_proposal: Zobrazit návrh
+  layouts:
+    decidim:
+      data_consent:
+        details:
+          columns:
+            expiration: Vypršení platnosti
+          items:
+            _session_id:
+              expiration: relace
+            decidim-consent:
+              expiration: 1 rok
+            pwaInstallPromptSeen:
+              expiration: trvalé
+      decidim_awesome:
+        admin:
+          maintenance:
+            title: 'Nástroj údržby: %{title}'
+            titles:
+              checks: Kontroly kompatibility systému
+              hashcash: Hashcash razítka
+              private_data: Vymazání soukromých údajů
+        awesome_config:
+          amendments: Pozměňovací návrhy
+          autosaved_error: Místní úložiště není ve vašem prohlížeči podporováno, formulář nelze uložit automaticky.
+          autosaved_retrieved: Údaje pro tento formulář byly obnoveny z předchozí relace
+          autosaved_success: Data uložena v místním úložišti
+          drag_and_drop_image: Přidejte obrázky přetažením nebo vložením.
+          hashtags: Hashtagy
+          items: položky
+          meetings: Schůzky
+          proposals: Návrhy
+          select_deselect_all: Vybrat/odebrat vše
+          taxonomies: Taxonomie

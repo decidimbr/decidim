@@ -1,0 +1,17 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-video extra-blocks-video--#{media_width}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "misc" },
+  style: section_style
+) do %>
+  <% if video? %>
+    <div class="extra-blocks-video__inner">
+      <%= content_tag(:video, class: "extra-blocks__media extra-blocks-video__player", controls: true, playsinline: true, preload: "metadata") do %>
+        <% video_sources.each do |source| %>
+          <%= tag.source src: source[:src], type: source[:type] %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

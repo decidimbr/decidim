@@ -1,0 +1,8 @@
+{
+  "label": "Integrate",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Install and configure Extra Blocks in a Decidim host app."
+  }
+}

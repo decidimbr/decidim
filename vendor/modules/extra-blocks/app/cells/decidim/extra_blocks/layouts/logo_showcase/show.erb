@@ -1,0 +1,22 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-logo-showcase",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "misc" },
+  style: section_style
+) do %>
+  <% if logos.any? %>
+    <ul class="extra-blocks-logo-showcase__grid">
+      <% logos.each do |logo| %>
+        <li class="extra-blocks-logo-showcase__item">
+          <div class="extra-blocks-logo-showcase__frame">
+            <%= extra_blocks_picture_tag logo[:uploader],
+                                         mode: :fixed,
+                                         class: "extra-blocks__media extra-blocks-logo-showcase__img not-prose",
+                                         alt: logo[:alt].to_s %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

@@ -1,0 +1,93 @@
+.extra-blocks-photo-mission-hero {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  min-height: 60vh;
+  max-height: 60vh;
+  aspect-ratio: 16 / 9;
+  background-color: var(--eb-bg, var(--eb-color-ink));
+  overflow: hidden;
+
+  > picture,
+  > img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: var(--eb-bg-fit, cover);
+    object-position: center;
+    display: block;
+  }
+
+  &__overlay {
+    position: relative;
+    z-index: 1;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--eb-section-pad);
+    background: rgb(0 0 0 / var(--eb-overlay, 0.45));
+  }
+
+  &--overlay-light {
+    --eb-overlay: 0.25;
+  }
+
+  &--overlay-medium {
+    --eb-overlay: 0.45;
+  }
+
+  &--overlay-dark {
+    --eb-overlay: 0.65;
+  }
+
+  &--size-small &__overlay {
+    padding-top: var(--eb-section-pad);
+    padding-bottom: var(--eb-section-pad);
+  }
+
+  &--size-medium &__overlay {
+    padding-top: var(--eb-gap-lg);
+    padding-bottom: var(--eb-gap-lg);
+  }
+
+  &--size-large &__overlay {
+    padding-top: var(--eb-section-pad-lg);
+    padding-bottom: var(--eb-section-pad-lg);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: var(--eb-prose-max);
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 var(--eb-space-md);
+  }
+
+  &__description {
+    margin: 0;
+  }
+
+  &__action {
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__button {
+    margin-top: var(--eb-gap-lg);
+  }
+
+  &__button.button__transparent {
+    color: var(--eb-fg, var(--eb-color-paper));
+    border-color: var(--eb-fg, var(--eb-color-paper));
+  }
+}

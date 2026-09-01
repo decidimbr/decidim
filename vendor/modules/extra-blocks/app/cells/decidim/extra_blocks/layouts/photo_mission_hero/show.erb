@@ -1,0 +1,32 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-photo-mission-hero #{prose_classes} extra-blocks-photo-mission-hero--overlay-#{overlay_strength} extra-blocks-photo-mission-hero--size-#{size}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "hero" },
+  style: section_style
+) do %>
+  <% if background_image? %>
+    <%= extra_blocks_picture_tag background_image_uploader,
+                                  mode: :full_width,
+                                  class: "extra-blocks__media extra-blocks-photo-mission-hero__image not-prose",
+                                  alt: "" %>
+  <% end %>
+  <div class="extra-blocks-photo-mission-hero__overlay">
+    <div class="extra-blocks-photo-mission-hero__content">
+      <% if eyebrow.present? %>
+        <p class="extra-blocks__eyebrow extra-blocks-photo-mission-hero__eyebrow"><%= eyebrow %></p>
+      <% end %>
+      <% if title.present? %>
+        <h2 class="extra-blocks__title extra-blocks-photo-mission-hero__title"><%= title %></h2>
+      <% end %>
+      <% if tagline.present? %>
+        <p class="extra-blocks__description extra-blocks-photo-mission-hero__description"><%= tagline %></p>
+      <% end %>
+      <% if show_button? %>
+        <div class="extra-blocks__action extra-blocks-photo-mission-hero__action">
+          <%= link_to button_label, button_url, class: "button button__lg button__transparent extra-blocks__button extra-blocks-photo-mission-hero__button not-prose" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,232 @@
+sv:
+  active_hashcash:
+    submit_filter: Filtrera
+    waiting_label: Väntar på verifiering ...
+  activemodel:
+    attributes:
+      config:
+        additional_proposal_sortings: Ytterligare sorteringsalternativ aktiva
+        allow_images_in_editors: Tillåt bilder i HTML-redigeraren
+        allow_images_in_proposals: Tillåt bilder i förslagsfältet
+        allow_videos_in_editors: Tillåt videor i HTML-redigeraren
+        auto_save_forms: Spara formulär automatiskt i lokal lagring
+        hashcash_login: Aktivera Hashcash bot-skydd för befintliga användare (inloggning)
+        hashcash_login_bits: Antal bitar för Hashcash-algoritmen (inloggning)
+        hashcash_signup: Aktivera Hashcash bot-skydd för nya användare (registrering)
+        hashcash_signup_bits: Antal bitar för Hashcash-algoritmen (registrering)
+        intergram_auto_no_response: Ett meddelande som skickas en minut efter att användaren skickar sitt första meddelande och inget svar tagits emot
+        intergram_auto_response: Ett meddelande som skickas omedelbart efter att användaren skickar sitt första meddelande
+        intergram_chat_id: Chatt ID
+        intergram_color: Huvudfärg för widget
+        intergram_for_admins: Aktivera Intergram-chatt i admin-backend
+        intergram_intro_message: Första meddelandet när användaren öppnar chatten för första gången
+        intergram_require_login: Endast för inloggade användare
+        intergram_title_closed: Rubrik för stängd chatt
+        intergram_title_open: Rubrik för öppen chatt
+        intergram_use_floating_button: Om markerad är den stängda chatten alltid en knapp istället för en text
+        proposal_custom_fields: Tilläggsfält %{id}
+        scoped_styles: Tilläggsstilar %{id}
+        user_timezone: Tillåt användare att ställa in tidszon i sin profil
+        validate_body_max_caps_percent: Maximal tillåten procentandel versaler för brödtexten
+        validate_body_max_marks_together: Maximalt antal symboler i rad tillåtna i brödtexten
+        validate_body_min_length: Minst tillåtna antal tecken för brödtexten
+        validate_body_start_with_caps: Tvinga brödtexten att börja med en stor bokstav
+        validate_title_max_caps_percent: Maximal tillåten procentandel versaler för titeln
+        validate_title_max_marks_together: Maximalt antal symboler i rad tillåtna i titeln
+        validate_title_min_length: Minst tillåtna antal tecken för titeln
+        validate_title_start_with_caps: Tvinga titeln att börja med en versal
+      constraint:
+        component_id: eller specifikt i
+        component_manifest: Endast i komponenter av typ
+        participatory_space_slug: Endast i
+      custom_redirect:
+        active: Aktiv
+        destination: Mål
+        origin: Ursprung
+        status: Status
+      menu:
+        position: Position
+        raw_label: Text
+        target: Öppna i
+        url: Webbadress
+        visibility: Synlighet
+      organization:
+        awesome_admins_available_authorizations: Tillåt administratörer att manuellt verifiera användare med dessa auktoriseringar
+      user:
+        user_time_zone: Personlig tidszon
+  decidim:
+    admin:
+      actions:
+        manage: Hantera
+      filters:
+        admin_accountability:
+          admin_role_type:
+            label: Rolltyp
+          role:
+            label: Roll
+          role_type_eq:
+            label: Rolltyp
+        label:
+          search_field_end_date: 'Till datum:'
+          search_field_start_date: 'Från datum:'
+        search_placeholder:
+          user_name_or_user_email_cont: Sök på användarnamn, e-post
+      menu:
+        decidim_awesome: Decidim Awesome
+    components:
+      awesome_iframe:
+        name: Fullskärm Iframe
+        settings:
+          global:
+            announcement: Meddelande
+            iframe: Iframe kod
+            iframe_help: 'Ange din kod som html: <iframe width="100%" height="700" frameBorder="0" allowFullscreen src="..."></iframe>. Innehållet kommer att saneras från andra HTML-taggar. Se till att använda 100% som bredd för att fylla skärmen.'
+          step:
+            announcement: Meddelande
+            iframe: Iframe kod
+      awesome_map:
+        name: Karta
+        settings:
+          global:
+            announcement: Meddelande
+            collapse: Börja med kollapsad meny
+            map_center: Kartans centrum (Latitud, Longitud)
+            map_height: Karthöjd (px)
+            map_zoom: Zoom (valfritt tal mellan 0 och 18)
+            menu_amendments: Visa ändringsförslag
+            menu_meetings: Visa möten
+          step:
+            announcement: Meddelande
+            show_accepted: Visa godkända förslag
+            show_evaluating: Visa förslag som utvärderas
+    decidim_awesome:
+      admin:
+        checks:
+          index:
+            decidim-admin: Från Admin modul
+            decidim-core: Från Core modul
+            decidim-proposals: Från Proposals modul
+            decidim_version: Decidim version %{version}
+        config:
+          constraints:
+            add_condition: Lägg till begränsning
+            always: Alltid
+            delete: Radera
+            edit: Redigera
+          form:
+            edit_label: Byt namn på etikett
+          form_proposal_custom_fields:
+            delete: Radera
+          form_proposal_private_custom_fields:
+            delete: Radera
+          form_scoped_admins:
+            delete: Radera
+          form_scoped_styles:
+            delete: Radera
+            remove: Ta bort CSS-rutan
+          process_groups: Dialoggrupper
+          show:
+            title: Tweaks för %{setting}
+            update: Uppdatera konfiguration
+          title:
+            admins: Begränsade administratörer
+            editors: Editor hacks
+            proposals: Proposals hacks
+            styles: Custom styles
+            surveys: Surveys & forms
+        constraints:
+          new:
+            cancel: Avbryt
+            constraint: Ny begränsning
+            save: Spara
+          show:
+            cancel: Avbryt
+            constraint: Redigera begränsning
+            save: Spara
+        custom_redirects:
+          edit:
+            save: Spara
+            title: Redigera omdirigering
+          index:
+            check_redirections: "✔ Kontrollera omdirigeringar"
+            edit: Redigera omdirigering
+            new: Ny omdirigering
+            remove: Ta bort omdirigering
+            title: Anpassade omdirigeringar
+          new:
+            save: Spara
+            title: Ny omdirigering
+        menu:
+          admins: Begränsade administratörer
+          custom_redirects: Anpassade omdirigeringar
+          editors: Editor hacks
+          livechat: Live Chat
+          maintenance:
+            checks: System compatibility
+          menu_hacks: Menu tweaks
+          proposals: Proposals hacks
+          styles: Custom styles
+          surveys: Surveys & forms
+        menu_hacks:
+          edit:
+            save: Spara
+            title: Redigera menyobjekt
+          form:
+            target:
+              blank: Nytt fönster
+              self: Samma fönster
+            visibility:
+              default: Synligt
+              hidden: Alltid dolt
+              logged: Endast synlig för inloggade användare
+          index:
+            edit: Redigera
+            menu:
+              title: Huvudmeny
+            new: Ny menyknapp
+            remove: Ta bort menyknapp
+            remove_hack: Ta bort menyknapp
+          new:
+            save: Spara
+            title: Ny menyknapp
+      config:
+        intergram:
+          title_closed: Klicka här för att chatta!
+          title_open: Låt oss chatta!
+      content_blocks:
+        map:
+          map_height: Karthöjd (px)
+          map_settings: Kartinställningar
+          menu_amendments: Visa ändringsförslag
+          menu_meetings: Visa möten
+          name: Karta
+          show_accepted: Visa godkända förslag
+          show_evaluating: Visa förslag som utvärderas
+          text_settings: Textinställningar
+          title: Titel
+      map_component:
+        map:
+          show:
+            view_meeting: Visa möte
+            view_proposal: Visa förslag
+      voting:
+        voting_cards:
+          modal:
+            cancel: Avbryt
+    meetings:
+      meetings_map:
+        view_meeting: Visa möte
+    proposals:
+      proposals:
+        proposal:
+          view_proposal: Visa förslag
+  layouts:
+    decidim:
+      decidim_awesome:
+        awesome_config:
+          amendments: Ändringsförslag
+          hashtags: Hashtaggar
+          items: föremål
+          meetings: Möten
+          proposals: Förslag
+          select_deselect_all: Markera/avmarkera alla

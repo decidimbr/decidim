@@ -1,0 +1,49 @@
+<%= hidden_field_tag "content_block[settings][layout]", content_block.settings.layout %>
+
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <div class="row column">
+    <%= settings_fields.select :image_position,
+                               image_positions.map { |s| [t(".image_positions.#{s}"), s] },
+                               {},
+                               label: t(".image_position") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :eyebrow, label: t(".eyebrow") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :title, label: t(".title") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.translated :editor, :body, label: t(".body"), toolbar: :content, lines: 10 %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.translated :text_field, :button_label, label: t(".button_label") %>
+  </div>
+  <div class="row column">
+    <%= settings_fields.text_field :button_url, label: t(".button_url") %>
+  </div>
+
+  <div class="row column">
+    <%= settings_fields.color_field :background_color, label: t(".background_color") %>
+  </div>
+
+  <fieldset class="row column">
+    <legend><%= t(".text_color") %></legend>
+    <% %w(white black).each do |choice| %>
+      <label class="radio-label">
+        <%= settings_fields.radio_button :text_color, choice, label: t(".text_color_#{choice}") %>
+      </label>
+    <% end %>
+  </fieldset>
+<% end %>
+
+<% form.fields_for :images, form.object.images do |images_fields| %>
+  <div class="row column">
+    <%= images_fields.upload :lead_image, label: t(".lead_image") %>
+    <p class="help-text"><%= t(".lead_image_help") %></p>
+  </div>
+<% end %>

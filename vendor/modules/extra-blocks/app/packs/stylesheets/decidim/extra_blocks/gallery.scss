@@ -1,0 +1,101 @@
+.extra-blocks-gallery {
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--eb-gap-md);
+  }
+
+  &__card {
+    border: 1px solid var(--gray-3, #e1e5ef);
+    border-radius: var(--eb-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--white, #ffffff);
+    flex: 1 1 100%;
+  }
+
+  &__preview {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--background-2, #fafbfc);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--eb-gap-md);
+    padding: var(--eb-space-md);
+    flex: 1;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--eb-font-size-lg);
+    font-weight: 600;
+    line-height: var(--eb-line-height-lg);
+  }
+
+  &__description {
+    margin: 0;
+    font-size: var(--eb-font-size-sm);
+    line-height: var(--eb-line-height-sm);
+    color: var(--gray-2, #3e4c5c);
+    flex: 1;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--eb-gap-md);
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  @media (min-width: 640px) {
+    &__card {
+      flex: 1 1 calc(50% - var(--eb-gap-md) / 2);
+      max-width: calc(50% - var(--eb-gap-md) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    &__card {
+      flex: 1 1 calc(33.333% - var(--eb-gap-md) * 2 / 3);
+      max-width: calc(33.333% - var(--eb-gap-md) * 2 / 3);
+    }
+  }
+}
+
+.extra-blocks-modal {
+  border: none;
+  border-radius: var(--eb-radius);
+  padding: 0;
+  max-width: min(48rem, calc(100vw - 2rem));
+
+  &::backdrop {
+    background: rgb(2 2 3 / 0.45);
+  }
+
+  &__inner {
+    padding: var(--eb-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--eb-gap-md);
+  }
+
+  &__screenshots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--eb-gap-md);
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--eb-radius);
+      background: var(--background-2, #fafbfc);
+    }
+  }
+}

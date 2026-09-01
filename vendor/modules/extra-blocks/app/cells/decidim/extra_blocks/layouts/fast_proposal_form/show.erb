@@ -1,0 +1,77 @@
+<%= form_with url: create_path,
+              method: :post,
+              local: true,
+              html: {
+                class: "extra-blocks-fast-proposal-form",
+                data: form_data,
+                novalidate: true
+              } do |_f| %>
+  <%= hidden_field_tag :content_block_id, model.id %>
+
+  <div class="flash alert flex-col extra-blocks-fast-proposal-form__callout" hidden data-announcement data-extra-blocks-fast-proposal-error>
+    <div class="flash__message" data-extra-blocks-fast-proposal-error-message></div>
+  </div>
+
+  <% if authorization_needed? && authorization_handler %>
+    <div class="extra-blocks-fast-proposal-form__authorization" data-extra-blocks-fast-proposal-authorization>
+      <% fields_for :authorization_handler, authorization_handler, builder: Decidim::AuthorizationFormBuilder do |ah| %>
+        <%= ah.hidden_field :handler_name %>
+        <div class="form__wrapper">
+          <%= ah.all_fields %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="extra-blocks-fast-proposal-form__field">
+    <label for="fast_proposal_body">
+      <%= t("decidim.extra_blocks.fast_proposals.form.body") %>
+      <span class="label-required" title="<%= t("forms.required") %>" data-tooltip="true" data-disable-hover="false" data-keep-on-hover="true">
+        <span aria-hidden="true">*</span>
+        <span class="sr-only"><%= t("forms.required") %></span>
+      </span>
+    </label>
+    <textarea id="fast_proposal_body" name="body" rows="3" required data-extra-blocks-fast-proposal-field="body"></textarea>
+    <p class="help-text extra-blocks-fast-proposal-form__help">
+      <%= t("decidim.extra_blocks.fast_proposals.form.body_help") %>
+    </p>
+  </div>
+
+  <% if guest? %>
+    <div class="extra-blocks-fast-proposal-form__terms">
+      <% if terms_html.present? %>
+        <div class="extra-blocks-fast-proposal-form__terms-body prose"><%= terms_html %></div>
+      <% else %>
+        <p class="help-text extra-blocks-fast-proposal-form__help">
+          <%= t("decidim.extra_blocks.fast_proposals.form.platform_terms_link_html",
+                link: link_to(t("decidim.extra_blocks.fast_proposals.form.platform_terms_label"),
+                              platform_terms_path)) %>
+        </p>
+      <% end %>
+      <label class="extra-blocks-fast-proposal-form__terms-accept">
+        <input type="checkbox" name="accept_terms" value="1" required>
+        <span><%= t("decidim.extra_blocks.fast_proposals.form.accept_terms") %></span>
+      </label>
+      <p class="help-text extra-blocks-fast-proposal-form__help">
+        <%= t("decidim.extra_blocks.fast_proposals.form.accept_terms_help_html",
+              link: link_to(t("decidim.extra_blocks.fast_proposals.form.login_label"),
+                            login_path)) %>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="extra-blocks__action extra-blocks-fast-proposal-form__actions">
+    <button type="submit" class="button button__lg button__primary extra-blocks__button extra-blocks-fast-proposal-form__submit">
+      <%= t("decidim.extra_blocks.fast_proposals.form.submit") %>
+    </button>
+  </div>
+<% end %>
+<div class="extra-blocks-fast-proposal-overlay" hidden data-extra-blocks-fast-proposal-overlay>
+  <div class="extra-blocks-fast-proposal-overlay__panel">
+    <%= icon "check-line", class: "extra-blocks-fast-proposal-overlay__icon" %>
+    <p class="extra-blocks-fast-proposal-overlay__message" data-extra-blocks-fast-proposal-overlay-message></p>
+    <a href="<%= redirect_url %>" class="button button__lg button__primary not-prose" data-extra-blocks-fast-proposal-overlay-button>
+      <%= success_button_label %>
+    </a>
+  </div>
+</div>

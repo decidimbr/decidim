@@ -1,0 +1,114 @@
+.extra-blocks-video-hero {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  min-height: 60vh;
+  max-height: 60vh;
+  aspect-ratio: 16 / 9;
+  background: var(--eb-bg, var(--eb-color-ink));
+  overflow: hidden;
+
+  &__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__overlay {
+    position: relative;
+    z-index: 2;
+    min-height: 60vh;
+    display: flex;
+    flex-wrap: wrap;
+    padding-block: var(--eb-section-pad);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--eb-prose-max);
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__button.button__transparent {
+    color: var(--eb-fg, var(--eb-color-paper));
+    border-color: var(--eb-fg, var(--eb-color-paper));
+  }
+
+  &__content--top_left {
+    align-self: flex-start;
+    align-items: flex-start;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  &__content--top_center {
+    align-self: flex-start;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  &__content--top_right {
+    align-self: flex-start;
+    align-items: flex-end;
+    margin-left: auto;
+    text-align: right;
+  }
+
+  &__content--middle_left {
+    align-self: center;
+    align-items: flex-start;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  &__content--middle_center {
+    align-self: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  &__content--middle_right {
+    align-self: center;
+    align-items: flex-end;
+    margin-left: auto;
+    text-align: right;
+  }
+
+  &__content--bottom_left {
+    align-self: flex-end;
+    align-items: flex-start;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  &__content--bottom_center {
+    align-self: flex-end;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  &__content--bottom_right {
+    align-self: flex-end;
+    align-items: flex-end;
+    margin-left: auto;
+    text-align: right;
+  }
+
+  @media (min-width: 768px) {
+    &__overlay {
+      padding-block: var(--eb-section-pad-lg);
+    }
+  }
+}

@@ -1,0 +1,72 @@
+<%# locals: settings_fields, content_block %>
+<%
+  scope = "decidim.extra_blocks.layouts.shared.dynamic_steps"
+  slot_count = Decidim::ExtraBlocks::Layouts::DynamicSteps::SLOT_COUNT
+  steps_json = Decidim::ExtraBlocks::Layouts::DynamicSteps.form_json_for_settings(
+    content_block,
+    settings_fields.object
+  )
+%>
+
+<div class="row column">
+  <%= cell(
+        "decidim/announcement",
+        { title: t("#{scope}.callout_title"), body: t("#{scope}.callout_body") },
+        callout_class: "warning"
+      ) %>
+</div>
+
+<div
+  class="extra-blocks-dynamic-slot-list"
+  data-dynamic-slot-list
+  data-slot-count="<%= slot_count %>"
+>
+  <%= settings_fields.hidden_field :steps_json,
+                                   value: steps_json,
+                                   data: { dynamic_slot_list_json: true } %>
+
+  <p class="help-text extra-blocks-dynamic-slot-list__empty" data-dynamic-slot-list-empty hidden>
+    <%= t("#{scope}.empty") %>
+  </p>
+  <p class="help-text extra-blocks-dynamic-slot-list__max" data-dynamic-slot-list-max hidden>
+    <%= t("#{scope}.max", count: slot_count) %>
+  </p>
+
+  <div class="extra-blocks-dynamic-slot-list__list" data-dynamic-slot-list-list></div>
+
+  <div class="row column">
+    <button type="button" class="button button__sm button__secondary" data-dynamic-slot-list-add>
+      <%= t("#{scope}.add") %>
+    </button>
+  </div>
+
+  <template data-dynamic-slot-list-row-template>
+    <fieldset class="extra-blocks-dynamic-slot-list__row" data-dynamic-slot-list-row>
+      <legend>
+        <%= t("#{scope}.step") %>
+        #<span data-dynamic-slot-list-slot-label></span>
+      </legend>
+
+      <div class="row column" data-dynamic-slot-list-fields-mount></div>
+
+      <div class="row column">
+        <button type="button" class="button button__sm button__transparent-secondary" data-dynamic-slot-list-remove>
+          <%= t("#{scope}.remove") %>
+        </button>
+      </div>
+    </fieldset>
+  </template>
+
+  <div class="extra-blocks-dynamic-slot-list__pool" data-dynamic-slot-list-pool hidden>
+    <% (1..slot_count).each do |slot| %>
+      <div data-dynamic-slot-list-fields="<%= slot %>">
+        <div class="row column">
+          <%= settings_fields.translated :text_field, :"step_#{slot}_title", label: t("#{scope}.step_title") %>
+        </div>
+        <div class="row column">
+          <%= settings_fields.translated :text_area, :"step_#{slot}_body", label: t("#{scope}.step_body"), rows: 3 %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

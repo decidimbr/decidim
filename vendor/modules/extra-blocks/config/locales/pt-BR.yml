@@ -1,0 +1,483 @@
+---
+pt-BR:
+  activemodel:
+    attributes:
+      dummy_ephemeral_authorization_handler:
+        phone_number: Número de telefone
+      decidim/extra_blocks/dummy_ephemeral_authorization_handler:
+        phone_number: Número de telefone
+    errors:
+      models:
+        dummy_ephemeral_authorization_handler:
+          attributes:
+            phone_number:
+              blank: não pode ficar em branco
+              invalid: não é um número de telefone válido
+        decidim/extra_blocks/dummy_ephemeral_authorization_handler:
+          attributes:
+            phone_number:
+              blank: não pode ficar em branco
+              invalid: não é um número de telefone válido
+  decidim_toggle:
+    system:
+      decidim_extra_blocks:
+        tab: Extra Blocks
+        enabled: Ativar Extra Blocks
+        cta_enabled: Ativar layouts de CTA
+        hero_enabled: Ativar layouts de Hero
+        text_enabled: Ativar layouts de Texto
+        fast_proposal_enabled: Ativar layouts de Proposta rápida
+        misc_enabled: Ativar layouts diversos
+        timelines_enabled: Ativar layouts de Linha do tempo
+        helptext:
+          enabled: Quando desativado, Extra Blocks ficam ocultos na biblioteca de blocos de conteúdo e Extra Blocks existentes ficam ocultos nas páginas iniciais.
+          cta_enabled: Quando desativado, layouts de CTA ficam ocultos na galeria e Extra Blocks de CTA existentes ficam ocultos.
+          hero_enabled: Quando desativado, layouts de Hero ficam ocultos na galeria e Extra Blocks de Hero existentes ficam ocultos.
+          text_enabled: Quando desativado, layouts de Texto ficam ocultos na galeria e Extra Blocks de Texto existentes ficam ocultos.
+          fast_proposal_enabled: Quando desativado, layouts de Proposta rápida ficam ocultos na galeria e Extra Blocks de Proposta rápida existentes ficam ocultos.
+          misc_enabled: Quando desativado, layouts diversos ficam ocultos na galeria e Extra Blocks diversos existentes ficam ocultos.
+          timelines_enabled: Quando desativado, layouts de Linha do tempo ficam ocultos na galeria e Extra Blocks de Linha do tempo existentes ficam ocultos.
+  decidim:
+    authorization_handlers:
+      dummy_ephemeral_authorization_handler:
+        name: Número de telefone
+        explanation: Seja verificado informando um número de telefone.
+        fields:
+          phone_number: Número de telefone
+      admin:
+        dummy_ephemeral_authorization_handler:
+          help:
+            - Os participantes informam um número de telefone para se verificar.
+            - Use de 8 a 15 dígitos. Espaços e o sinal de mais são permitidos.
+    ephemeral_participation:
+      ephemeral_participants:
+        name: Participante %{number}
+    extra_blocks:
+      content_blocks:
+        extra_block:
+          name: Extra Block
+      categories:
+        cta: CTA
+        hero: Hero
+        text: Texto
+        fast_proposal: Proposta rápida
+        misc: Diversos
+        timelines: Linhas do tempo
+      fast_proposals:
+        form:
+          body: Sua proposta
+          body_help: Descreva sua proposta com clareza. Você poderá editá-la depois no componente de propostas.
+          accept_terms: Aceito os termos e condições
+          accept_terms_help_html: "Você deve aceitar os termos e condições para enviar uma proposta. Ao enviar, uma conta anônima será criada e você não poderá editar a proposta. Para gerenciar sua proposta, %{link}."
+          login_label: entre
+          platform_terms_label: termos e condições
+          platform_terms_link_html: "Leia os %{link} da plataforma antes de enviar."
+          submit: Enviar proposta
+          errors:
+            blank: Este campo não pode ficar em branco
+            terms: Você deve aceitar os termos e condições
+        create:
+          error: Sua proposta não pôde ser enviada. Tente novamente.
+          ephemeral_authorization_missing: A participação efêmera não está configurada para esta organização.
+          creation_disabled: Não é possível criar propostas neste componente no momento.
+      layouts:
+        verbose_cta:
+          name: CTA detalhado
+          description: Seção em largura total com texto e um botão de chamada para ação.
+        dual_path_cta:
+          name: CTA de dois caminhos
+          description: Dois cartões de ação iguais para participar ou acompanhar resultados.
+        join_steps_cta:
+          name: CTA de passos de entrada
+          description: Três passos numerados que orientam quem chega a participar.
+        trust_quote_cta:
+          name: CTA com citação de confiança
+          description: Citação de participante com atribuição e um botão de convite.
+        video_hero:
+          name: Hero com vídeo
+          description: Fundo de vídeo em largura total com título posicionado e chamada para ação.
+        photo_mission_hero:
+          name: Hero com foto de missão
+          description: Foto em tela cheia com título da missão e mandato em uma linha.
+        split_story_hero:
+          name: Hero de história dividida
+          description: História em duas colunas com imagem cívica ao lado do título e do texto.
+        outcome_stats_hero:
+          name: Hero de estatísticas de impacto
+          description: Hero compacto com título e até três indicadores de impacto.
+        editorial_prose:
+          name: Prosa editorial
+          description: Seção longa centralizada com imagem de abertura opcional e CTA suave.
+        media_aside:
+          name: Mídia ao lado
+          description: História em duas colunas no meio da página com slideshow de três imagens ao lado do texto.
+        topic_trio:
+          name: Trio de temas
+          description: Introdução de seção com três cartões de tema e um botão principal.
+        focused_quick_proposal:
+          name: Proposta rápida focada
+          description: Formulário de Proposta rápida centralizado com botão de envio simples.
+        split_fast_proposal:
+          name: Proposta rápida dividida
+          description: Proposta rápida em duas colunas com formulário ao lado do texto introdutório.
+        video_fast_proposal:
+          name: Proposta rápida com vídeo
+          description: Formulário de Proposta rápida centralizado sobre fundo de vídeo em loop.
+        proposals_aside_fast_proposal:
+          name: Proposta rápida com propostas ao lado
+          description: Formulário de Proposta rápida ao lado de texto introdutório e três propostas publicadas aleatórias.
+        spacer:
+          name: Espaçador
+          description: Espaço vertical vazio (1rem, 3rem ou 5rem) com cor de fundo opcional.
+        image:
+          name: Imagem
+          description: Uma imagem em largura total ou em caixa.
+        video:
+          name: Vídeo
+          description: Um vídeo em largura total ou em caixa (WebM e/ou MP4).
+        logo_showcase:
+          name: Vitrine de logos
+          description: Grade de logos de parceiros em tons de cinza (até 12) que ganham cor ao passar o mouse.
+        shared:
+          background_fit: Ajuste do fundo
+          background_fit_cover: Cobrir
+          background_fit_contain: Conter
+          background_fit_fill: Preencher
+          background_fit_none: Nenhum
+          background_fit_scale_down: Reduzir
+          background_fit_help: Como a imagem de fundo preenche o bloco.
+          dynamic_logos:
+            callout_title: Prefira imagens 16:9
+            callout_body: Envie logos que caibam em um quadro clássico 16:9. As imagens são preenchidas no quadro com object-fit contain.
+            add: "+ Adicionar logo"
+            remove: Remover logo
+            empty: Ainda não há logos. Clique em "+ Adicionar logo" para começar.
+            max: Máximo de %{count} logos atingido.
+            logo: Logo
+            alt: Texto alternativo
+            image: "Imagem do logo %{number}"
+          dynamic_events:
+            callout_title: Até 5 eventos na linha do tempo
+            callout_body: Adicione apenas os eventos necessários. Marque um como destacado para usar a cor primária no marcador e no título.
+            add: "+ Adicionar evento"
+            remove: Remover evento
+            empty: Ainda não há eventos. Clique em "+ Adicionar evento" para começar.
+            max: Máximo de %{count} eventos atingido.
+            event: Evento
+            highlighted: Evento destacado
+            event_date: Rótulo da data
+            event_title: Título
+            event_body: Texto
+            event_image: "Imagem do evento %{number}"
+            event_button_label: Rótulo do botão
+            event_button_url: URL do botão
+          dynamic_topics: &dynamic_topics
+            callout_title: Até 6 temas
+            callout_body: Adicione apenas os temas necessários. A ordem na lista é a ordem exibida na página.
+            add: "+ Adicionar tema"
+            remove: Remover tema
+            empty: Ainda não há temas. Clique em "+ Adicionar tema" para começar.
+            max: Máximo de %{count} temas atingido.
+            topic: Tema
+            topic_title: Título do tema
+            topic_body: Texto do tema
+            topic_image: "Imagem do tema %{number}"
+            topic_image_help: Proporção ideal 16:9. A imagem é recortada para preencher o quadro (sem letterbox). Largura máxima de exibição 735px em telas pequenas, 331px por cartão a partir de 768px. Envie com pelo menos 1200px de largura.
+          dynamic_steps:
+            <<: *dynamic_topics
+            callout_title: Até 6 passos
+            callout_body: Adicione apenas os passos necessários. A ordem na lista é a ordem exibida na página.
+            add: "+ Adicionar passo"
+            remove: Remover passo
+            empty: Ainda não há passos. Clique em "+ Adicionar passo" para começar.
+            max: Máximo de %{count} passos atingido.
+            step: Passo
+            step_title: Título do passo
+            step_body: Texto do passo
+          dynamic_stats:
+            <<: *dynamic_topics
+            callout_title: Até 6 estatísticas
+            callout_body: Adicione apenas as estatísticas necessárias. A ordem na lista é a ordem exibida na página.
+            add: "+ Adicionar estatística"
+            remove: Remover estatística
+            empty: Ainda não há estatísticas. Clique em "+ Adicionar estatística" para começar.
+            max: Máximo de %{count} estatísticas atingido.
+            stat: Estatística
+            stat_value: Valor
+            stat_label: Rótulo
+          dynamic_asides:
+            <<: *dynamic_topics
+            callout_title: Até 6 imagens laterais
+            callout_body: Adicione apenas as imagens necessárias. A ordem na lista é a ordem do slideshow.
+            add: "+ Adicionar imagem"
+            remove: Remover imagem
+            empty: Ainda não há imagens. Clique em "+ Adicionar imagem" para começar.
+            max: Máximo de %{count} imagens atingido.
+            aside: Imagem
+            aside_image: "Imagem lateral %{number}"
+            aside_image_help: Proporção ideal 16:9. A imagem é recortada para preencher o quadro (sem letterbox). Largura máxima de exibição 735px empilhada, 504px ao lado do texto a partir de 768px. Envie com pelo menos 1200px de largura.
+        brand_story:
+          name: História da marca
+          description: Linha do tempo vertical com cartões de marcos alternados para a história da organização.
+        roadmap: &roadmap_layout
+          name: Roadmap
+          description: Cartões de fases horizontais para roadmaps de campanha ou produto.
+        product_roadmap: *roadmap_layout
+        impact_milestones:
+          name: Marcos de impacto
+          description: Trilho compacto de conquistas para vitórias-chave e prova social.
+        fast_proposal_settings_form:
+          proposal_component: Componente de propostas
+          eyebrow: Sobretítulo
+          title: Título
+          description: Descrição
+          form_side: Lado do formulário
+          form_side_left: Esquerda
+          form_side_right: Direita
+          terms: Termos e condições personalizados
+          terms_help: Opcional. Se vazio, a página de termos e condições da plataforma é usada.
+          background_color: Cor de fundo
+          background_image: Imagem de fundo
+          background_video_webm: Vídeo de fundo (WebM)
+          background_video_webm_help: Opcional. Prefira WebM para navegadores modernos. Os formatos são independentes; nada é convertido.
+          background_video: Vídeo de fundo (MP4)
+          background_video_help: Opcional. Fallback MP4 para maior compatibilidade. Se nenhum vídeo for enviado, a cor de fundo é usada.
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          success_message: Mensagem da página de sucesso
+          success_button_label: Botão da página de sucesso
+          success_time: Tempo antes do redirecionamento na página de sucesso
+          default_title: Título da proposta quando anônimo
+          default_title_connected: Título da proposta quando conectado
+          default_title_help: "Use os placeholders {{id}} e {{random}}. Deve começar com letra maiúscula. Com menos de 15 caracteres após os placeholders, {{random}} é acrescentado. Evite #palavras (o Decidim trata como hashtags)."
+          gate_warning_title: "Aviso: este bloco de conteúdo não será exibido porque:"
+          gate_ok_title: A Proposta rápida está pronta para exibição
+          gate_ok_body: O componente de propostas selecionado permite criação e participação efêmera com a autorização necessária.
+          gate_reasons:
+            missing_component: nenhum componente de propostas selecionado
+            creation_disabled: o componente não está aberto para criação de propostas
+            ephemeral_creation_disabled: o componente não permite criação efêmera
+            missing_organization_ephemeral_authorization: a organização não tem autorização efêmera configurada
+            missing_ephemeral_authorization_in_permissions: nenhuma autorização efêmera na permissão do componente
+        verbose_cta_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          title: Título
+          body: Texto
+          button_label: Rótulo do botão
+          button_url: URL do botão
+        dual_path_cta_settings_form:
+          background_color: Cor de fundo
+          background_image: Imagem de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          alignment: Alinhamento
+          alignment_left: Esquerda
+          alignment_center: Centro
+          title: Título da seção
+          primary_path: Primeiro caminho
+          secondary_path: Segundo caminho
+          path_background_color: Cor de fundo do cartão
+          path_text_color: Cor do texto do cartão
+          path_title: Título
+          path_body: Texto
+          button_label: Rótulo do botão
+          button_url: URL do botão
+        join_steps_cta_settings_form:
+          background_color: Cor de fundo
+          background_image: Imagem de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          title: Título
+          step: "Passo %{number}"
+          step_title: Título do passo
+          step_body: Texto do passo
+          button_label: Rótulo do botão
+          button_url: URL do botão
+        trust_quote_cta_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          quote: Citação
+          attribution_name: Nome
+          attribution_role: Cargo ou organização
+          button_label: Rótulo do botão
+          button_url: URL do botão
+          portrait: Retrato
+        video_hero_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          eyebrow: Sobretítulo
+          title: Título
+          title_position: Posição do título
+          button_label: Rótulo do botão
+          button_url: URL do botão
+          background_video_webm: Vídeo de fundo (WebM)
+          background_video_webm_help: Opcional. Prefira WebM para navegadores modernos. Os formatos são independentes; nada é convertido.
+          background_video: Vídeo de fundo (MP4)
+          background_video_help: Opcional. Fallback MP4 para maior compatibilidade. Se nenhum vídeo for enviado, a cor de fundo é usada.
+          positions:
+            top_left: Superior esquerdo
+            top_center: Superior centro
+            top_right: Superior direito
+            middle_left: Meio esquerdo
+            middle_center: Meio centro
+            middle_right: Meio direito
+            bottom_left: Inferior esquerdo
+            bottom_center: Inferior centro
+            bottom_right: Inferior direito
+        photo_mission_hero_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          overlay_strength: Intensidade da sobreposição
+          overlay_strengths:
+            light: Clara
+            medium: Média
+            dark: Escura
+          size: Tamanho
+          size_small: Pequeno
+          size_medium: Médio
+          size_large: Grande
+          eyebrow: Sobretítulo
+          title: Título
+          tagline: Slogan
+          button_label: Rótulo do botão
+          button_url: URL do botão
+          background_image: Imagem de fundo
+        split_story_hero_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          image_side: Lado da imagem
+          image_sides:
+            left: Esquerda
+            right: Direita
+          eyebrow: Sobretítulo
+          title: Título
+          body: Texto
+          button_label: Rótulo do botão
+          button_url: URL do botão
+          side_image: Imagem lateral
+        outcome_stats_hero_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          title: Título
+          intro: Introdução
+          stat: "Estatística %{number}"
+          stat_value: Valor
+          stat_label: Rótulo
+          button_label: Rótulo do botão
+          button_url: URL do botão
+        editorial_prose_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          image_position: Posição da imagem
+          image_positions:
+            above: Acima
+            below: Abaixo
+          eyebrow: Sobretítulo
+          title: Título
+          body: Texto
+          button_label: Rótulo do botão
+          button_url: URL do botão
+          lead_image: Imagem de abertura
+          lead_image_help: Proporção ideal 16:9. A imagem é recortada para preencher o quadro (sem letterbox). Largura máxima de exibição 640px. Envie com pelo menos 1200px de largura.
+        media_aside_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          image_side: Lado da imagem
+          image_sides:
+            left: Esquerda
+            right: Direita
+          title: Título
+          body: Texto
+          button_label: Rótulo do botão
+          button_url: URL do botão
+          aside_image: "Imagem lateral %{number}"
+        topic_trio_settings_form:
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          eyebrow: Sobretítulo
+          title: Título
+          body: Texto
+          topic: "Tema %{number}"
+          topic_title: Título do tema
+          topic_body: Texto do tema
+          topic_image: "Imagem do tema %{number}"
+          button_label: Rótulo do botão
+          button_url: URL do botão
+        spacer_settings_form:
+          background_color: Cor de fundo
+          spacer_height: Altura
+        image_settings_form:
+          background_color: Cor de fundo
+          media_width: Largura
+          media_widths:
+            full: Largura total
+            boxed: Em caixa
+          block_image: Imagem
+        video_settings_form:
+          background_color: Cor de fundo
+          media_width: Largura
+          media_widths:
+            full: Largura total
+            boxed: Em caixa
+          background_video_webm: Vídeo (WebM)
+          background_video_webm_help: Opcional. Prefira WebM para navegadores modernos.
+          background_video: Vídeo (MP4)
+          background_video_help: Opcional. Fallback MP4 para maior compatibilidade.
+        logo_showcase_settings_form:
+          background_color: Cor de fundo
+        brand_story_settings_form: &timeline_settings_form
+          background_color: Cor de fundo
+          text_color: Cor do texto
+          text_color_white: Branco
+          text_color_black: Preto
+          title: Título
+          event: "Evento %{number}"
+          event_date: Rótulo da data
+          event_title: Título
+          event_body: Texto
+          event_image: "Imagem do evento %{number}"
+          event_button_label: Rótulo do botão
+          event_button_url: URL do botão
+        roadmap_settings_form: *timeline_settings_form
+        impact_milestones_settings_form: *timeline_settings_form
+      admin:
+        edit:
+          back: Voltar
+        update:
+          success: Extra Block atualizado com sucesso.
+        errors:
+          layout_frozen: O layout deste Extra Block não pode ser alterado. Exclua o bloco e crie um novo para escolher outro layout.
+          layout_unknown: O layout selecionado não está registrado.
+          invalid_proposal_title: O título da proposta deve começar com letra maiúscula, ter entre 15 e 150 caracteres após os placeholders e seguir as regras do Decidim (sem excesso de maiúsculas ou pontuação).
+        gallery:
+          intro: Escolha um layout para este Extra Block. Você não poderá alterá-lo depois.
+          details: Detalhes
+          use: Usar
+          close: Fechar
+          cancel: Cancelar
+          confirm_title: Usar este layout?
+          confirm_body: Depois de confirmado, este Extra Block fica vinculado a este layout. Você só poderá editar o conteúdo.
+          confirm_use: Usar este layout
+          screenshot_alt: "Captura de tela %{index} de %{name}"

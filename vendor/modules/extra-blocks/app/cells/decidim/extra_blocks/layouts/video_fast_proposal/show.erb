@@ -1,0 +1,31 @@
+<%= content_tag(
+  :section,
+  class: "extra-blocks-video-fast-proposal #{prose_classes}",
+  id: "extra-block-#{model.id}",
+  data: { extra_blocks_category: "fast_proposal" },
+  style: section_style
+) do %>
+  <% if video? %>
+    <%= content_tag(:video, class: "extra-blocks__media extra-blocks-video-fast-proposal__video", muted: true, loop: true, playsinline: true, preload: "metadata") do %>
+      <% video_sources.each do |source| %>
+        <%= tag.source src: source[:src], type: source[:type] %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <div class="extra-blocks-video-fast-proposal__inner">
+    <% if eyebrow.present? %>
+      <p class="extra-blocks__eyebrow extra-blocks-video-fast-proposal__eyebrow"><%= eyebrow %></p>
+    <% end %>
+    <% if title.present? %>
+      <h2 class="extra-blocks__title extra-blocks-video-fast-proposal__title"><%= title %></h2>
+    <% end %>
+    <% if description.present? %>
+      <div class="extra-blocks__description extra-blocks-video-fast-proposal__description"><%= description %></div>
+    <% end %>
+    <%= cell(
+          "decidim/extra_blocks/layouts/fast_proposal_form",
+          model,
+          proposal_component:
+        ) %>
+  </div>
+<% end %>

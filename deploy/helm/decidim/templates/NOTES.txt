@@ -1,0 +1,30 @@
+Decidim has been deployed!
+
+{{- if .Values.ingress.enabled }}
+
+Access your instance at:
+{{- range .Values.ingress.hosts }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}
+{{- end }}
+
+{{- else if eq .Values.service.type "ClusterIP" }}
+
+Port-forward to access the app:
+  kubectl port-forward svc/{{ include "decidim.fullname" . }} 3000:{{ .Values.service.port }}
+
+Then visit http://localhost:3000
+{{- end }}
+
+{{- if not .Values.rails.secretKeyBase }}
+
+⚠️  A random SECRET_KEY_BASE was generated. To persist it:
+  kubectl get secret {{ include "decidim.fullname" . }} -o jsonpath='{.data.SECRET_KEY_BASE}' | base64 -d
+{{- end }}
+
+{{- if .Values.postgresql.enabled }}
+
+PostgreSQL is running as a sub-chart. Connection details:
+  Host: {{ .Release.Name }}-postgresql
+  Database: {{ .Values.postgresql.auth.database }}
+  Username: {{ .Values.postgresql.auth.username }}
+{{- end }}

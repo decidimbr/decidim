@@ -37,6 +37,21 @@ shared_examples_for "has questionnaire" do
       end
     end
 
+    context "and there is a files question" do
+      let!(:files_question) { create(:questionnaire_question, questionnaire:, question_type: "files", position: 1) }
+
+      it "shows the accepted file extensions in the upload help" do
+        visit questionnaire_public_path
+        see_questionnaire_questions
+
+        find("button[id$='add_attachments_button']").click
+
+        within ".upload-modal" do
+          expect(page).to have_text("Accepted formats:")
+        end
+      end
+    end
+
     it "allows responding the questionnaire" do
       visit questionnaire_public_path
 

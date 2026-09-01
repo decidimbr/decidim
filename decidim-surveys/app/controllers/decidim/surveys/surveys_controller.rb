@@ -18,20 +18,11 @@ module Decidim
       helper_method :authorizations, :surveys, :show_published_questions_responses?
 
       before_action :check_permissions, except: [:index]
-      before_action :check_editable, only: [:edit]
       # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :check_open_for_responses, only: [:respond]
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
       def index; end
-
-      def edit
-        @form = form(Decidim::Forms::QuestionnaireForm).from_model(questionnaire)
-        @form.add_responses!(questionnaire:, session_token:, ip_hash:)
-        @form.allow_editing_responses = questionnaire.questionnaire_for&.allow_editing_responses?
-
-        render template: "decidim/forms/questionnaires/edit"
-      end
 
       def check_permissions
         render :no_permission unless action_authorized_to(:respond, resource: survey).ok?
@@ -42,17 +33,6 @@ module Decidim
       end
 
       protected
-
-      def check_editable
-        return if allow_editing_responses?
-
-        flash.now[:error] = t("decidim.forms.step_navigation.show.disallowed")
-        render :not_allowed
-      end
-
-      def allow_editing_responses?
-        visitor_can_edit_responses? && survey.open?
-      end
 
       def show_published_questions_responses?
         survey.closed? && survey.questionnaire.questions.pluck(:survey_responses_published_at).any?

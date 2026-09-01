@@ -11,7 +11,6 @@ describe "Decidim::Api::QueryType" do
       fragment fooComponent on Surveys {
         survey(id: #{survey.id}){
           allowResponses
-          allowEditingResponses
           allowUnregistered
           announcement {
             translation(locale:"#{locale}")
@@ -68,7 +67,6 @@ describe "Decidim::Api::QueryType" do
   let(:survey_single_result) do
     survey.reload
     {
-      "allowEditingResponses" => survey.allow_editing_responses,
       "allowResponses" => survey.allow_responses,
       "allowUnregistered" => survey.allow_unregistered,
       "announcement" => translated(survey.announcement),
@@ -136,7 +134,6 @@ describe "Decidim::Api::QueryType" do
           edges{
             node{
               allowResponses
-              allowEditingResponses
               allowUnregistered
               announcement {
                 translation(locale:"#{locale}")

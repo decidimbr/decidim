@@ -55,8 +55,6 @@ describe "Respond a survey" do
       login_as user, scope: :user
     end
 
-    it_behaves_like "editable survey responses"
-
     it "allows responding the questionnaire" do
       allow(Decidim::Surveys::SurveyConfirmationMailer).to receive(:confirmation).and_return(mailer)
 

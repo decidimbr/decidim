@@ -214,42 +214,6 @@ describe "Respond a survey" do
       it_behaves_like "has questionnaire"
     end
 
-    context "when the survey allows to edit responses, and question has display conditions" do
-      let!(:question_two) do
-        create(:questionnaire_question,
-               questionnaire:,
-               question_type: "short_response",
-               position: 1,
-               options: [])
-      end
-      let!(:display_condition) do
-        create(:display_condition,
-               condition_type: "not_responded",
-               question: question_two,
-               condition_question: question)
-      end
-
-      before do
-        survey.update!(
-          allow_responses: true,
-          allow_editing_responses: true
-        )
-        login_as user, scope: :user
-        visit_component
-        click_on translated_attribute(questionnaire.title)
-        fill_in "questionnaire_responses_0", with: "test"
-        check "questionnaire_tos_agreement"
-        click_on "Submit"
-        expect(page).to have_callout("Survey successfully responded.")
-      end
-
-      it "allows to edit the responses" do
-        click_on "Edit your responses"
-        expect(page).to have_content(translated_attribute(survey.title))
-        expect(page).to have_content(translated_attribute(question.body))
-      end
-    end
-
     context "when the survey has a files question with max_choices limit" do
       let(:callout_success) { "Survey successfully responded." }
       let!(:files_question) { create(:questionnaire_question, questionnaire:, question_type: "files", max_choices: 2, position: 0) }

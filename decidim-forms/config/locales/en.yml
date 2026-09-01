@@ -43,7 +43,6 @@ en:
       admin:
         models:
           components:
-            allow_editing_responses: Allow registered users to edit own survey responses
             allow_responses: Allow responses
             allow_unregistered: Allow unregistered users to respond to the survey
             allow_unregistered_help: If active, no login will be required in order to respond to the survey. This may lead to poor or unreliable data and it will be more vulnerable to automated attacks. Use with caution! Mind that a participant could response the same survey multiple times, by using different browsers or the "private browsing" feature of her web browser.
@@ -204,9 +203,6 @@ en:
           questionnaire_responded:
             body: You have already responded this form.
             title: Already responded
-          questionnaire_responded_edit:
-            body: You have already responded this form. %{link}
-            edit: Edit your responses
           response_questionnaire:
             already_have_an_account?: Already have an account?
             are_you_new?: New user?
@@ -220,7 +216,6 @@ en:
           are_you_sure_no_edit: This action cannot be undone and you will not be able to edit your responses. Are you sure?
           back: Back
           continue: Continue
-          disallowed: You are not allowed to edit your responses.
           submit: Submit
       user_responses_serializer:
         body: Response

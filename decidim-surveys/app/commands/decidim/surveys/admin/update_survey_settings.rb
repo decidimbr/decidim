@@ -39,7 +39,6 @@ module Decidim
         def update_survey_settings
           survey.update!(
             allow_responses: form.allow_responses,
-            allow_editing_responses: form.allow_editing_responses,
             allow_unregistered: form.allow_unregistered,
             starts_at: form.starts_at,
             ends_at: form.ends_at,

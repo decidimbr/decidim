@@ -9,7 +9,7 @@ module Decidim
       isolate_namespace Decidim::Surveys
 
       routes do
-        resources :surveys, only: [:index, :show, :edit] do
+        resources :surveys, only: [:index, :show] do
           member do
             post :respond
           end

@@ -20,12 +20,13 @@ module Decidim
       validates :questionnaire, presence: true
 
       scope :open, lambda {
-        where(allow_responses: true)
-          .where(starts_at: nil, ends_at: nil).or(
+        where(allow_responses: true).and(
+          where(starts_at: nil, ends_at: nil).or(
             where("starts_at <= ? AND (ends_at IS NULL OR ends_at > ?)", Time.current, Time.current)
           ).or(
             where("ends_at > ? AND (starts_at IS NULL OR starts_at <= ?)", Time.current, Time.current)
           )
+        )
       }
       scope :closed, lambda {
         where(allow_responses: false).or(

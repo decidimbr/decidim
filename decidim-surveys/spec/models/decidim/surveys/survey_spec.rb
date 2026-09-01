@@ -13,6 +13,7 @@ module Decidim
       let!(:future_survey) { create(:survey, allow_responses: true, starts_at: 1.day.from_now, ends_at: nil) }
       let!(:past_survey) { create(:survey, allow_responses: true, starts_at: 5.days.ago, ends_at: 2.days.ago) }
       let!(:indefinite_survey) { create(:survey, allow_responses: true, starts_at: nil, ends_at: nil) }
+      let!(:disabled_in_range_survey) { create(:survey, allow_responses: false, starts_at: 2.days.ago, ends_at: 1.day.from_now) }
 
       include_examples "has component"
 
@@ -183,11 +184,19 @@ module Decidim
           it "does not return surveys that are closed, in the future, or already finished" do
             expect(Decidim::Surveys::Survey.open).not_to include(closed_survey, future_survey, past_survey)
           end
+
+          it "does not return surveys with responses disabled even when within the time range" do
+            expect(Decidim::Surveys::Survey.open).not_to include(disabled_in_range_survey)
+          end
         end
 
         describe ".closed" do
           it "returns surveys that are closed or past their end date" do
             expect(Decidim::Surveys::Survey.closed).to include(closed_survey, past_survey)
+          end
+
+          it "returns surveys with responses disabled even when within the time range" do
+            expect(Decidim::Surveys::Survey.closed).to include(disabled_in_range_survey)
           end
         end
       end

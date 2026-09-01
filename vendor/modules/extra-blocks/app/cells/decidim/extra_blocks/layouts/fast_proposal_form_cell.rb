@@ -8,7 +8,6 @@ module Decidim
         include Decidim::ComponentPathHelper
         include Decidim::AuthorizationFormHelper
         include Decidim::DecidimFormHelper
-        include Decidim::ScopesHelper
 
         def proposal_component
           options[:proposal_component]

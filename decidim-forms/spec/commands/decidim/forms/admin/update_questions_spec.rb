@@ -347,6 +347,23 @@ module Decidim
               expect(questionnaire.questions[2].display_conditions.second.condition_type).to eq("equal")
               expect(questionnaire.questions[2].display_conditions.second.decidim_response_option_id).to eq(question_2_response_options.first.id)
             end
+
+            context "when re-saving the questionnaire without changes" do
+              it "keeps the conditions assigned to the conditioned question" do
+                command.call
+
+                conditions = questionnaire.questions[2].display_conditions.reload.to_a
+                resave_params = form_params.deep_dup
+                conditions.each_with_index do |condition, idx|
+                  resave_params["questions"]["3"]["display_conditions"][(idx + 1).to_s]["id"] = condition.id
+                end
+
+                resave_form = QuestionsForm.from_params(questions: resave_params).with_context(current_organization:, current_user: user)
+                expect { described_class.new(resave_form, questionnaire).call }.to broadcast(:ok)
+
+                expect(conditions.map { |condition| condition.reload.decidim_question_id }).to all(eq(questions[2].id))
+              end
+            end
           end
         end
       end

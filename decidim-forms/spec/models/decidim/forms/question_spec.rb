@@ -22,6 +22,25 @@ module Decidim
         expect(subject.display_conditions).to match_array(display_conditions)
       end
 
+      context "when there are display conditions based on this question's response" do
+        let(:conditioned_question) { create(:questionnaire_question, questionnaire:, position: 2) }
+        let!(:conditions_for_others) { create_list(:display_condition, 2, question: conditioned_question, condition_question: question) }
+
+        it "has an association of display_conditions_for_other_questions" do
+          expect(subject.display_conditions_for_other_questions).to match_array(conditions_for_others)
+        end
+
+        it "does not change the conditions' owner when touching the association" do
+          subject.display_conditions_for_other_questions.load
+
+          expect(conditions_for_others.map { |condition| condition.reload.decidim_question_id }).to all(eq(conditioned_question.id))
+        end
+
+        it "has an association of conditioned_questions" do
+          expect(subject.conditioned_questions).to contain_exactly(conditioned_question)
+        end
+      end
+
       context "when there are response_options belonging to this question" do
         let(:response_options) { create_list(:response_option, 3, question:) }
 

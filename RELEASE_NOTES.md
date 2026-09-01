@@ -42,7 +42,11 @@ bin/rails data:migrate
 
 ## 2. General notes
 
-### 2.1. [[TITLE OF THE ACTION]]
+### 2.1. Survey responses can no longer be edited
+
+The `allow_editing_responses` setting of surveys has been removed: once a participant submits a response, it cannot be edited anymore. The "Edit your responses" link and the survey `edit` page are gone, and the admin setting checkbox was removed.
+
+If your installation relied on this feature, inform participants that submissions are final. Existing responses are not affected.
 
 You can read more about this change on PR [#XXXX](https://github.com/decidim/decidim/pull/XXXX).
 
@@ -50,7 +54,11 @@ You can read more about this change on PR [#XXXX](https://github.com/decidim/dec
 
 These are one time actions that need to be done after the code is updated in the production database.
 
-### 3.1. [[TITLE OF THE ACTION]]
+### 3.1. Questionnaire display conditions corrupted by re-saves are deleted
+
+A bug in the questionnaire admin overwrote the owner of display conditions when a questionnaire was re-saved, making those conditions inert. A data migration shipped with this release deletes such self-referential conditions. It runs automatically with `bin/rails data:migrate` (already part of the upgrade steps). After upgrading, admins should review questionnaires that use display conditions and recreate any that went missing.
+
+### 3.2. [[TITLE OF THE ACTION]]
 
 You can read more about this change on PR [#XXXX](https://github.com/decidim/decidim/pull/XXXX).
 
@@ -69,7 +77,9 @@ You can read more about this change on PR [#XXXX](https://github.com/decidim/dec
 
 ## 5. Changes in APIs
 
-### 5.1. [[TITLE OF THE CHANGE]]
+### 5.1. `allowEditingResponses` field removed from the GraphQL `Survey` type
+
+Together with the removal of the survey response editing feature, the `allowEditingResponses` field no longer exists in the `Surveys` GraphQL type. If your API consumers query this field, remove it from the queries.
 
 In order to [[REASONING (e.g. improve the maintenance of the code base)]] we have changed...
 

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Como funcionam os Surveys no Decidim</title>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --fg: #1d2129;
+    --muted: #5b6270;
+    --accent: #b23a48;
+    --accent-soft: #f6e3e5;
+    --card: #ffffff;
+    --border: #ddd9d0;
+    --code-bg: #f1efe9;
+    --callout-bg: #eef3f8;
+    --callout-border: #4a7fb5;
+    --warn-bg: #fdf3e3;
+    --warn-border: #c98a1b;
+    --ok: #2e7d4f;
+    --box-a: #dfe9f3;
+    --box-b: #efe3d3;
+    --box-c: #e2efe2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181d;
+      --fg: #e6e4de;
+      --muted: #9aa1ad;
+      --accent: #e78a95;
+      --accent-soft: #3a2327;
+      --card: #1e2128;
+      --border: #363b45;
+      --code-bg: #242830;
+      --callout-bg: #1d2733;
+      --callout-border: #5d92c4;
+      --warn-bg: #2e2817;
+      --warn-border: #d09a35;
+      --ok: #6fbf8f;
+      --box-a: #25313f;
+      --box-b: #352c20;
+      --box-c: #22331f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    line-height: 1.65;
+    font-size: 17px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: 2.1rem; line-height: 1.2; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.55rem; margin-top: 3.2rem; border-bottom: 2px solid var(--border); padding-bottom: 0.35rem; }
+  h3 { font-size: 1.15rem; margin-top: 2rem; }
+  .subtitle { color: var(--muted); font-style: italic; margin-top: 0; }
+  code, kbd {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.86em;
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    white-space: pre;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .file-ref { color: var(--muted); font-size: 0.8rem; font-family: "SFMono-Regular", Consolas, monospace; margin: -0.6rem 0 1.2rem; }
+  nav.toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+  }
+  nav.toc ol { margin: 0.4rem 0 0; padding-left: 1.4rem; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg);
+    border-left: 4px solid var(--callout-border);
+    border-radius: 0 8px 8px 0;
+    padding: 0.9rem 1.2rem;
+    margin: 1.4rem 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout .tag {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  figure { margin: 2rem 0; text-align: center; }
+  figure svg { max-width: 100%; height: auto; }
+  figcaption { color: var(--muted); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; }
+  .skippable {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 0.2rem 1.3rem;
+    margin: 1.5rem 0;
+  }
+  .skippable summary { cursor: pointer; font-weight: bold; color: var(--muted); padding: 0.7rem 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1.4rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.7rem; text-align: left; vertical-align: top; }
+  th { background: var(--card); }
+  a { color: var(--accent); }
+  .diagram text { font-family: "SFMono-Regular", Consolas, monospace; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Como funcionam os Surveys no Decidim</h1>
+<p class="subtitle">Uma leitura guiada do módulo <code>decidim-surveys</code> — da fundação de formulários à publicação de respostas</p>
+
+<nav class="toc">
+  <strong>Sumário</strong>
+  <ol>
+    <li><a href="#bg-broad">Contexto geral: o que é o Decidim (pode pular se já conhece)</a></li>
+    <li><a href="#bg-forms">Contexto específico: a fundação em <code>decidim-forms</code></a></li>
+    <li><a href="#intuition">A intuição: o ciclo de vida de um survey</a></li>
+    <li><a href="#intuition-open">A intuição por trás de <code>open?</code></a></li>
+    <li><a href="#intuition-anon">Anonimato prático: <code>session_token</code> e <code>ip_hash</code></a></li>
+    <li><a href="#intuition-publish">Publicar respostas, pergunta por pergunta</a></li>
+    <li><a href="#code-model">O código: o model <code>Survey</code></a></li>
+    <li><a href="#code-flow">O código: o fluxo de responder (controller → command)</a></li>
+    <li><a href="#code-admin">O código: o lado administrativo</a></li>
+    <li><a href="#code-exports">O código: exportações e dados abertos</a></li>
+    <li><a href="#recap">Síntese</a></li>
+  </ol>
+</nav>
+
+<h2 id="bg-broad">1. Contexto geral: o que é o Decidim</h2>
+
+<details class="skippable">
+<summary>Se você já conhece a arquitetura do Decidim, clique para expandir — ou pule para a seção 2.</summary>
+<div>
+<p>O Decidim é uma plataforma livre de participação cidadã, escrita em Ruby on Rails e usada por governos como Barcelona, Helsinque e a Comissão Europeia. Sua característica arquitetural mais importante para esta leitura é que ela é <em>modular</em>: cada diretório <code>decidim-*</code> neste repositório é uma gem independente, com seus próprios models, controllers, views e testes.</p>
+<p>Dentro dessa arquitetura há uma hierarquia de três níveis que vale fixar:</p>
+<ul>
+  <li><strong>Espaços participativos</strong> (processos participativos, assembleias, conferências) — os contêineres de maior nível, como "a consulta pública do plano diretor".</li>
+  <li><strong>Componentes</strong> — as funcionalidades plugáveis dentro de um espaço: propostas, reuniões, orçamentos participativos e, no nosso caso, <em>surveys</em>. Um espaço pode ter vários surveys; cada um é uma instância de componente.</li>
+  <li><strong>Recursos</strong> — as coisas concretas criadas dentro de um componente. No módulo de surveys, o recurso é o próprio <code>Survey</code>.</li>
+</ul>
+<p>O Decidim também tem convenções fortes de código que aparecem em todo o módulo: a lógica de negócio vive em <em>Commands</em> (objetos que encapsulam um caso de uso e transmitem eventos como <code>:ok</code> ou <code>:invalid</code>), a validação de entrada vive em <em>Form objects</em> (separados dos models), e a autorização passa por um sistema de permissões próprio. Se um trecho de código parecer indireto demais à primeira vista, provavelmente é uma dessas convenções trabalhando.</p>
+</div>
+</details>
+
+<p>O que nos interessa aqui é o componente de <strong>surveys</strong> — pesquisas ou questionários que um administrador cria para ouvir os participantes: "Qual a sua avaliação do transporte público?", "Que prioridade você dá a cada obra?". Parece simples. Mas por baixo há um desenho cuidadoso que resolve três problemas difíceis ao mesmo tempo: reutilizar toda a maquinaria de formulários sem duplicá-la, permitir respostas anônimas sem abrir brecha para fraude, e publicar resultados sem expor quem respondeu. É isso que vamos desmontar.</p>
+
+<h2 id="bg-forms">2. Contexto específico: a fundação em decidim-forms</h2>
+
+<p>A decisão de design mais importante do módulo de surveys é que ele <strong>quase não tem dados próprios</strong>. Toda a estrutura de perguntas e respostas vive em outro módulo, o <code>decidim-forms</code>, que fornece um questionário genérico e reutilizável. O survey é apenas uma <em>casca</em> sobre um questionário — uma casca que adiciona as regras específicas de uma pesquisa: janela de datas, abrir/fechar, anonimato, publicação de resultados.</p>
+
+<p>A ligação entre os dois é uma associação polimórfica. O concern <code>Decidim::Forms::HasQuestionnaire</code> declara (<code>decidim-forms/app/models/concerns/decidim/forms/has_questionnaire.rb:11-17</code>):</p>
+
+<pre><code>has_one :questionnaire, as: :questionnaire_for, dependent: :destroy</code></pre>
+
+<p>Ou seja: um <code>Questionnaire</code> pertence a "qualquer coisa que tenha questionário" — hoje um survey, amanhã uma reunião ou um processo de cadastro. É por isso que a coluna se chama <code>questionnaire_for</code>. E o survey chega a <em>delegar</em> seus próprios título, descrição e termos de uso ao questionário (<code>decidim-surveys/app/models/decidim/surveys/survey.rb:17-19</code>) — o título que você vê na página nem é uma coluna do survey.</p>
+
+<figure>
+<svg class="diagram" width="760" height="300" viewBox="0 0 760 300" role="img" aria-label="Diagrama do modelo de dados: Survey aponta para Questionnaire, que tem Questions e Responses">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <g style="color: var(--fg);">
+    <!-- Survey box -->
+    <rect x="20" y="30" width="220" height="110" rx="8" fill="var(--box-c)" stroke="var(--border)"></rect>
+    <text x="130" y="52" text-anchor="middle" font-weight="bold" font-size="14" fill="var(--fg)">Survey</text>
+    <text x="32" y="74" font-size="11" fill="var(--muted)">starts_at, ends_at</text>
+    <text x="32" y="90" font-size="11" fill="var(--muted)">allow_responses</text>
+    <text x="32" y="106" font-size="11" fill="var(--muted)">allow_unregistered</text>
+    <text x="32" y="122" font-size="11" fill="var(--muted)">clean_after_publish…</text>
+
+    <!-- Questionnaire box -->
+    <rect x="320" y="30" width="220" height="110" rx="8" fill="var(--box-a)" stroke="var(--border)"></rect>
+    <text x="430" y="52" text-anchor="middle" font-weight="bold" font-size="14" fill="var(--fg)">Questionnaire</text>
+    <text x="332" y="74" font-size="11" fill="var(--muted)">title, description, tos</text>
+    <text x="332" y="90" font-size="11" fill="var(--muted)">salt (anonimização)</text>
+    <text x="332" y="106" font-size="11" fill="var(--muted)">questionnaire_for → polimórfico</text>
+
+    <!-- Question box -->
+    <rect x="600" y="20" width="150" height="60" rx="8" fill="var(--box-b)" stroke="var(--border)"></rect>
+    <text x="675" y="42" text-anchor="middle" font-weight="bold" font-size="13" fill="var(--fg)">Question</text>
+    <text x="610" y="62" font-size="11" fill="var(--muted)">tipo, obrigatória…</text>
+
+    <!-- Response box -->
+    <rect x="600" y="110" width="150" height="60" rx="8" fill="var(--box-b)" stroke="var(--border)"></rect>
+    <text x="675" y="132" text-anchor="middle" font-weight="bold" font-size="13" fill="var(--fg)">Response</text>
+    <text x="610" y="152" font-size="11" fill="var(--muted)">session_token, ip_hash</text>
+
+    <!-- ResponseChoice -->
+    <rect x="600" y="200" width="150" height="60" rx="8" fill="var(--box-b)" stroke="var(--border)"></rect>
+    <text x="675" y="222" text-anchor="middle" font-weight="bold" font-size="13" fill="var(--fg)">ResponseChoice</text>
+    <text x="610" y="242" font-size="11" fill="var(--muted)">opção escolhida</text>
+
+    <!-- arrows -->
+    <line x1="240" y1="85" x2="312" y2="85" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"></line>
+    <text x="276" y="76" text-anchor="middle" font-size="11" fill="var(--muted)">tem um</text>
+
+    <line x1="540" y1="55" x2="592" y2="50" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"></line>
+    <text x="566" y="44" text-anchor="middle" font-size="11" fill="var(--muted)">tem N</text>
+
+    <line x1="540" y1="95" x2="592" y2="130" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"></line>
+    <text x="566" y="122" text-anchor="middle" font-size="11" fill="var(--muted)">tem N</text>
+
+    <line x1="675" y1="170" x2="675" y2="192" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"></line>
+    <text x="700" y="186" text-anchor="middle" font-size="11" fill="var(--muted)">tem N</text>
+
+    <!-- annotation -->
+    <text x="20" y="180" font-size="12" fill="var(--muted)" font-style="italic">O que o survey adiciona de próprio é só comportamento:</text>
+    <text x="20" y="198" font-size="12" fill="var(--muted)" font-style="italic">janela de datas, abrir/fechar, quem pode responder,</text>
+    <text x="20" y="216" font-size="12" fill="var(--muted)" font-style="italic">e quando os resultados podem ser publicados.</text>
+    <text x="20" y="250" font-size="12" fill="var(--accent)" font-style="italic">Perguntas e respostas: tudo em decidim_forms_*.</text>
+  </g>
+</svg>
+<figcaption>Figura 1 — O survey é uma casca fina sobre o questionário do <code>decidim-forms</code>.</figcaption>
+</figure>
+
+<p>Dentro do <code>decidim-forms</code>, os três models que formam a espinha dorsal são:</p>
+
+<ul>
+  <li><code>Questionnaire</code> — o formulário em si. Tem <code>questions</code> ordenadas por <code>position</code>, <code>responses</code>, e um campo curioso chamado <code>salt</code>, que veremos adiante.</li>
+  <li><code>Question</code> — uma pergunta, com um <code>question_type</code> entre oito possibilidades: <code>short_response</code>, <code>long_response</code>, <code>single_option</code>, <code>multiple_option</code>, <code>sorting</code>, <code>files</code>, <code>matrix_single</code> e <code>matrix_multiple</code> (mais dois tipos puramente estruturais, <code>separator</code> e <code>title_and_description</code>, que dividem o formulário em passos e seções). Perguntas podem ter opções de resposta, linhas de matriz e <em>condições de exibição</em> — "só mostre a pergunta 4 se a pergunta 2 foi respondida com 'Sim'".</li>
+  <li><code>Response</code> (com seus <code>ResponseChoice</code>s) — a resposta de um participante a uma pergunta. Aqui mora o detalhe que sustenta o anonimato: <code>user</code> é <em>opcional</em>, e toda resposta carrega um <code>session_token</code> e um <code>ip_hash</code>.</li>
+</ul>
+
+<div class="callout">
+<span class="tag">Nota histórica</span>
+Em 2025 o Decidim renomeou todo o vocabulário de <em>answer</em> para <em>response</em> (<code>Answer</code> → <code>Response</code>, <code>AnswerChoice</code> → <code>ResponseChoice</code>, etc., em migrations como <code>20250314150250_rename_answer_to_response_in_decidim_forms.rb</code>). Se você encontrar artigos ou código antigo falando em "answers", é a mesma coisa.
+</div>
+
+<h2 id="intuition">3. A intuição: o ciclo de vida de um survey</h2>
+
+<p>Antes do código, vale ter na cabeça o filme completo. Um survey passa por cinco momentos, e quase todas as regras do módulo existem para guardar as fronteiras entre eles:</p>
+
+<figure>
+<svg class="diagram" width="780" height="150" viewBox="0 0 780 150" role="img" aria-label="Ciclo de vida do survey em cinco estágios">
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <g style="color: var(--fg);">
+    <rect x="10" y="45" width="130" height="56" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="75" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">1. Rascunho</text>
+    <text x="75" y="88" text-anchor="middle" font-size="10" fill="var(--muted)">admin monta perguntas</text>
+
+    <rect x="170" y="45" width="130" height="56" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="235" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">2. Publicado</text>
+    <text x="235" y="88" text-anchor="middle" font-size="10" fill="var(--muted)">visível, ainda fechado</text>
+
+    <rect x="330" y="45" width="130" height="56" rx="8" fill="var(--box-c)" stroke="var(--ok)"></rect>
+    <text x="395" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">3. Aberto</text>
+    <text x="395" y="88" text-anchor="middle" font-size="10" fill="var(--muted)">recebendo respostas</text>
+
+    <rect x="490" y="45" width="130" height="56" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="555" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">4. Fechado</text>
+    <text x="555" y="88" text-anchor="middle" font-size="10" fill="var(--muted)">nada mais entra</text>
+
+    <rect x="650" y="45" width="120" height="56" rx="8" fill="var(--box-a)" stroke="var(--border)"></rect>
+    <text x="710" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">5. Resultados</text>
+    <text x="710" y="88" text-anchor="middle" font-size="10" fill="var(--muted)">publicados por pergunta</text>
+
+    <line x1="140" y1="73" x2="162" y2="73" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr2)"></line>
+    <line x1="300" y1="73" x2="322" y2="73" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr2)"></line>
+    <line x1="460" y1="73" x2="482" y2="73" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr2)"></line>
+    <line x1="620" y1="73" x2="642" y2="73" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr2)"></line>
+
+    <text x="390" y="135" text-anchor="middle" font-size="11" fill="var(--muted)" font-style="italic">As transições 2→3 e 3→4 são controladas por allow_responses + janela de datas (starts_at/ends_at)</text>
+  </g>
+</svg>
+<figcaption>Figura 2 — O ciclo de vida. Publicar ≠ abrir: um survey publicado ainda pode estar fechado para respostas.</figcaption>
+</figure>
+
+<p>Três consequências desse ciclo não são óbvias e valem ser ditas já:</p>
+
+<p><strong>Primeiro, publicar e abrir são coisas independentes.</strong> Publicar (<code>published_at</code>) controla <em>visibilidade</em>; abrir (<code>allow_responses</code> + datas) controla <em>participação</em>. Isso existe para um caso real: o admin quer mostrar a pesquisa antes de aceitar respostas — e quer fechar a caixa de entrada antes de divulgar os resultados, para que ninguém altere o placar depois de publicado.</p>
+
+<p><strong>Segundo, perguntas só podem ser editadas enquanto não há respostas.</strong> A regra está em <code>Questionnaire#questions_editable?</code> (<code>decidim-forms/app/models/decidim/forms/questionnaire.rb:24-27</code>): componente não publicado <em>ou</em> sem respostas. Depois que o primeiro participante respondeu, as perguntas congelam — do contrário, a resposta de alguém à pergunta "Você concorda?" poderia passar a valer para "Você discorda?".</p>
+
+<p><strong>Terceiro, republicar pode limpar o histórico.</strong> Se a configuração <code>clean_after_publish</code> estiver ligada, o comando <code>Admin::PublishSurvey</code> apaga todas as respostas existentes ao publicar (<code>decidim-surveys/app/commands/decidim/surveys/admin/publish_survey.rb:52-54</code>). A ideia: se o survey foi despublicado, reformulado e publicado de novo, as respostas da rodada anterior não devem se misturar com as da nova.</p>
+
+<h2 id="intuition-open">4. A intuição por trás de <code>open?</code></h2>
+
+<p>O coração do módulo é um predicado de seis linhas. Um survey está aberto quando dois fatores concordam: o interruptor manual (<code>allow_responses</code>) está ligado, <em>e</em> o relógio está dentro da janela — ou não há janela alguma.</p>
+
+<p>Pense nos quatro campos como um interruptor e dois alarmes. O interruptor <code>allow_responses</code> tem poder de veto: desligado, nada mais importa. Ligado, as datas decidem:</p>
+
+<table>
+  <thead>
+    <tr><th><code>starts_at</code></th><th><code>ends_at</code></th><th>Aberto quando…</th><th>Exemplo</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>—</td><td>—</td><td>sempre</td><td>pesquisa permanente de satisfação</td></tr>
+    <tr><td>1º de março</td><td>—</td><td>a partir de 1º de março</td><td>consulta que abre em data marcada, sem prazo</td></tr>
+    <tr><td>—</td><td>31 de março</td><td>até 31 de março</td><td>pesquisa relâmpago com prazo final</td></tr>
+    <tr><td>1º de março</td><td>31 de março</td><td>entre as duas datas</td><td>janela de consulta pública</td></tr>
+  </tbody>
+</table>
+
+<p>Há um detalhe que o código torna sutil: <strong><code>open?</code> não olha a publicação</strong>. Um survey não publicado pode ser <code>open? == true</code>. Isso não é descuido — é o que permite ao admin testar o formulário em preview antes de ir ao ar. O bloqueio ao público geral acontece em outra camada, no controller, como veremos na seção 8.</p>
+
+<h2 id="intuition-anon">5. Anonimato prático: <code>session_token</code> e <code>ip_hash</code></h2>
+
+<p>Aqui está o problema mais delicado do desenho. Uma pesquisa pública quer duas coisas em tensão:</p>
+
+<ul>
+  <li><strong>Um voto por pessoa</strong> — senão o resultado é manipulável;</li>
+  <li><strong>Anonimato</strong> — inclusive para quem nem conta tem, se o admin ligar <code>allow_unregistered</code>.</li>
+</ul>
+
+<p>A solução do Decidim é uma identidade <em>pseudo-anônima</em>. Ao responder, o controller calcula dois hashes (<code>decidim-forms/app/controllers/decidim/forms/concerns/has_questionnaire.rb:137-156</code>):</p>
+
+<pre><code>session_token = digest(usuario_logado.id  OU  session_id_da_sessao, salt_do_questionario)
+ip_hash       = digest(remote_ip,           salt_do_questionario)</code></pre>
+
+<p>Três propriedades saem daí:</p>
+
+<ul>
+  <li><strong>Deduplicação.</strong> "Já existe resposta com este <code>session_token</code>?" é a pergunta que impede a mesma pessoa de responder duas vezes — <code>visitor_already_responded?</code> usa exatamente isso.</li>
+  <li><strong>Irreversibilidade.</strong> O <code>salt</code> é gerado por questionário e guardado no servidor. Do banco de dados sozinho, um <code>session_token</code> não revela quem respondeu — você não pode percorrer a tabela de usuários tentando adivinhar hashes sem o salt, e mesmo o hash diz respeito ao vínculo pessoa↔questionário, não à identidade em si.</li>
+  <li><strong>Portabilidade entre identidades.</strong> Quem começou anônimo e depois se logou não quebra nada: o token muda de base (de <code>session_id</code> para <code>user.id</code>), mas cada resposta carrega o token sob o qual foi feita.</li>
+</ul>
+
+<figure>
+<svg class="diagram" width="760" height="210" viewBox="0 0 760 210" role="img" aria-label="Fluxo de anonimização: identidade entra, hash sai">
+  <defs>
+    <marker id="arr3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <g style="color: var(--fg);">
+    <rect x="15" y="30" width="180" height="64" rx="8" fill="var(--box-c)" stroke="var(--border)"></rect>
+    <text x="105" y="54" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">Maria (logada)</text>
+    <text x="105" y="74" text-anchor="middle" font-size="10" fill="var(--muted)">user.id = 42</text>
+
+    <rect x="15" y="120" width="180" height="64" rx="8" fill="var(--box-b)" stroke="var(--border)"></rect>
+    <text x="105" y="144" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">Visitante anônimo</text>
+    <text x="105" y="164" text-anchor="middle" font-size="10" fill="var(--muted)">session_id = "f8a2c…"</text>
+
+    <rect x="270" y="70" width="210" height="70" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="375" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">Decidim::Tokenizer</text>
+    <text x="375" y="114" text-anchor="middle" font-size="10" fill="var(--muted)">digest(valor, salt do questionário)</text>
+
+    <rect x="545" y="30" width="200" height="64" rx="8" fill="var(--box-a)" stroke="var(--border)"></rect>
+    <text x="645" y="54" text-anchor="middle" font-size="12" fill="var(--fg)">session_token</text>
+    <text x="645" y="74" text-anchor="middle" font-size="11" fill="var(--muted)">"9d41be…" (de Maria)</text>
+
+    <rect x="545" y="120" width="200" height="64" rx="8" fill="var(--box-a)" stroke="var(--border)"></rect>
+    <text x="645" y="144" text-anchor="middle" font-size="12" fill="var(--fg)">session_token</text>
+    <text x="645" y="164" text-anchor="middle" font-size="11" fill="var(--muted)">"c07a11…" (do visitante)</text>
+
+    <line x1="195" y1="62" x2="262" y2="92" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr3)"></line>
+    <line x1="195" y1="152" x2="262" y2="118" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr3)"></line>
+    <line x1="480" y1="92" x2="537" y2="62" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr3)"></line>
+    <line x1="480" y1="118" x2="537" y2="152" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr3)"></line>
+  </g>
+</svg>
+<figcaption>Figura 3 — Identidades distintas viram tokens incomparáveis entre si, mas estáveis por pessoa por questionário.</figcaption>
+</figure>
+
+<p>O <code>ip_hash</code> serve como segunda evidência: permite ao admin detectar padrões suspeitos (cinquenta respostas do mesmo IP) sem jamais armazenar o IP em claro.</p>
+
+<div class="callout warn">
+<span class="tag">Limite honesto do modelo</span>
+"Uma pessoa, uma resposta" é uma garantia <em>prática</em>, não absoluta. Um visitante anônimo que limpa os cookies ganha um novo <code>session_id</code> e, portanto, um novo token. O desenho aceita esse risco deliberadamente — pesquisas do Decidim são instrumentos de consulta, não eleições. Onde a fraude importa mais, o admin desliga <code>allow_unregistered</code> e o token passa a derivar do <code>user.id</code>, que é estável.
+</div>
+
+<h2 id="intuition-publish">6. Publicar respostas, pergunta por pergunta</h2>
+
+<p>Fechado o survey, o admin pode querer divulgar os resultados. Mas uma pesquisa mistura perguntas cujos resultados são seguros de publicar ("quantos preferem a opção A?") com respostas livres que podem conter dados pessoais ("conte sua experiência"). A decisão do Decidim: a publicação é <strong>por pergunta</strong>, nunca do survey inteiro de uma vez.</p>
+
+<p>O mecanismo é uma única coluna: <code>survey_responses_published_at</code> em <code>decidim_forms_questions</code>. Publicar as respostas da pergunta 3 é carimbar essa coluna com a hora atual; despublicar é zerá-la. Nenhuma resposta é movida, copiada ou marcada — a publicação é um atributo <em>da pergunta</em>, que as respostas herdam por pertencimento.</p>
+
+<p>E há uma guarda de ordem: a permissão de publicar respostas é negada enquanto <code>survey.allow_responses</code> estiver ligado (<code>decidim-surveys/app/permissions/decidim/surveys/admin/permissions.rb:25-33</code>). Tradução institucional: <strong>só se publica resultado depois de fechada a urna.</strong></p>
+
+<p>Por fim, nem toda pergunta é publicável: <code>short_response</code>, <code>long_response</code>, <code>separator</code> e <code>files</code> não têm nem o botão no admin (<code>decidim-surveys/app/helpers/decidim/surveys/publish_responses_helper.rb:6-10</code>) — não há gráfico honesto para texto livre, e anexos são inerentemente identificáveis.</p>
+
+<h2 id="code-model">7. O código: o model <code>Survey</code></h2>
+
+<p>Com as intuições no lugar, o código lê quase sozinho. O model inteiro tem 106 linhas (<code>decidim-surveys/app/models/decidim/surveys/survey.rb</code>), e o trecho que concentra a regra de negócio é este (linhas 51–60):</p>
+
+<pre><code>def open?
+  return false if allow_responses.blank?
+  return true if time_indefinite?
+  return true if started_but_no_end?
+  return true if no_start_but_ends_later?
+
+  return within_time_range? if time_range_defined?
+
+  false
+end</code></pre>
+
+<p>Cada linha é uma das fileiras da tabela da seção 4, com os predicados auxiliares privados nas linhas 85–103 (<code>time_indefinite?</code>, <code>started_but_no_end?</code>, etc.). O <code>false</code> final captura o caso que sobrou: janela definida, mas estamos fora dela.</p>
+
+<div class="callout">
+<span class="tag">Contrato sutil</span>
+<code>open?</code> é deliberadamente <em>cego à publicação</em>. Quem combina as duas coisas é o controller: <code>allow_responses?</code> retorna <code>!current_component.published? || survey.open?</code> (<code>decidim-surveys/app/controllers/decidim/surveys/surveys_controller.rb:57-59</code>). Leia em voz alta: "se o componente não está publicado, deixe responder (é um preview de admin); se está, só deixe se o survey estiver aberto". Duas preocupações, dois lugares.
+</div>
+
+<p>O resto do model é composição de concerns que o ligam ao resto da plataforma: <code>Publicable</code> (o <code>published_at</code>), <code>Searchable</code> (indexação de busca, com o título pesando mais que a descrição), <code>FilterableResource</code> (os scopes <code>.open</code>/<code>.closed</code> que alimentam o filtro "estado" da listagem pública), <code>HasReference</code> (o identificador curto tipo <code>SRV-2026-03-7</code>) e <code>Resourceable</code> (vínculos com outros recursos do Decidim).</p>
+
+<h2 id="code-flow">8. O código: o fluxo de responder (controller → command)</h2>
+
+<p>Aqui acontece a segunda grande demonstração de reúso: o <code>SurveysController</code> público <strong>não implementa nem <code>show</code> nem <code>respond</code></strong>. Ele inclui o concern <code>Decidim::Forms::Concerns::HasQuestionnaire</code> e apenas responde às perguntas que o concern faz — "quem é o dono do questionário?" (<code>questionnaire_for</code> → o survey), "pode responder anônimo?" (<code>allow_unregistered?</code>), "para onde voltar depois?" (<code>after_response_path</code>). É um padrão de <em>template method</em> distribuído por convenção.</p>
+
+<figure>
+<svg class="diagram" width="780" height="330" viewBox="0 0 780 330" role="img" aria-label="Sequência do POST de resposta: controller, form, command, banco, mailer">
+  <defs>
+    <marker id="arr4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <g style="color: var(--fg); font-size: 11px;">
+    <!-- lifelines -->
+    <g font-weight="bold" font-size="12px">
+      <rect x="20" y="10" width="130" height="30" rx="6" fill="var(--card)" stroke="var(--border)"></rect>
+      <text x="85" y="30" text-anchor="middle" fill="var(--fg)">SurveysController</text>
+      <rect x="180" y="10" width="130" height="30" rx="6" fill="var(--card)" stroke="var(--border)"></rect>
+      <text x="245" y="30" text-anchor="middle" fill="var(--fg)">QuestionnaireForm</text>
+      <rect x="340" y="10" width="150" height="30" rx="6" fill="var(--card)" stroke="var(--border)"></rect>
+      <text x="415" y="30" text-anchor="middle" fill="var(--fg)">ResponseQuestionnaire</text>
+      <rect x="520" y="10" width="110" height="30" rx="6" fill="var(--card)" stroke="var(--border)"></rect>
+      <text x="575" y="30" text-anchor="middle" fill="var(--fg)">Banco (forms_*)</text>
+      <rect x="660" y="10" width="110" height="30" rx="6" fill="var(--card)" stroke="var(--border)"></rect>
+      <text x="715" y="30" text-anchor="middle" fill="var(--fg)">Mailer</text>
+    </g>
+    <g stroke="var(--border)" stroke-dasharray="4 3">
+      <line x1="85" y1="40" x2="85" y2="320"></line>
+      <line x1="245" y1="40" x2="245" y2="320"></line>
+      <line x1="415" y1="40" x2="415" y2="320"></line>
+      <line x1="575" y1="40" x2="575" y2="320"></line>
+      <line x1="715" y1="40" x2="715" y2="320"></line>
+    </g>
+
+    <text x="20" y="62" fill="var(--muted)">POST /surveys/7/respond</text>
+
+    <line x1="85" y1="78" x2="237" y2="78" stroke="var(--fg)" stroke-width="1.4" marker-end="url(#arr4)"></line>
+    <text x="92" y="72" fill="var(--fg)">from_params + session_token + ip_hash</text>
+
+    <line x1="85" y1="106" x2="407" y2="106" stroke="var(--fg)" stroke-width="1.4" marker-end="url(#arr4)"></line>
+    <text x="92" y="100" fill="var(--fg)">ResponseQuestionnaire.call(form, questionnaire)</text>
+
+    <line x1="415" y1="134" x2="567" y2="134" stroke="var(--fg)" stroke-width="1.4" marker-end="url(#arr4)"></line>
+    <text x="422" y="128" fill="var(--fg)">(edição?) clear_responses! → apaga anteriores</text>
+
+    <line x1="415" y1="162" x2="567" y2="162" stroke="var(--fg)" stroke-width="1.4" marker-end="url(#arr4)"></line>
+    <text x="422" y="156" fill="var(--fg)">INSERT Response por pergunta (em transação)</text>
+
+    <line x1="415" y1="190" x2="567" y2="190" stroke="var(--fg)" stroke-width="1.4" marker-end="url(#arr4)"></line>
+    <text x="422" y="184" fill="var(--fg)">INSERT ResponseChoice por opção escolhida</text>
+
+    <line x1="415" y1="226" x2="707" y2="226" stroke="var(--ok)" stroke-width="1.4" stroke-dasharray="6 3" marker-end="url(#arr4)"></line>
+    <text x="422" y="220" fill="var(--ok)">evento "response_questionnaire:after" → e-mail de confirmação</text>
+
+    <line x1="415" y1="258" x2="93" y2="258" stroke="var(--fg)" stroke-width="1.4" stroke-dasharray="6 3" marker-end="url(#arr4)"></line>
+    <text x="250" y="252" text-anchor="middle" fill="var(--fg)">broadcast :ok</text>
+
+    <line x1="85" y1="292" x2="20" y2="292" stroke="var(--fg)" stroke-width="1.4" marker-end="url(#arr4)"></line>
+    <text x="28" y="286" fill="var(--fg)">redirect (flash de sucesso)</text>
+  </g>
+</svg>
+<figcaption>Figura 4 — Um POST de resposta, do controller ao e-mail de confirmação.</figcaption>
+</figure>
+
+<p>Seguindo o fio, quatro pontos merecem parada:</p>
+
+<p><strong>1. A dupla-checaragem de "já respondeu".</strong> O command <code>Decidim::Forms::ResponseQuestionnaire</code> (<code>decidim-forms/app/commands/decidim/forms/response_questionnaire.rb:24-38</code>) transmite <code>:invalid</code> se o usuário já respondeu — <em>a menos</em> que <code>allow_editing_responses</code> esteja ligado. Nesse caso, antes de gravar, <code>clear_responses!</code> (linhas 81–83) destrói as respostas anteriores do mesmo token. Editar não é corrigir: é apagar e reescrever, o que mantém o banco sempre com um único conjunto de respostas por pessoa.</p>
+
+<p><strong>2. Condições de exibição são reavaliadas no servidor.</strong> O formulário se divide em passos (nos <code>separator</code>s), e o command só persiste respostas cujas <code>display_conditions_fulfilled?</code> se verificam (linhas 85–125). Isso impede que uma resposta "fantasma" — de uma pergunta que o fluxo lógico escondeu — entre no banco por manipulação do POST.</p>
+
+<p><strong>3. Tudo ou nada.</strong> A gravação acontece em transação; se um anexo falha na validação, nenhuma resposta é persistida. O participante não fica com meia pesquisa registrada.</p>
+
+<p><strong>4. O e-mail de confirmação é um efeito colateral por evento.</strong> O command emite <code>decidim.forms.response_questionnaire:after</code>, e é o <em>engine de surveys</em> quem se inscreve nele (<code>decidim-surveys/lib/decidim/surveys/engine.rb:42-58</code>) para disparar o <code>SurveyConfirmationMailer</code>. O forms não sabe que surveys existe; o acoplamento vai na direção certa.</p>
+
+<p>E há duas proteções silenciosas no caminho: <code>invisible_captcha</code> (um honeypot contra bots, na linha 22 do concern) e o sistema de permissões/autorizações, que pode exigir que o participante esteja verificado (por exemplo, contra um censo municipal) antes de responder — ação <code>respond</code> registrada no manifest do componente (<code>decidim-surveys/lib/decidim/surveys/component.rb:59</code>).</p>
+
+<h2 id="code-admin">9. O código: o lado administrativo</h2>
+
+<p>O admin é dividido em quatro telas, refletidas em quatro controllers sob <code>decidim-surveys/app/controllers/decidim/surveys/admin/</code>:</p>
+
+<ul>
+  <li><strong>Survey</strong> — CRUD e publicação. Criar um survey cria, na mesma transação do command, o <code>Survey</code> e seu <code>Questionnaire</code> aninhado (<code>Admin::CreateSurvey</code>). Atualizar delega a edição de título/descrição/termos ao <code>Forms::Admin::UpdateQuestionnaire</code> — de novo, o reúso.</li>
+  <li><strong>Perguntas</strong> — inteiramente herdada do concern <code>Forms::Admin::Concerns::HasQuestionnaire</code>. O módulo não escreve uma linha de editor de perguntas.</li>
+  <li><strong>Respostas</strong> — listagem por participante (agrupadas por <code>session_token</code> via <code>QuestionnaireParticipants</code>), detalhe individual e exportação.</li>
+  <li><strong>Publicar respostas</strong> — a tela dos toggles. <code>PublishResponsesController#update</code> chama <code>PublishResponses.call(params[:id], current_user)</code> e responde JSON — é um interruptor AJAX por pergunta.</li>
+</ul>
+
+<p>Os commands de publicação são deliberadamente pequenos. <code>PublishResponses</code> (<code>decidim-surveys/app/commands/decidim/surveys/publish_responses.rb</code>), em transação, carimba a coluna e registra um ActionLog — o rastro de auditoria que responde "quem publicou os resultados, e quando?":</p>
+
+<pre><code>question.update!(survey_responses_published_at: Time.current)
+Decidim.traceability.perform_action!(
+  "publish_responses", question, user,
+  ...
+)</code></pre>
+
+<p>E as configurações por survey (<code>announcement</code>, <code>allow_responses</code>, <code>allow_unregistered</code>, <code>clean_after_publish</code>, <code>allow_editing_responses</code>, <code>starts_at</code>, <code>ends_at</code>) têm tela própria via <code>SurveySettingsForm</code>. Note a escolha de modelagem: elas são <strong>colunas do model</strong>, não settings de componente — porque são por survey, e um componente pode ter vários.</p>
+
+<h2 id="code-exports">10. O código: exportações e dados abertos</h2>
+
+<p>Duas exportações saem do manifest do componente (<code>decidim-surveys/lib/decidim/surveys/component.rb:69-95</code>), e a diferença entre elas resume a filosofia do módulo:</p>
+
+<table>
+  <thead>
+    <tr><th></th><th><code>survey_user_responses</code></th><th><code>published_survey_user_responses</code></th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Público</strong></td><td>admin, no painel</td><td>qualquer um, via open data</td></tr>
+    <tr><td><strong>Conteúdo</strong></td><td>todas as respostas, agrupadas por participante</td><td>só respostas de perguntas com <code>survey_responses_published_at</code></td></tr>
+    <tr><td><strong>Formatos</strong></td><td>CSV, JSON, Excel, FormPDF</td><td>open data (sem formatos de painel)</td></tr>
+    <tr><td><strong>Identificação</strong></td><td><code>session_token</code>, <code>ip_hash</code>, status (registrado/anônimo)</td><td>idêntica — nunca e-mail nem nome</td></tr>
+  </tbody>
+</table>
+
+<p>Mesmo no arquivo mais interno, o do admin, a identidade exportada é o token pseudo-anônimo. O anonimato não é uma camada cosmética da interface — é uma propriedade do que o sistema sequer <em>guarda</em>.</p>
+
+<h2 id="recap">11. Síntese</h2>
+
+<p>O módulo de surveys é um estudo de caso em <em>dizer pouco e reutilizar muito</em>. Suas próprias linhas de código se concentram em três decisões que o questionário genérico não pode tomar:</p>
+
+<ul>
+  <li><strong>Quando participar</strong> — o predicado <code>open?</code>, com seu interruptor manual e sua janela de datas, deliberadamente separado da publicação;</li>
+  <li><strong>Quem participa sem se identificar</strong> — a identidade pseudo-anônima via <code>session_token</code> com salt por questionário, que equilibra deduplicação e privacidade;</li>
+  <li><strong>O que se torna público depois</strong> — a publicação por pergunta, proibida enquanto o survey está aberto, com tipos de resposta livre fora do jogo.</li>
+</ul>
+
+<p>Tudo o mais — perguntas, respostas, condições de exibição, exportação, edição — é o <code>decidim-forms</code> trabalhando. Conhecer esse limite é conhecer o módulo: quando algo no comportamento de um survey surpreender você, a primeira pergunta certa é "isso é regra do survey ou da fundação de formulários?".</p>
+
+</div>
+</body>
+</html>

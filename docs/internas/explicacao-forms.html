@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Como funciona o decidim-forms</title>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --fg: #1d2129;
+    --muted: #5b6270;
+    --accent: #b23a48;
+    --accent-soft: #f6e3e5;
+    --card: #ffffff;
+    --border: #ddd9d0;
+    --code-bg: #f1efe9;
+    --callout-bg: #eef3f8;
+    --callout-border: #4a7fb5;
+    --warn-bg: #fdf3e3;
+    --warn-border: #c98a1b;
+    --ok: #2e7d4f;
+    --box-a: #dfe9f3;
+    --box-b: #efe3d3;
+    --box-c: #e2efe2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181d;
+      --fg: #e6e4de;
+      --muted: #9aa1ad;
+      --accent: #e78a95;
+      --accent-soft: #3a2327;
+      --card: #1e2128;
+      --border: #363b45;
+      --code-bg: #242830;
+      --callout-bg: #1d2733;
+      --callout-border: #5d92c4;
+      --warn-bg: #2e2817;
+      --warn-border: #d09a35;
+      --ok: #6fbf8f;
+      --box-a: #25313f;
+      --box-b: #352c20;
+      --box-c: #22331f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    line-height: 1.65;
+    font-size: 17px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: 2.1rem; line-height: 1.2; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.55rem; margin-top: 3.2rem; border-bottom: 2px solid var(--border); padding-bottom: 0.35rem; }
+  h3 { font-size: 1.15rem; margin-top: 2rem; }
+  .subtitle { color: var(--muted); font-style: italic; margin-top: 0; }
+  code, kbd {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.86em;
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    white-space: pre;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .file-ref { color: var(--muted); font-size: 0.8rem; font-family: "SFMono-Regular", Consolas, monospace; margin: -0.6rem 0 1.2rem; }
+  nav.toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+  }
+  nav.toc ol { margin: 0.4rem 0 0; padding-left: 1.4rem; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  .callout {
+    background: var(--callout-bg);
+    border-left: 4px solid var(--callout-border);
+    border-radius: 0 8px 8px 0;
+    padding: 0.9rem 1.2rem;
+    margin: 1.4rem 0;
+  }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn-border); }
+  .callout .tag {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  figure { margin: 2rem 0; text-align: center; }
+  figure svg { max-width: 100%; height: auto; }
+  figcaption { color: var(--muted); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; }
+  .skippable {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 0.2rem 1.3rem;
+    margin: 1.5rem 0;
+  }
+  .skippable summary { cursor: pointer; font-weight: bold; color: var(--muted); padding: 0.7rem 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1.4rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.7rem; text-align: left; vertical-align: top; }
+  th { background: var(--card); }
+  a { color: var(--accent); }
+  .diagram text { font-family: "SFMono-Regular", Consolas, monospace; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Como funciona o decidim-forms</h1>
+<p class="subtitle">A biblioteca de questionários que sustenta surveys, inscrições em reuniões e mais — sem ter uma única rota própria</p>
+
+<nav class="toc">
+  <strong>Sumário</strong>
+  <ol>
+    <li><a href="#bg">Contexto: por que existe um módulo de formulários (pulável)</a></li>
+    <li><a href="#library">A intuição central: uma biblioteca, não uma aplicação</a></li>
+    <li><a href="#model">O modelo de dados: questionário, perguntas, respostas</a></li>
+    <li><a href="#intuition-dc">A intuição das condições de exibição: avaliadas duas vezes</a></li>
+    <li><a href="#intuition-steps">Passos, separadores e a ilusão do wizard</a></li>
+    <li><a href="#code-forms">O código: form objects, a fronteira de validação</a></li>
+    <li><a href="#code-admin">O código: o editor admin de perguntas</a></li>
+    <li><a href="#code-public">O código: o JavaScript público</a></li>
+    <li><a href="#code-read">O código: ler as respostas — queries, serializers, exportações</a></li>
+    <li><a href="#recap">Síntese</a></li>
+  </ol>
+</nav>
+
+<h2 id="bg">1. Contexto: por que existe um módulo de formulários</h2>
+
+<details class="skippable">
+<summary>Se você já leu a explicação do decidim-surveys, clique para expandir — ou pule para a seção 2.</summary>
+<div>
+<p>O Decidim é uma plataforma Rails de participação cidadã organizada em gems independentes (<code>decidim-core</code>, <code>decidim-surveys</code>, <code>decidim-meetings</code>…). Suas convenções aparecem em todo o código que veremos: lógica de negócio em <em>Commands</em> que transmitem <code>:ok</code>/<code>:invalid</code>, validação de entrada em <em>Form objects</em> separados dos models, e views reutilizáveis em <em>Cells</em>.</p>
+<p>Em 2017, o módulo de surveys ganhou um irmão: o <code>decidim-forms</code>, extraindo tudo o que um formulário dinâmico precisa — perguntas de vários tipos, opções, matrizes, condições — para que outros módulos pudessem montar questionários sem reescrever nada. Desde então, um survey é apenas um questionário com regras de janela de datas e publicação; uma inscrição em reunião é um questionário cujo envio chama <code>JoinMeeting</code> em vez de gravar respostas soltas.</p>
+</div>
+</details>
+
+<p>Na explicação do <code>decidim-surveys</code>, vimos o forms pelo lado de fora: a associação polimórfica <code>questionnaire_for</code>, os models de perguntas e respostas, o command que grava. Agora vamos abrir o módulo por dentro — e a primeira surpresa é o que ele <em>não</em> tem.</p>
+
+<h2 id="library">2. A intuição central: uma biblioteca, não uma aplicação</h2>
+
+<p>Abra <code>decidim-forms/lib/decidim/forms/engine.rb</code> e procure as rotas. Não há nenhuma. O engine só registra view paths de cells, assets e um detalhe de ciclo de vida de dados (a transferência de respostas quando contas de usuário são fundidas, linhas 25–31). O admin engine idem. Um módulo Rails sem rotas parece inacabado — mas é exatamente o ponto: <strong>o forms é uma biblioteca de concerns, commands, form objects e views que os módulos consumidores montam dentro das suas próprias rotas</strong>.</p>
+
+<p>O contrato de uso é um conjunto de "encaixes" com nomes estáveis:</p>
+
+<ul>
+  <li>No <strong>model</strong>, o consumidor inclui <code>Decidim::Forms::HasQuestionnaire</code> e ganha <code>has_one :questionnaire, as: :questionnaire_for</code>. Quem usa: <code>Survey</code>, <code>Meeting</code>.</li>
+  <li>No <strong>controller público</strong>, inclui <code>Decidim::Forms::Concerns::HasQuestionnaire</code> e herda <code>show</code> e <code>respond</code> prontos, respondendo a ganchos como <code>questionnaire_for</code>, <code>allow_unregistered?</code>, <code>after_response_path</code>. Quem usa: surveys (que só ajusta ganchos), meetings (que <em>sobrescreve</em> <code>respond</code> para chamar <code>JoinMeeting</code>/<code>JoinWaitlist</code> — <code>decidim-meetings/app/controllers/decidim/meetings/registrations_controller.rb:9-33</code>), demographics.</li>
+  <li>No <strong>admin</strong>, inclui <code>Admin::Concerns::HasQuestionnaire</code> (editor de perguntas) e/ou <code>Admin::Concerns::HasQuestionnaireResponses</code> (listagem e exportação de respostas). Quem usa: surveys, meetings, demographics e decidim-templates — que usa questionários como <em>modelos reutilizáveis</em> de formulário.</li>
+</ul>
+
+<figure>
+<svg class="diagram" width="780" height="270" viewBox="0 0 780 270" role="img" aria-label="decidim-forms no centro, consumidores ao redor">
+  <defs>
+    <marker id="arrf" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <g style="color: var(--fg);">
+    <rect x="270" y="90" width="240" height="90" rx="10" fill="var(--box-a)" stroke="var(--border)"></rect>
+    <text x="390" y="118" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--fg)">decidim-forms</text>
+    <text x="390" y="140" text-anchor="middle" font-size="10.5" fill="var(--muted)">concerns · commands · forms · cells</text>
+    <text x="390" y="156" text-anchor="middle" font-size="10.5" fill="var(--muted)">JS público e de admin · exporters</text>
+
+    <rect x="30" y="20" width="170" height="58" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="115" y="44" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">decidim-surveys</text>
+    <text x="115" y="62" text-anchor="middle" font-size="10" fill="var(--muted)">grava respostas</text>
+
+    <rect x="580" y="20" width="170" height="58" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="665" y="44" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">decidim-meetings</text>
+    <text x="665" y="62" text-anchor="middle" font-size="10" fill="var(--muted)">respond → JoinMeeting</text>
+
+    <rect x="30" y="195" width="170" height="58" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="115" y="219" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">decidim-demographics</text>
+    <text x="115" y="237" text-anchor="middle" font-size="10" fill="var(--muted)">dados sociodemográficos</text>
+
+    <rect x="580" y="195" width="170" height="58" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="665" y="219" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">decidim-templates</text>
+    <text x="665" y="237" text-anchor="middle" font-size="10" fill="var(--muted)">questionários-modelo</text>
+
+    <line x1="200" y1="66" x2="288" y2="100" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrf)"></line>
+    <line x1="580" y1="66" x2="492" y2="100" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrf)"></line>
+    <line x1="200" y1="212" x2="288" y2="170" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrf)"></line>
+    <line x1="580" y1="212" x2="492" y2="170" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrf)"></line>
+  </g>
+</svg>
+<figcaption>Figura 1 — O forms não serve páginas; ele é servido <em>dentro</em> das páginas dos outros.</figcaption>
+</figure>
+
+<p>Essa escolha tem um preço que o design paga de bom grado: nada no forms pode assumir URLs, nomes de parâmetros de rota ou contexto de navegação. Tudo que depende do hospedeiro é um método-gancho com implementação default. É um padrão de template method por convenção — e é o que permite que meetings desvie o envio para uma inscrição sem tocar em uma linha do forms.</p>
+
+<h2 id="model">3. O modelo de dados: questionário, perguntas, respostas</h2>
+
+<p>Sete tabelas, todas com prefixo <code>decidim_forms_</code>, contam a história inteira:</p>
+
+<table>
+  <thead><tr><th>Tabela</th><th>Papel</th><th>Colunas que importam</th></tr></thead>
+  <tbody>
+    <tr><td><code>questionnaires</code></td><td>o formulário</td><td><code>title/description/tos</code> (jsonb traduzido), <code>questionnaire_for_type/id</code>, <code>salt</code>, <code>published_at</code></td></tr>
+    <tr><td><code>questions</code></td><td>uma pergunta</td><td><code>position</code>, <code>question_type</code>, <code>mandatory</code>, <code>max_choices</code>, <code>max_characters</code>, counter caches</td></tr>
+    <tr><td><code>response_options</code></td><td>opção de escolha</td><td><code>body</code> (jsonb), <code>free_text</code> (abre campo de texto junto à opção)</td></tr>
+    <tr><td><code>question_matrix_rows</code></td><td>linha de matriz</td><td><code>body</code>, <code>position</code></td></tr>
+    <tr><td><code>display_conditions</code></td><td>regra de exibição</td><td><code>condition_question_id</code>, <code>condition_type</code> (enum), <code>condition_value</code> (jsonb), <code>mandatory</code></td></tr>
+    <tr><td><code>responses</code></td><td>resposta a uma pergunta</td><td><code>body</code>, <code>decidim_user_id</code> (nullable), <code>session_token</code>, <code>ip_hash</code></td></tr>
+    <tr><td><code>response_choices</code></td><td>opção escolhida</td><td><code>decidim_response_option_id</code>, <code>decidim_question_matrix_row_id</code>, <code>custom_body</code>, <code>position</code></td></tr>
+  </tbody>
+</table>
+
+<p>Três observações sobre esse desenho:</p>
+
+<p><strong>Tudo que é texto visível ao usuário é jsonb traduzido</strong> (<code>{"pt-BR": "…", "en": "…"}</code>). O questionário é multilíngue por construção, não por adaptação.</p>
+
+<p><strong>O <code>question_type</code> é uma string entre dez valores</strong> (<code>decidim-forms/app/models/decidim/forms/question.rb:9-12</code>): oito tipos de resposta — <code>short_response</code>, <code>long_response</code>, <code>single_option</code>, <code>multiple_option</code>, <code>sorting</code>, <code>files</code>, <code>matrix_single</code>, <code>matrix_multiple</code> — e dois estruturais, <code>separator</code> e <code>title_and_description</code>, que não geram resposta alguma. Os estruturais parecem um hack; na verdade são o mecanismo de layout do formulário, como veremos na seção 6.</p>
+
+<p><strong>A resposta não é uma linha por formulário, é uma linha por pergunta.</strong> Um questionário de 12 perguntas gera 12 <code>Response</code>s por participante, ligadas pelo mesmo <code>session_token</code> (ou <code>user</code>). Isso torna "quem respondeu" uma <em>query</em> — <code>DISTINCT session_token</code> — e não uma coluna, e é o que permite publicar respostas pergunta a pergunta lá no surveys.</p>
+
+<div class="callout">
+<span class="tag">Vocabulário</span>
+Até 2025, tudo se chamava <em>answer</em>: <code>Answer</code>, <code>AnswerChoice</code>, <code>short_answer</code>… A migration <code>20250314150250_rename_answer_to_response_in_decidim_forms.rb</code> renomeou tabelas, colunas e tipos para <em>response</em>, e uma <em>data migration</em> posterior corrigiu as referências polimórficas em anexos, logs e versions. Documentação antiga diz "answer"; o código diz "response".
+</div>
+
+<h2 id="intuition-dc">4. A intuição das condições de exibição: avaliadas duas vezes</h2>
+
+<p>O recurso mais sutil do módulo é a <em>display condition</em>: "mostre a pergunta 4 apenas se a pergunta 2 foi respondida com 'Sim'". Cinco operadores (<code>DisplayCondition</code>, linha 13):</p>
+
+<ul>
+  <li><code>responded</code> — a pergunta-condição recebeu qualquer resposta;</li>
+  <li><code>not_responded</code> — não recebeu;</li>
+  <li><code>equal</code> / <code>not_equal</code> — a escolha foi (ou não) uma opção específica;</li>
+  <li><code>match</code> — o texto da resposta casa com uma expressão regular.</li>
+</ul>
+
+<p>A parte delicada não é a avaliação — é <em>onde</em> ela acontece. Uma condição só é útil se esconder a pergunta <strong>enquanto o usuário digita</strong> (senão, para que condição?), mas só é confiável se for verificada <strong>no servidor</strong> no momento de gravar (senão, qualquer POST forjado responde perguntas escondidas). O forms faz as duas coisas, com a mesma semântica implementada duas vezes:</p>
+
+<figure>
+<svg class="diagram" width="780" height="250" viewBox="0 0 780 250" role="img" aria-label="Mesma condição avaliada no navegador e no servidor">
+  <defs>
+    <marker id="arrdc" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="currentColor"></path>
+    </marker>
+  </defs>
+  <g style="color: var(--fg); font-size: 11px;">
+    <rect x="30" y="25" width="330" height="85" rx="8" fill="var(--box-a)" stroke="var(--border)"></rect>
+    <text x="195" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">Navegador (UX)</text>
+    <text x="195" y="70" text-anchor="middle" fill="var(--fg)">display_conditions.component.js</text>
+    <text x="195" y="90" text-anchor="middle" fill="var(--muted)">mostra/esconde e DESABILITA inputs</text>
+
+    <rect x="420" y="25" width="330" height="85" rx="8" fill="var(--box-c)" stroke="var(--border)"></rect>
+    <text x="585" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">Servidor (verdade)</text>
+    <text x="585" y="70" text-anchor="middle" fill="var(--fg)">ResponseForm#display_conditions_fulfilled?</text>
+    <text x="585" y="90" text-anchor="middle" fill="var(--muted)">decide se a resposta é gravada e se é obrigatória</text>
+
+    <rect x="225" y="165" width="330" height="60" rx="8" fill="var(--card)" stroke="var(--border)"></rect>
+    <text x="390" y="189" text-anchor="middle" font-size="12" fill="var(--fg)">DisplayCondition#to_html_data</text>
+    <text x="390" y="209" text-anchor="middle" font-size="10" fill="var(--muted)">{id, type, condition, option, mandatory, value}</text>
+
+    <line x1="390" y1="165" x2="195" y2="118" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrdc)"></line>
+    <line x1="390" y1="165" x2="585" y2="118" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrdc)"></line>
+  </g>
+</svg>
+<figcaption>Figura 2 — O model exporta a condição como <code>data-*</code>; o JS e o form object interpretam a mesma regra em dois mundos.</figcaption>
+</figure>
+
+<p>E há uma segunda camada de sutileza: <strong>obrigatoriedade é relativa à visibilidade</strong>. Uma pergunta <code>mandatory</code> cuja condição não se cumpriu <em>não é obrigatória</em> — os predicados <code>mandatory_body?</code>/<code>mandatory_choices?</code> (<code>response_form.rb:98-104</code>) só exigem resposta se <code>display_conditions_fulfilled?</code>. Sem esse gate, um formulário ramificado seria impossível de submeter: o servidor exigiria respostas para perguntas que o usuário nunca viu.</p>
+
+<div class="callout">
+<span class="tag">Regra de composição</span>
+Quando uma pergunta tem várias condições: se alguma for <code>mandatory: true</code>, <strong>todas</strong> as obrigatórias precisam se cumprir (AND); se só houver opcionais, <strong>qualquer uma</strong> basta (OR). Está em <code>response_form.rb:68-82</code>, e o JS (<code>mustShow()</code>, <code>display_conditions.component.js:156-167</code>) espelha exatamente essa lógica.
+</div>
+
+<h2 id="intuition-steps">5. Passos, separadores e a ilusão do wizard</h2>
+
+<p>Um questionário longo vira um wizard de vários passos — mas não existe "passo" no banco. O mecanismo é uma partição derivada de um único lugar: <code>responses_by_step</code> (<code>questionnaire_form.rb:46-53</code>) fatia as perguntas a cada <code>separator</code>:</p>
+
+<pre><code>def responses_by_step
+  @responses_by_step ||= begin
+    steps = responses.slice_before { |r| r.question.separator? }.to_a
+    steps.each { |step| step.reject! { |r| r.question.separator? } }
+    steps.reject(&:blank?)
+  end
+end</code></pre>
+
+<p>O servidor renderiza todos os passos no HTML, escondendo os posteriores; os botões "voltar/continuar" do <code>StepNavigationCell</code> apenas alternam a visibilidade das <code>div#step-N</code> via Stimulus. Não há requisição entre passos, não há estado parcial no servidor — o formulário é um só, e o wizard é uma ilusão de apresentação. Isso simplifica tudo: validação é do formulário inteiro, condições de exibição funcionam através dos passos, e um refresh não perde nada (os dados estão no DOM).</p>
+
+<h2 id="code-forms">6. O código: form objects, a fronteira de validação</h2>
+
+<p>Seguindo a convenção do Decidim, nenhuma validação de entrada mora nos models. A fronteira é o <code>ResponseForm</code> (<code>decidim-forms/app/forms/decidim/forms/response_form.rb</code>), e a tabela de regras que ele aplica é um bom mapa do que uma resposta pode ser:</p>
+
+<table>
+  <thead><tr><th>Regra</th><th>Onde</th><th>Detalhe</th></tr></thead>
+  <tbody>
+    <tr><td>corpo obrigatório</td><td>linhas 17, 98–104</td><td>só se a pergunta está visível (condições cumpridas)</td></tr>
+    <tr><td>escolha obrigatória</td><td>linhas 18, 98–104</td><td>idem</td></tr>
+    <tr><td><code>max_choices</code></td><td>linhas 20, 110–116</td><td>em matriz, o limite vale <em>por linha</em>, não pelo total</td></tr>
+    <tr><td>sorting completo</td><td>linhas 21, 132–134</td><td>é preciso ordenar <em>todas</em> as opções</td></tr>
+    <tr><td>matriz obrigatória</td><td>linhas 22, 128–130</td><td>uma escolha por linha da matriz</td></tr>
+    <tr><td>arquivo obrigatório</td><td>linhas 23, 144–146</td><td>para o tipo <code>files</code></td></tr>
+    <tr><td><code>max_characters</code></td><td>linhas 24, 118–126</td><td>aplica ao corpo e ao <code>custom_body</code> de opções free-text</td></tr>
+  </tbody>
+</table>
+
+<p>Acima dele, o <code>QuestionnaireForm</code> segura as regras do formulário inteiro: aceite dos termos (<code>tos_agreement</code>, linha 19), presença do <code>session_token</code> no contexto (linhas 59–63 — sem token, não há como deduplicar, então o POST é rejeitado como <code>request_invalid</code>), e um detalhe de arquitetura bonito no <code>before_validation</code> (linhas 38–40): todas as respostas do formulário são injetadas no <code>context</code> para que cada <code>ResponseForm</code> possa avaliar condições <em>cruzadas</em> — a validade da pergunta 4 depende do que foi preenchido na pergunta 2, no mesmo request.</p>
+
+<p>E abaixo dele, o command <code>ResponseQuestionnaire</code> persiste em transação apenas as respostas com <code>display_conditions_fulfilled?</code> — a segunda avaliação da seção 4 — com tratamento de anexos e rollback em caso de erro. O resultado: o model <code>Response</code> quase não valida nada (apenas coerência de organização e pertencimento da pergunta), porque a fronteira já filtrou tudo.</p>
+
+<h2 id="code-admin">7. O código: o editor admin de perguntas</h2>
+
+<p>O editor de questionários do admin é a peça mais engenhosa do módulo, porque resolve no cliente um problema que o Rails tradicionalmente resolve mal: editar uma árvore inteira — perguntas, opções, linhas de matriz, condições — num único formulário, com drag-and-drop.</p>
+
+<p>A engrenagem tem três peças que se encaixam por <strong>placeholders de ID</strong>:</p>
+
+<ul>
+  <li><strong>Templates embutidos.</strong> A view <code>_questions_form.html.erb</code> (linhas 13–37) renderiza blocos HTML dentro de <code>&lt;script type="text/template"&gt;</code>, com marcadores como <code>questionnaire-question-id</code> no lugar dos IDs reais.</li>
+  <li><strong>O form object coopera.</strong> <code>QuestionForm#to_param</code> retorna exatamente o placeholder quando o registro é novo (linhas 31–35) — então o HTML de uma pergunta nova já sai com o marcador certo.</li>
+  <li><strong>O JS substitui na cópia.</strong> <code>createEditableForm()</code> (<code>app/packs/src/decidim/forms/admin/forms.js</code>) usa <code>createDynamicFields</code>: ao clicar "adicionar pergunta", o template é clonado e cada placeholder vira um ID único. Remoção é <em>soft</em> no cliente: o item ganha <code>deleted=true</code> num hidden e some da tela — só o submit decide seu destino.</li>
+</ul>
+
+<p>No servidor, <code>Admin::UpdateQuestions</code> (<code>decidim-forms/app/commands/decidim/forms/admin/update_questions.rb</code>) traduz essa árvore para o banco com um padrão genérico, <code>update_nested_model</code> (linhas 91–105):</p>
+
+<pre><code>record = question_set.find_by(id: form.id) || question_set.build
+
+if record.persisted?
+  form.deleted? ? record.destroy! : record.update!(attrs)
+else
+  record.save!
+end</code></pre>
+
+<p>E há duas guardas de ordem em volta. A primeira é temporal: o command só persiste se <code>questions_editable?</code> — componente não publicado <em>ou</em> questionário ainda sem respostas (linha 28). A segunda é espacial, no <code>DisplayConditionForm</code>: <code>condition_question_position</code> (linhas 92–96) exige que a pergunta condicionada não seja a primeira — e o JS remove condições da primeira posição quando o admin arrasta uma pergunta condicionada para o topo. Afinal, uma condição só pode apontar para uma pergunta <em>anterior</em>: não faz sentido condicionar algo a uma resposta que ainda não foi dada.</p>
+
+<div class="callout">
+<span class="tag">Convenção silenciosa</span>
+Repare na direção das dependências: o JS conhece os placeholders que os form objects declaram em <code>to_param</code>, e a view conhece os seletores que o JS procura. Nada disso é configurável — é convenção pura. Trocar o nome de uma classe CSS ou de um placeholder exige tocar os três lados, e os specs de sistema (<code>manage_questionnaires</code>, shared examples em <code>lib/decidim/forms/test/shared_examples/</code>) são a rede de segurança.
+</div>
+
+<h2 id="code-public">8. O código: o JavaScript público</h2>
+
+<p>Do lado do participante, o pack <code>decidim_forms</code> (<code>app/packs/src/decidim/forms/forms.js</code>) é deliberadamente pequeno e cumpre quatro papéis:</p>
+
+<ul>
+  <li><strong>Condições em tempo real</strong> — <code>createDisplayConditions</code> lê os <code>data-*</code> emitidos por <code>DisplayCondition#to_html_data</code> e observa os inputs da pergunta-condição. Esconder uma pergunta também <em>desabilita</em> seus inputs (linhas 186–195 do componente), para que nem sequer viajem no POST — a defesa do servidor contra respostas fantasmas começa aqui, no cliente cooperativo.</li>
+  <li><strong>Limites visíveis</strong> — <code>MaxChoicesAlertComponent</code> avisa quando os checkboxes marcados passam de <code>data-max-choices</code>; opções <code>free_text</code> ganham um campo de texto que liga e desliga junto com a escolha (<code>OptionAttachedInputsComponent</code>).</li>
+  <li><strong>Sorting por arraste</strong> — a ordenação de opções usa drag-and-drop (DragonDrop), inclusive com um workaround de scroll em telas de toque.</li>
+  <li><strong>Proteção contra perda</strong> — <code>preventUnload</code> avisa se o usuário tenta sair com o formulário alterado.</li>
+</ul>
+
+<p>A tese unificadora: o JS público nunca <em>decide</em> nada. Toda regra que ele aplica existe, reimplementada, no form object. O cliente acelera a experiência; o servidor é a verdade.</p>
+
+<h2 id="code-read">9. O código: ler as respostas — queries, serializers, exportações</h2>
+
+<p>Gravar foi metade da história; a outra metade é dar sentido ao que voltou. O ponto de partida é sempre a mesma pergunta: <strong>quem é um participante?</strong> A resposta do módulo está em <code>QuestionnaireUserResponses</code> (<code>app/queries/decidim/forms/questionnaire_user_responses.rb:22-30</code>):</p>
+
+<pre><code>responses.group_by { |response| response.user || response.session_token }</code></pre>
+
+<p>Um participante é o usuário logado — ou, para anônimos, o token pseudo-anônimo. Dessa agrupação derivam tudo o mais: a contagem de participantes (<code>QuestionnaireParticipants</code>, com <code>DISTINCT ON (session_token)</code>), a listagem admin, e as exportações.</p>
+
+<p>O <code>UserResponsesSerializer</code> (<code>lib/decidim/forms/user_responses_serializer.rb</code>) transforma o conjunto de respostas de um participante numa linha de planilha, e dois detalhes revelam cuidado de design:</p>
+
+<ul>
+  <li><strong>Colunas alinhadas</strong>: <code>questions_hash</code> pré-popula todas as perguntas com string vazia (linhas 46–58), de modo que quem pulou a pergunta 5 não desalinha o CSV de ninguém;</li>
+  <li><strong>Normalização por tipo</strong>: <code>normalize_body</code> (linhas 64–68) converte cada resposta para sua forma legível — texto puro, URLs de anexos, lista de escolhas, ou um hash linha→colunas para matrizes; opção free-text vira <code>"opção (texto livre)"</code>.</li>
+</ul>
+
+<p>A exportação pesada roda em background: <code>ExportQuestionnaireResponsesJob</code> gera o arquivo (incluindo PDF formatado por participante, via <code>Decidim::Exporters::FormPDF</code>), anexa como export privado e avisa por e-mail com o mailer do core — o forms não tem mailer próprio, mais um sinal de que ele é uma peça dentro da plataforma, não uma aplicação.</p>
+
+<p>E há um terceiro serializer, menos visível e talvez o mais importante: <code>DownloadYourDataUserResponsesSerializer</code>, registrado em <code>Response.export_serializer</code> (<code>response.rb:31-33</code>). É ele que coloca as respostas de um participante no pacote "baixe seus dados" — a obrigação de portabilidade (GDPR) não é um recurso à parte, é o mesmo pipeline de serialização com outro consumidor.</p>
+
+<h2 id="recap">10. Síntese</h2>
+
+<p>O <code>decidim-forms</code> é construído sobre quatro decisões que se reforçam:</p>
+
+<ul>
+  <li><strong>Biblioteca, não aplicação</strong> — sem rotas próprias; concerns com ganchos que surveys, meetings e demographics montam em seus contextos, cada um desviando o que precisa (meetings troca até o significado de "enviar");</li>
+  <li><strong>Resposta por pergunta, participante por agrupação</strong> — a identidade do participante é uma query sobre <code>session_token</code>/<code>user</code>, o que torna anonimato, deduplicação e exportação faces do mesmo mecanismo;</li>
+  <li><strong>Toda regra vive duas vezes</strong> — condições de exibição, limites de escolha e obrigatoriedade têm uma versão de cliente (rápida, cooperativa) e uma de servidor (lenta, autoritativa), geradas da mesma fonte: o model;</li>
+  <li><strong>A árvore se edita inteira</strong> — o editor admin resolve perguntas aninhadas com placeholders de ID e soft-delete no cliente, e um command que reconcilia a árvore recebida com a persistida, sob a guarda de que questionários com respostas congelam suas perguntas.</li>
+</ul>
+
+<p>Se o <code>decidim-surveys</code> é um estudo de "dizer pouco e reutilizar muito", o forms é o que torna isso possível: a fundação que escolheu não ter páginas próprias para poder estar em todas.</p>
+
+</div>
+</body>
+</html>

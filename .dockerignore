@@ -1,0 +1,51 @@
+# Aplicado pelo BuildKit aos builds do Dockerfile da raiz (contexto = raiz do
+# repositório), usados tanto pelo docker-compose (dev) quanto pelo Skaffold/Helm
+# (staging).
+#
+# Mantém apenas o que o Dockerfile precisa: Gemfile/Gemfile.lock, gemspecs,
+# o código dos módulos decidim-* e spec/decidim_dummy_app.
+
+# VCS e ferramentas
+.git/
+.github/
+.gitnexus/
+.claude/
+.devcontainer/
+.bundle/
+.qlty/
+
+# Dependências instaladas localmente (a imagem instala as próprias).
+# /vendor/ é ancorado na raiz para NÃO excluir diretórios de código como
+# decidim-core/app/packs/*/decidim/vendor (fontes de assets de terceiros).
+# Mantemos apenas os módulos vendidos que o Dockerfile precisa compilar.
+node_modules/
+/vendor/*
+!/vendor/modules/
+!/vendor/modules/**
+
+# Documentação e artefatos que não fazem parte da imagem
+docs/
+/*.html
+kimi-export-session_*.md
+plano-simplificacao-surveys.md
+relatorio-static-pages/
+RELEASE_NOTES.md
+CHANGELOG.md
+
+# spec/ — mantém apenas a aplicação de referência usada no runtime
+spec/*
+!spec/decidim_dummy_app/
+spec/decidim_dummy_app/node_modules/
+spec/decidim_dummy_app/tmp/
+spec/decidim_dummy_app/log/
+spec/decidim_dummy_app/coverage/
+spec/decidim_dummy_app/storage/
+
+# Specs dos módulos (não usados no runtime)
+decidim-*/spec/
+
+# Builds e caches (apenas na raiz — NÃO usar **/log ou **/tmp, que
+# excluiriam diretórios de código como decidim-core/app/presenters/decidim/log)
+/tmp/
+/log/
+/coverage/

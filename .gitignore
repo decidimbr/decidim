@@ -38,3 +38,8 @@ packages/**/package-lock.json
 
 temporary_changelog.md
 .devcontainer/devcontainer.local.*
+docker-compose.override.yml
+vendor/bundle
+.gitnexus
+.claude
+.reasonix

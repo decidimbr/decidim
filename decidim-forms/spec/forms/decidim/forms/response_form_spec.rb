@@ -189,6 +189,30 @@ module Decidim
             expect(subject).not_to be_valid
           end
         end
+
+        context "and it is a files question" do
+          let(:question_type) { "files" }
+          let(:max_choices) { 2 }
+          let(:uploaded_files) do
+            [
+              Decidim::Dev.test_file("city.jpeg", "image/jpeg"),
+              Decidim::Dev.test_file("Exampledocument.pdf", "application/pdf"),
+              Decidim::Dev.test_file("city2.jpeg", "image/jpeg")
+            ]
+          end
+
+          it "is valid if few enough files uploaded" do
+            subject.add_attachments = uploaded_files.first(2)
+
+            expect(subject).to be_valid
+          end
+
+          it "is not valid if too many files uploaded" do
+            subject.add_attachments = uploaded_files
+
+            expect(subject).not_to be_valid
+          end
+        end
       end
 
       context "when the question is sorting" do

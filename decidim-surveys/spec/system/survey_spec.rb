@@ -214,27 +214,6 @@ describe "Respond a survey" do
       it_behaves_like "has questionnaire"
     end
 
-    context "when displaying questionnaire rich content" do
-      before do
-        survey.update!(
-          allow_responses: true,
-          allow_unregistered: true,
-          starts_at: 1.week.ago,
-          ends_at: 1.day.from_now
-        )
-        visit_component
-        click_on translated_attribute(questionnaire.title)
-      end
-
-      context "when displaying questionnaire description" do
-        it_behaves_like "has embedded video in description", :description
-      end
-
-      context "when displaying question description" do
-        it_behaves_like "has embedded video in description", :question_description
-      end
-    end
-
     context "when the survey allows to edit responses, and question has display conditions" do
       let!(:question_two) do
         create(:questionnaire_question,
@@ -268,6 +247,81 @@ describe "Respond a survey" do
         click_on "Edit your responses"
         expect(page).to have_content(translated_attribute(survey.title))
         expect(page).to have_content(translated_attribute(question.body))
+      end
+    end
+
+    context "when the survey has a files question with max_choices limit" do
+      let(:callout_success) { "Survey successfully responded." }
+      let!(:files_question) { create(:questionnaire_question, questionnaire:, question_type: "files", max_choices: 2, position: 0) }
+
+      before do
+        survey.update!(allow_responses: true, starts_at: 1.week.ago, ends_at: 1.day.from_now)
+        login_as user, scope: :user
+        visit_component
+        click_on translated_attribute(questionnaire.title)
+      end
+
+      it "displays the max files limit in the question" do
+        within "[data-question-type='files']" do
+          expect(page).to have_content("Max files")
+          expect(page).to have_content("2")
+        end
+      end
+
+      it "validates the maximum number of files on submit" do
+        # Try to upload 3 files (exceeding the limit of 2)
+        find("button[id$='add_attachments_button']").click
+
+        within ".upload-modal" do
+          attach_file "files[]", [
+            Decidim::Dev.asset_path("city.jpeg"),
+            Decidim::Dev.asset_path("city2.jpeg"),
+            Decidim::Dev.asset_path("Exampledocument.pdf")
+          ], make_visible: true
+        end
+
+        click_on "Submit"
+
+        # Should show validation error
+        expect(page).to have_content("There was a problem responding the survey")
+      end
+
+      it "allows submitting when within the limit" do
+        # Upload 2 files (within the limit)
+        find("button[id$='add_attachments_button']").click
+
+        within ".upload-modal" do
+          attach_file "files[]", [
+            Decidim::Dev.asset_path("city.jpeg"),
+            Decidim::Dev.asset_path("city2.jpeg")
+          ], make_visible: true
+        end
+
+        check "questionnaire_tos_agreement"
+        click_on "Submit"
+
+        expect(page).to have_content(callout_success)
+      end
+    end
+
+    context "when displaying questionnaire rich content" do
+      before do
+        survey.update!(
+          allow_responses: true,
+          allow_unregistered: true,
+          starts_at: 1.week.ago,
+          ends_at: 1.day.from_now
+        )
+        visit_component
+        click_on translated_attribute(questionnaire.title)
+      end
+
+      context "when displaying questionnaire description" do
+        it_behaves_like "has embedded video in description", :description
+      end
+
+      context "when displaying question description" do
+        it_behaves_like "has embedded video in description", :question_description
       end
     end
   end

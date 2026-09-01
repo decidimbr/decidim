@@ -108,7 +108,9 @@ module Decidim
       end
 
       def max_choices
-        if matrix?
+        if question.has_attachments?
+          errors.add(:add_attachments, :too_many, count: question.max_choices) if add_attachments.size > question.max_choices
+        elsif matrix?
           errors.add(:choices, :too_many, count: question.max_choices) if grouped_choices.any? { |choices| choices.count > question.max_choices }
         elsif selected_choices.size > question.max_choices
           errors.add(:choices, :too_many, count: question.max_choices)
@@ -138,7 +140,9 @@ module Decidim
       end
 
       def max_choices_label
-        I18n.t("questionnaires.question.max_choices", scope: "decidim.forms", n: question.max_choices)
+        key = question.has_attachments? ? "max_files" : "max_choices"
+
+        I18n.t("questionnaires.question.#{key}", scope: "decidim.forms", n: question.max_choices)
       end
 
       def attachments_present

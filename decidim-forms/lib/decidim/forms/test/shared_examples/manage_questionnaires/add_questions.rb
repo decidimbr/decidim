@@ -495,4 +495,53 @@ shared_examples_for "add questions" do
 
     it_behaves_like "updating the max choices selector according to the configured options"
   end
+
+  context "when adding a files question" do
+    before do
+      click_on "Add question"
+      expand_all_questions
+
+      within ".questionnaire-question" do
+        fill_in find_nested_form_field_locator("body_en"), with: "Upload your files"
+        select "Files", from: "Type"
+      end
+    end
+
+    it "allows configuring max_choices as maximum number of files" do
+      within ".questionnaire-question" do
+        # Files question should show max_choices field
+        expect(page).to have_select("Maximum number of choices")
+
+        # Set max files to 3
+        select "3", from: "Maximum number of choices"
+      end
+
+      click_on "Save"
+      expect(page).to have_callout(callout_success)
+
+      # Verify it was saved
+      visit_manage_questions_and_expand_all
+
+      within ".questionnaire-question" do
+        expect(page).to have_select("Maximum number of choices", selected: "3")
+      end
+    end
+
+    it "validates that max_choices is at least 2 for files questions" do
+      within ".questionnaire-question" do
+        select "1", from: "Maximum number of choices"
+      end
+
+      click_on "Save"
+
+      # Should show validation error
+      expect(page).to have_callout(callout_failure)
+    end
+
+    it "shows the max files label in the admin form" do
+      within ".questionnaire-question" do
+        expect(page).to have_content("Max files")
+      end
+    end
+  end
 end

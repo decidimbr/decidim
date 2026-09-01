@@ -6,6 +6,7 @@ module Decidim
     # exported to CSV, JSON or other formats.
     class UserResponsesSerializer < Decidim::Exporters::Serializer
       include Decidim::TranslationsHelper
+      include ActionView::Helpers::SanitizeHelper
 
       # Public: Initializes the serializer with a collection of Responses.
       def initialize(responses)
@@ -44,21 +45,33 @@ module Decidim
       end
 
       def questions_hash
-        questionnaire_id = @responses.first&.decidim_questionnaire_id
-        return {} unless questionnaire_id
-
-        questions = Decidim::Forms::Question.where(decidim_questionnaire_id: questionnaire_id).order(:position)
-        return {} if questions.none?
-
-        questions.each.inject({}) do |serialized, question|
+        questions.inject({}) do |serialized, question|
           serialized.update(
             translated_question_key(question.position, question.body) => ""
           )
         end
       end
 
+      # Only answerable questions become export columns: separators and
+      # title/description blocks never receive responses.
+      def questions
+        @questions ||= begin
+          questionnaire_id = @responses.first&.decidim_questionnaire_id
+
+          if questionnaire_id
+            Decidim::Forms::Question.where(decidim_questionnaire_id: questionnaire_id)
+                                    .not_separator
+                                    .not_title_and_description
+                                    .order(:position)
+                                    .to_a
+          else
+            []
+          end
+        end
+      end
+
       def translated_question_key(idx, body)
-        "#{idx + 1}. #{translated_attribute(body)}"
+        "#{idx + 1}. #{strip_tags(translated_attribute(body).to_s)}"
       end
 
       def normalize_body(response)

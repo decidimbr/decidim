@@ -5,6 +5,8 @@ require "spec_helper"
 module Decidim
   module Forms
     describe UserResponsesSerializer do
+      include ActionView::Helpers::SanitizeHelper
+
       subject do
         described_class.new(questionnaire.responses)
       end
@@ -72,7 +74,7 @@ module Decidim
         it "includes the response for each question" do
           questions.each_with_index do |question, idx|
             expect(serialized).to include(
-              "#{question.position + 1}. #{translated(question.body, locale: I18n.locale)}" => responses[idx].body
+              "#{question.position + 1}. #{strip_tags(translated(question.body, locale: I18n.locale))}" => responses[idx].body
             )
           end
 
@@ -88,20 +90,48 @@ module Decidim
           serialized_files_blobs = files_response.attachments.map(&:file).map(&:blob)
 
           expect(serialized).to include(
-            "#{multichoice_question.position + 1}. #{translated(multichoice_question.body, locale: I18n.locale)}" => [multichoice_response_choices.first.body, multichoice_response_choices.last.body]
+            "#{multichoice_question.position + 1}. #{strip_tags(translated(multichoice_question.body, locale: I18n.locale))}" => [multichoice_response_choices.first.body, multichoice_response_choices.last.body]
           )
 
           expect(serialized).to include(
-            "#{singlechoice_question.position + 1}. #{translated(singlechoice_question.body, locale: I18n.locale)}" => ["#{translated(singlechoice_response_choice.body)} (Free text)"]
+            "#{singlechoice_question.position + 1}. #{strip_tags(translated(singlechoice_question.body, locale: I18n.locale))}" => ["#{translated(singlechoice_response_choice.body)} (Free text)"]
           )
 
           expect(serialized).to include(
-            "#{matrixmultiple_question.position + 1}. #{translated(matrixmultiple_question.body, locale: I18n.locale)}" => serialized_matrix_response
+            "#{matrixmultiple_question.position + 1}. #{strip_tags(translated(matrixmultiple_question.body, locale: I18n.locale))}" => serialized_matrix_response
           )
 
-          expect(serialized["#{files_question.position + 1}. #{translated(files_question.body, locale: I18n.locale)}"]).to include_blob_urls(
+          expect(serialized["#{files_question.position + 1}. #{strip_tags(translated(files_question.body, locale: I18n.locale))}"]).to include_blob_urls(
             *serialized_files_blobs
           )
+        end
+
+        context "when the questionnaire has structural questions and bodies with HTML" do
+          let!(:separator_question) { create(:questionnaire_question, questionnaire:, question_type: "separator") }
+          let!(:title_desc_question) { create(:questionnaire_question, questionnaire:, question_type: "title_and_description") }
+          let!(:html_question) do
+            create(:questionnaire_question, questionnaire:, question_type: "short_response",
+                                            body: { "en" => "<p>What is your <strong>name</strong>?</p>" })
+          end
+
+          it "does not export a column for the separator" do
+            separator_body = translated(separator_question.body, locale: I18n.locale)
+
+            expect(serialized.keys).not_to include(a_string_matching(/#{Regexp.escape(separator_body)}/))
+          end
+
+          it "does not export a column for title_and_description" do
+            title_desc_body = translated(title_desc_question.body, locale: I18n.locale)
+
+            expect(serialized.keys).not_to include(a_string_matching(/#{Regexp.escape(title_desc_body)}/))
+          end
+
+          it "strips HTML tags from the column headers" do
+            header = serialized.keys.find { |key| key.include?("What is your name?") }
+
+            expect(header).to be_present
+            expect(header).not_to include("<")
+          end
         end
 
         context "and includes the attributes" do
@@ -143,7 +173,7 @@ module Decidim
           let!(:conditional_question) { create(:questionnaire_question, :conditioned, questionnaire:, position: 4) }
 
           it "includes conditional question as empty" do
-            expect(serialized).to include("5. #{translated(conditional_question.body, locale: I18n.locale)}" => "")
+            expect(serialized).to include("5. #{strip_tags(translated(conditional_question.body, locale: I18n.locale))}" => "")
           end
         end
 

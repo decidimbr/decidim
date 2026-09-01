@@ -1,0 +1,20 @@
+{{- if .Values.cnpg.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "decidim.fullname" . }}-pg
+  labels:
+    {{- include "decidim.labels" . | nindent 4 }}
+spec:
+  instances: {{ .Values.cnpg.instances }}
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  storage:
+    size: {{ .Values.cnpg.storageSize }}
+    {{- if .Values.cnpg.storageClass }}
+    storageClass: {{ .Values.cnpg.storageClass }}
+    {{- end }}
+  bootstrap:
+    initdb:
+      database: {{ .Values.cnpg.database }}
+      owner: {{ .Values.cnpg.owner }}
+{{- end }}

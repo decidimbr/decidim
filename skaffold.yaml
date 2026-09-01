@@ -1,0 +1,39 @@
+apiVersion: skaffold/v4beta12
+kind: Config
+metadata:
+  name: decidim-govbr
+
+# ── Build ──────────────────────────────────────────────────────────────
+# Usa o Dockerfile da raiz em modo production (assets pré-compilados).
+# O ambiente de desenvolvimento local é o docker-compose.yml — este arquivo
+# é apenas para o deploy de staging no Kubernetes.
+build:
+  local:
+    push: true
+    useBuildkit: true
+  artifacts:
+    - image: decidim-govbr
+      context: .
+      docker:
+        dockerfile: Dockerfile
+
+# ── Deploy (Helm) ─────────────────────────────────────────────────────
+deploy:
+  helm:
+    releases:
+      - name: decidim-staging
+        chartPath: deploy/helm/decidim
+        namespace: decidim-staging
+        createNamespace: true
+        wait: true
+        setValueTemplates:
+          image.repository: "{{.IMAGE_REPO_decidim_govbr}}"
+          image.tag: "{{.IMAGE_TAG_decidim_govbr}}@{{.IMAGE_DIGEST_decidim_govbr}}"
+
+# ── Port Forward ──────────────────────────────────────────────────────
+portForward:
+  - resourceType: service
+    resourceName: decidim-staging
+    namespace: decidim-staging
+    port: 80
+    localPort: 3000

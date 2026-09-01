@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "decidim.fullname" . }}
+  labels:
+    {{- include "decidim.labels" . | nindent 4 }}
+data:
+  RAILS_ENV: {{ .Values.rails.env | quote }}
+  RAILS_LOG_TO_STDOUT: {{ .Values.rails.logToStdout | quote }}
+  RAILS_SERVE_STATIC_FILES: {{ .Values.rails.serveStaticFiles | quote }}
+  RAILS_MAX_THREADS: {{ .Values.rails.maxThreads | quote }}
+  WEB_CONCURRENCY: {{ .Values.rails.webConcurrency | quote }}
+  PORT: "3000"
+  {{- if and (not .Values.cnpg.enabled) (or .Values.database.url .Values.database.host) }}
+  DATABASE_URL: {{ include "decidim.databaseUrl" . | quote }}
+  {{- end }}
+  {{- if .Values.cnpg.enabled }}
+  DATABASE_NAME: {{ .Values.cnpg.database | quote }}
+  {{- end }}
+  {{- if .Values.redis.url }}
+  REDIS_URL: {{ .Values.redis.url | quote }}
+  {{- else if .Values.redis.enabled }}
+  REDIS_URL: "redis://{{ include "decidim.fullname" . }}-redis:6379/0"
+  {{- end }}
+  STORAGE_PROVIDER: {{ .Values.storage.provider | quote }}

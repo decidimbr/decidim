@@ -1,0 +1,113 @@
+# ── Image ──────────────────────────────────────────────────────────────
+image:
+  repository: decidim-govbr
+  tag: ""            # defaults to Chart appVersion
+  pullPolicy: IfNotPresent
+
+# ── Replicas & Resources ──────────────────────────────────────────────
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
+
+# ── Rails ─────────────────────────────────────────────────────────────
+rails:
+  env: production
+  logToStdout: true
+  serveStaticFiles: true
+  maxThreads: 3
+  webConcurrency: 1
+  secretKeyBase: ""          # auto-generated if empty
+  existingSecret: ""         # name of an existing Secret with SECRET_KEY_BASE
+
+# ── CloudNativePG ─────────────────────────────────────────────────────
+cnpg:
+  enabled: true
+  instances: 1
+  database: decidim_production
+  owner: decidim
+  storageSize: 10Gi
+  storageClass: ""
+
+# ── Database (connection via CNPG service) ────────────────────────────
+# The host is auto-derived from CNPG: <fullname>-pg-rw.<namespace>.svc
+database:
+  url: ""                    # full DATABASE_URL (takes precedence if set)
+  host: ""                   # leave empty to use CNPG auto-detect
+  port: 5432
+  name: decidim_production
+  username: decidim
+  password: ""               # CNPG manages credentials via Secret
+
+# ── Redis ─────────────────────────────────────────────────────────────
+redis:
+  enabled: true
+  url: ""                    # auto-derived from service name if empty
+
+# ── PostgreSQL sub-chart (disabled — using CNPG) ─────────────────────
+postgresql:
+  enabled: false
+
+# ── Storage (Active Storage) ─────────────────────────────────────────
+storage:
+  provider: local
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+
+# ── Service ───────────────────────────────────────────────────────────
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+# ── Ingress ───────────────────────────────────────────────────────────
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: decidim-dev.caicara.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# ── Environment Variables (extra) ─────────────────────────────────────
+env: []
+
+# ── Liveness / Readiness ─────────────────────────────────────────────
+livenessProbe:
+  httpGet:
+    path: /up
+    port: http
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /up
+    port: http
+  initialDelaySeconds: 20
+  periodSeconds: 5
+
+# ── Service Account ───────────────────────────────────────────────────
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# ── Pod ───────────────────────────────────────────────────────────────
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}

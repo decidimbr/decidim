@@ -17,25 +17,6 @@ module Decidim
         end
       end
 
-      describe "allow_editing_responses" do
-        let(:query) { "{ allowEditingResponses }" }
-
-        context "when is set" do
-          let(:model) { create(:survey, :allow_edit) }
-
-          it "returns the allowEditingResponses field" do
-            expect(response["allowEditingResponses"]).to eq(model.allow_editing_responses)
-            expect(response["allowEditingResponses"]).to be_truthy
-          end
-        end
-
-        context "when is not set" do
-          it "returns the allowEditingResponses field" do
-            expect(response["allowEditingResponses"]).to eq(model.allow_editing_responses)
-          end
-        end
-      end
-
       describe "allow_responses" do
         let(:query) { "{ allowResponses }" }
 

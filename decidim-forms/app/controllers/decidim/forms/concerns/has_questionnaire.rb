@@ -16,7 +16,7 @@ module Decidim
           helper Decidim::Forms::ApplicationHelper
           include FormFactory
 
-          helper_method :questionnaire_for, :questionnaire, :allow_responses?, :visitor_can_respond?, :visitor_already_responded?, :update_url, :visitor_can_edit_responses?,
+          helper_method :questionnaire_for, :questionnaire, :allow_responses?, :visitor_can_respond?, :visitor_already_responded?, :update_url,
                         :form_path
 
           invisible_captcha on_spam: :spam_detected
@@ -105,10 +105,6 @@ module Decidim
 
           def allow_editing_responses?
             false
-          end
-
-          def visitor_can_edit_responses?
-            current_user.present? && questionnaire_for.try(:allow_editing_responses?)
           end
 
           def i18n_flashes_scope

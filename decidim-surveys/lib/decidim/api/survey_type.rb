@@ -7,7 +7,6 @@ module Decidim
 
       description "A survey"
 
-      field :allow_editing_responses, GraphQL::Types::Boolean, "Whether this survey accepts editing responses or not.", null: true
       field :allow_responses, GraphQL::Types::Boolean, "Whether this survey accepts responses or not.", null: true
       field :allow_unregistered, GraphQL::Types::Boolean, "Whether this survey accepts answers or not.", null: true
       field :announcement, Decidim::Core::TranslatedFieldType, "The announcement info for this survey", null: true

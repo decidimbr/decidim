@@ -14,8 +14,26 @@ data:
   {{- if and (not .Values.cnpg.enabled) (or .Values.database.url .Values.database.host) }}
   DATABASE_URL: {{ include "decidim.databaseUrl" . | quote }}
   {{- end }}
-  {{- if .Values.cnpg.enabled }}
-  DATABASE_NAME: {{ .Values.cnpg.database | quote }}
+  {{- if .Values.rails.seed }}
+  SEED: "1"
+  {{- end }}
+  {{- $resourceUrl := .Values.spamDetection.resourceRedisUrl }}
+  {{- if and (not $resourceUrl) .Values.redis.enabled }}
+  {{- $resourceUrl = printf "redis://%s-redis:6379/2" (include "decidim.fullname" .) }}
+  {{- end }}
+  {{- if $resourceUrl }}
+  DECIDIM_SPAM_DETECTION_BACKEND_RESOURCE_URL: {{ $resourceUrl | quote }}
+  {{- else }}
+  DECIDIM_SPAM_DETECTION_BACKEND_RESOURCE: memory
+  {{- end }}
+  {{- $userUrl := .Values.spamDetection.userRedisUrl }}
+  {{- if and (not $userUrl) .Values.redis.enabled }}
+  {{- $userUrl = printf "redis://%s-redis:6379/3" (include "decidim.fullname" .) }}
+  {{- end }}
+  {{- if $userUrl }}
+  DECIDIM_SPAM_DETECTION_BACKEND_USER_REDIS_URL: {{ $userUrl | quote }}
+  {{- else }}
+  DECIDIM_SPAM_DETECTION_BACKEND_USER: memory
   {{- end }}
   {{- if .Values.redis.url }}
   REDIS_URL: {{ .Values.redis.url | quote }}

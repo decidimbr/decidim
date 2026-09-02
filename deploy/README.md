@@ -81,6 +81,7 @@ skaffold delete
 | Variável | Descrição | Como setar |
 |---|---|---|
 | `rails.secretKeyBase` | Chave de sessão do Rails (auto-gerada se vazia) | `--set-rails.secretKeyBase=...` |
+| `rails.seed` | Roda seeds no primeiro boot (`SEED=1`; default `true`) | `--set rails.seed=false` |
 | `database.url` | URL completa do banco (sobrepõe o CNPG) | `--set-database.url=...` |
 | `ingress.hosts[0].host` | Domínio da instância | Editar `values.yaml` |
 | `storage.provider` | Backend de uploads | `local`, `amazon`, `google`, `microsoft` |
@@ -93,6 +94,21 @@ cnpg:
   enabled: false
 database:
   url: "postgres://user:pass@external-host:5432/decidim"
+```
+
+### Usar Redis externo
+
+O decidim-ai (spam detection) usa DBs próprios de Redis (2 e 3). Com Redis
+externo, informe as URLs — sem elas, os backends caem para `memory`:
+
+```yaml
+# values.yaml
+redis:
+  enabled: false
+  url: "redis://redis-externo:6379"
+spamDetection:
+  resourceRedisUrl: "redis://redis-externo:6379/2"
+  userRedisUrl: "redis://redis-externo:6379/3"
 ```
 
 ### SMTP para emails

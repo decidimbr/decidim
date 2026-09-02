@@ -24,6 +24,18 @@ rails:
   webConcurrency: 1
   secretKeyBase: ""          # auto-generated if empty
   existingSecret: ""         # name of an existing Secret with SECRET_KEY_BASE
+  # SEED=1 popula a instância com dados de exemplo no primeiro boot
+  # (banco novo). Em production, o guard do decidim-core só roda seeds
+  # com esta variável. Desligue após o primeiro boot se não quiser seeds.
+  seed: true
+
+# ── Decidim AI (spam detection) ──────────────────────────────────────
+# O decidim-ai usa Redis próprio para os backends de spam detection
+# (DBs 2 e 3). Por padrão apontam para o Redis do chart; com Redis
+# externo informe as URLs; sem Redis nenhum, cai para o backend "memory".
+spamDetection:
+  resourceRedisUrl: ""       # ex.: redis://redis-externo:6379/2
+  userRedisUrl: ""           # ex.: redis://redis-externo:6379/3
 
 # ── CloudNativePG ─────────────────────────────────────────────────────
 cnpg:
@@ -48,10 +60,6 @@ database:
 redis:
   enabled: true
   url: ""                    # auto-derived from service name if empty
-
-# ── PostgreSQL sub-chart (disabled — using CNPG) ─────────────────────
-postgresql:
-  enabled: false
 
 # ── Storage (Active Storage) ─────────────────────────────────────────
 storage:

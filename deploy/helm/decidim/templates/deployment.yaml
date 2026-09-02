@@ -51,6 +51,12 @@ spec:
                 secretKeyRef:
                   name: {{ include "decidim.fullname" . }}-pg-app
                   key: password
+            # Em production o database.yml só lê DATABASE_URL — as vars
+            # DATABASE_HOST/USERNAME/PASSWORD acima são ignoradas pelo
+            # Rails. A senha vem do Secret do CNPG (alfanumérica, segura
+            # em URL) e a expansão $(VAR) é resolvida pelo kubelet.
+            - name: DATABASE_URL
+              value: "postgres://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST):5432/{{ .Values.cnpg.database }}"
             {{- end }}
             {{- with .Values.env }}
             {{- toYaml . | nindent 12 }}

@@ -21,10 +21,9 @@ Then visit http://localhost:3000
   kubectl get secret {{ include "decidim.fullname" . }} -o jsonpath='{.data.SECRET_KEY_BASE}' | base64 -d
 {{- end }}
 
-{{- if .Values.postgresql.enabled }}
+{{- if .Values.cnpg.enabled }}
 
-PostgreSQL is running as a sub-chart. Connection details:
-  Host: {{ .Release.Name }}-postgresql
-  Database: {{ .Values.postgresql.auth.database }}
-  Username: {{ .Values.postgresql.auth.username }}
+PostgreSQL (CloudNativePG) cluster: {{ include "decidim.fullname" . }}-pg
+  Read-write service: {{ include "decidim.fullname" . }}-pg-rw
+  Database: {{ .Values.cnpg.database }}
 {{- end }}

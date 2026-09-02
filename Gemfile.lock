@@ -1092,6 +1092,7 @@ DEPENDENCIES
   decidim-templates!
   decidim-toggle!
   deface (>= 1.9)
+  faker (~> 3.2)
   letter_opener_web (~> 3.0)
   listen (~> 3.10)
   parallel_tests (~> 5.6)

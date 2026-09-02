@@ -94,7 +94,7 @@ Redis URL
 {{- if .Values.redis.url }}
 {{- .Values.redis.url }}
 {{- else if .Values.redis.enabled }}
-{{- printf "redis://%s-redis-master:6379/0" .Release.Name }}
+{{- printf "redis://%s-redis:6379/0" (include "decidim.fullname" .) }}
 {{- else }}
 {{- "" }}
 {{- end }}

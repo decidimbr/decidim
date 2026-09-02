@@ -131,7 +131,11 @@ RUN if [ "$ENVIRONMENT" = "production" ]; then \
             DECIDIM_SPAM_DETECTION_BACKEND_USER=memory \
             bundle exec rails assets:precompile; \
     else \
-        rm -rf spec/decidim_dummy_app/app/compiled_views; \
+        cd spec/decidim_dummy_app && \
+        RAILS_ENV=development SECRET_KEY_BASE=placeholder \
+            DECIDIM_SPAM_DETECTION_BACKEND_RESOURCE=memory \
+            DECIDIM_SPAM_DETECTION_BACKEND_USER=memory \
+            bundle exec rails assets:precompile; \
     fi
 
 ENV RAILS_ENV=${ENVIRONMENT} \

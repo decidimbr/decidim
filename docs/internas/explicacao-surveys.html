@@ -141,6 +141,7 @@
     <li><a href="#code-admin">O código: o lado administrativo</a></li>
     <li><a href="#code-exports">O código: exportações e dados abertos</a></li>
     <li><a href="#recap">Síntese</a></li>
+    <li><a href="#delta">12. O que muda entre a v0.32.1 e a develop</a></li>
   </ol>
 </nav>
 
@@ -542,6 +543,71 @@ Decidim.traceability.perform_action!(
 </ul>
 
 <p>Tudo o mais — perguntas, respostas, condições de exibição, exportação, edição — é o <code>decidim-forms</code> trabalhando. Conhecer esse limite é conhecer o módulo: quando algo no comportamento de um survey surpreender você, a primeira pergunta certa é "isso é regra do survey ou da fundação de formulários?".</p>
+
+<h2 id="delta">12. O que muda entre a v0.32.1 e a develop</h2>
+
+<p>Apêndice de versão com o mesmo método da doc irmã do forms: comparação direta das árvores entre a base upstream <strong>v0.32.1</strong> (jul/2026, sobre a qual este fork está vendado) e a <strong>develop</strong> upstream (versão <code>0.33.0.dev</code>, snapshot do commit <code>a6e742e6d0</code>, 27/ago/2026, cerca de 371 commits à frente):</p>
+
+<pre><code>git diff v0.32.1 origin/develop -- decidim-surveys/
+git log --oneline v0.32.1..origin/develop -- decidim-surveys/</code></pre>
+
+<p>Ressalvas: "develop" é o snapshot do remoto <code>origin</code> em 27/ago/2026, e os números de PR citados referem-se ao upstream <code>decidim/decidim</code>. A diferença de árvores é a fonte da verdade; commits do intervalo que já vieram por backport na linha 0.32.x não contam como delta (ver fim da seção).</p>
+
+<h3>Survey vira um recurso referenciável — a mudança estrutural (PR #16320)</h3>
+
+<p>A maior mudança do intervalo é o survey ganhar o mesmo mecanismo de <em>referência</em> que os outros recursos da plataforma já tinham:</p>
+
+<ul>
+  <li>o model passa a incluir <code>Decidim::HasReference</code>;</li>
+  <li>uma migração nova (<code>20260305104555_add_reference_to_decidim_surveys_surveys.rb</code>) adiciona a coluna <code>reference</code> em <code>decidim_surveys_surveys</code> e faz o backfill chamando <code>store_reference</code> em cada survey existente — ou seja, na atualização os surveys antigos ganham o código curto automaticamente em <code>db:migrate</code>;</li>
+  <li>o tipo GraphQL <code>SurveyType</code> passa a implementar <code>ReferableInterface</code> (a referência aparece na API);</li>
+  <li>na interface, a página pública do questionário — que é a página do survey — passa a exibir a referência do recurso dono sempre que ele for referenciável (ver o apêndice da doc do forms).</li>
+</ul>
+
+<div class="callout warn">
+<span class="tag">Correção à seção 7</span>
+A seção 7 lista <code>HasReference</code> entre os concerns do model e dá o exemplo <code>SRV-2026-03-7</code>. Isso descreve a <strong>develop</strong>: na base v0.32.1 (código atual do fork) o <code>Survey</code> <em>não</em> inclui <code>HasReference</code> e não existe coluna <code>reference</code>. O identificador curto é um ganho que chega só na 0.33 — migração inclusa.
+</div>
+
+<h3>Gráficos de respostas publicadas corrigidos (PR #17493)</h3>
+
+<p>O helper <code>options_column_chart_wrapper</code> trocou <code>responses.map</code> por <code>responses.flat_map</code> ao juntar as escolhas de cada resposta. Antes, um participante que marcasse três opções de uma vez virava <em>uma</em> contagem da string combinada das três; agora cada opção marcada conta individualmente. O spec novo é explícito: duas respostas — uma com A+B+C e outra com A+C — produzem o gráfico <code>{A: 2, B: 1, C: 2}</code>. Este é um bug <strong>presente na base 0.32.1 do fork</strong> e já corrigido na develop: cherry-pick trivial (uma linha) se o gráfico importar antes do upgrade.</p>
+
+<h3>Chartkick em entrypoint próprio (PR #16795)</h3>
+
+<p>Os gráficos (Chartkick) saíram do bundle geral e viraram o pack <code>decidim_chartkick</code>, carregado com <code>defer</code> nas duas páginas que os usam: a tela admin "publicar respostas" e a partial pública de respostas publicadas. Mudança de empacotamento de assets — relevante ao portar a correção do gráfico ou subir de versão, pois as páginas precisam declarar o pack.</p>
+
+<h3>Controllers admin migrados para <code>params.expect</code> (Rails 8)</h3>
+
+<p>Os quatro controllers admin (<code>SurveysController</code>, <code>questions/surveys_controller</code>, <code>settings/surveys_controller</code>, <code>publish_responses_controller</code>) trocaram <code>params[:id]</code>/<code>params[:survey_id]</code> por <code>params.expect(...)</code> — o auto-fix do rubocop-rails 2.35 (PR #16813), parte da migração global ao Rails 8. Sem mudança de comportamento; apenas passa a lançar <code>ActionController::ParameterMissing</code> se o parâmetro faltar.</p>
+
+<h3>Seeds de desenvolvimento otimizados (PR #17363)</h3>
+
+<p>O gerador de seeds criava um usuário por resposta e validava cada insert; agora cria usuários em massa (bulk) e persiste respostas com <code>save!(validate: false)</code>, com as quantidades vindas de <code>config_value(:surveys_count)</code> e <code>:surveys_responses_count</code>. Ferramenta de dev/teste apenas — nenhum efeito em runtime.</p>
+
+<h3>O que não muda — e por que isso importa para o fork</h3>
+
+<ul>
+  <li><strong>Edição de respostas permanece no upstream.</strong> <code>allow_editing_responses</code>, a rota de edição e os specs de edição (<code>editable_survey_response_examples</code>) continuam existindo na develop; a remoção feita neste fork (commit 82d7cf7929) é uma decisão local que precisará ser reaplicada/reconciliada num rebase com a 0.33.</li>
+  <li><strong>Regras de abertura e fechamento idênticas.</strong> <code>Survey#open?</code>, os scopes <code>.open</code>/<code>.closed</code>, o controller público e as permissões não mudaram no intervalo. As correções locais do fork — o scope <code>.open</code> respeitar <code>allow_responses</code> dentro da janela de datas (cae986c8ae) e o bloqueio de POST a survey fechado no controller (721fc0a8cd) — continuam sendo divergência local, ausentes da develop até 27/ago/2026.</li>
+  <li><strong>Não-deltas.</strong> Correções de paginação das respostas (PR #17294) e da data migration <code>answers → responses</code> (PR #17134) já vieram por backport na linha 0.32.1 — não são diferença real entre as duas árvores.</li>
+</ul>
+
+<h3>Resumo prático</h3>
+
+<table>
+  <thead><tr><th>Mudança</th><th>PR</th><th>Efeito</th><th>Ação para o fork</th></tr></thead>
+  <tbody>
+    <tr><td>Survey referenciável (coluna <code>reference</code> + GraphQL + exibição)</td><td>#16320</td><td>coluna nova + backfill + UI</td><td>vem no upgrade para a 0.33 (migração inclusa)</td></tr>
+    <tr><td>Gráfico publicado conta cada opção marcada</td><td>#17493</td><td>corrige bug que o fork ainda tem na 0.32.1</td><td>cherry-pick opcional de uma linha</td></tr>
+    <tr><td>Chartkick em pack próprio</td><td>#16795</td><td>assets</td><td>junto com o item acima</td></tr>
+    <tr><td><code>params.expect</code> nos controllers admin</td><td>#16813</td><td>Rails 8 (sem mudança funcional)</td><td>vem no upgrade</td></tr>
+    <tr><td>Seeds de dev otimizados</td><td>#17363</td><td>dev/teste</td><td>ignorar</td></tr>
+    <tr><td>Bump de versão para <code>0.33.0.dev</code></td><td>—</td><td>esperado</td><td>ignorar</td></tr>
+  </tbody>
+</table>
+
+<p>Fora isso, o ciclo de vida descrito nas seções 3–11 — publicar ≠ abrir, anonimato por <code>session_token</code>, publicação por pergunta — permanece exatamente igual na develop.</p>
 
 </div>
 </body>

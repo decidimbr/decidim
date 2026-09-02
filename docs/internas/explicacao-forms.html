@@ -140,6 +140,7 @@
     <li><a href="#code-public">O código: o JavaScript público</a></li>
     <li><a href="#code-read">O código: ler as respostas — queries, serializers, exportações</a></li>
     <li><a href="#recap">Síntese</a></li>
+    <li><a href="#delta">11. O que muda entre a v0.32.1 e a develop</a></li>
   </ol>
 </nav>
 
@@ -394,6 +395,43 @@ Repare na direção das dependências: o JS conhece os placeholders que os form 
 </ul>
 
 <p>Se o <code>decidim-surveys</code> é um estudo de "dizer pouco e reutilizar muito", o forms é o que torna isso possível: a fundação que escolheu não ter páginas próprias para poder estar em todas.</p>
+
+<h2 id="delta">11. O que muda entre a v0.32.1 e a develop</h2>
+
+<p>Este apêndice foi escrito depois das seções 1–10 e responde a uma pergunta prática: o que muda no <code>decidim-forms</code> entre a base upstream <strong>v0.32.1</strong> (jul/2026, sobre a qual este fork está vendado) e a <strong>develop</strong> upstream (versão <code>0.33.0.dev</code>, snapshot do commit <code>a6e742e6d0</code>, 27/ago/2026, cerca de 371 commits à frente)? O levantamento usa a diferença de árvores dos dois refs como fonte da verdade, mais a leitura das mensagens do intervalo:</p>
+
+<pre><code>git diff v0.32.1 origin/develop -- decidim-forms/
+git log --oneline v0.32.1..origin/develop -- decidim-forms/</code></pre>
+
+<p>Duas ressalvas de honestidade. Primeiro, "develop" aqui é o snapshot do remoto <code>origin</code> em 27/ago/2026 — o upstream pode ter avançado desde então. Segundo, os números de PR citados referem-se ao repositório upstream <code>decidim/decidim</code>.</p>
+
+<h3>A notícia principal: o núcleo não mudou</h3>
+
+<p>Entre a v0.32.1 e a develop, o forms não teve <strong>nenhuma mudança funcional nas peças centrais</strong>. Models (<code>Questionnaire</code>, <code>Question</code>, <code>Response</code>/<code>ResponseChoice</code>/<code>ResponseOption</code>, <code>DisplayCondition</code>), form objects (<code>QuestionnaireForm</code>, <code>ResponseForm</code>, <code>QuestionForm</code>), commands (<code>ResponseQuestionnaire</code>, <code>Admin::UpdateQuestions</code>), serializers e exportadores, e todo o JS de regras (condições de exibição, <code>max_choices</code>, sorting, campos acoplados a opções) estão idênticos nas duas árvores. Tudo o que as seções 3–9 descrevem continua valendo na develop; o único toque na versão é o esperado salto para <code>0.33.0.dev</code>.</p>
+
+<div class="callout warn">
+<span class="tag">Por que isso importa para o fork</span>
+As correções que este fork já aplicou no forms — dono das condições de exibição preservado na re-save (commit 1c98e6984d), <code>max_choices</code> como limite de arquivos (590e5bccd5), upload respeitando as configurações da organização (f1cda0b2e1) e exportação só de perguntas respondíveis com cabeçalhos sem HTML (77d5e0fee2) — <strong>não existem na develop</strong> até 27/ago/2026. Elas são divergência local a ser reaplicada num futuro rebase (ou proposta ao upstream), não mudanças que o upstream já tenha feito.
+</div>
+
+<h3>Quatro mudanças silenciosas na borda</h3>
+
+<ul>
+  <li><strong>Eager loading contra N+1.</strong> A query <code>QuestionnaireUserResponses</code> — a base da listagem admin, das contagens e das exportações — passou a carregar <code>question</code>, <code>user</code> e <code>questionnaire</code> junto (<code>.includes(...)</code>), na esteira da ativação do bullet em todos os módulos (PR #17072). Sem mudança de comportamento; apenas menos queries.</li>
+  <li><strong>Referência do recurso dono na página pública.</strong> A view <code>questionnaires/show.html.erb</code> passou a entregar <code>reference: resource_reference(questionnaire_for)</code> ao layout quando o dono do questionário responde a <code>reference</code> — e o partial central do core (<code>layouts/decidim/shared/_layout_center</code>) ganhou um bloco que renderiza essa referência abaixo do conteúdo. Como o surveys passa a ser referenciável na develop (PR #16320 — ver o apêndice da doc irmã), a página pública de um survey passa a exibir o código curto do recurso. Na base v0.32.1 do fork isso não existe.</li>
+  <li><strong>Ícone no diálogo de confirmação do último passo.</strong> A <code>StepNavigationCell</code> incluiu <code>confirm_icon: "checkbox-circle-line"</code> nos atributos do botão de envio — o modal de confirmação ganha o ícone consistente com o resto da plataforma (PR #17309, títulos/ícones de modais). Cosmético.</li>
+  <li><strong>JS: só migração de lint.</strong> <code>admin/forms.js</code>, <code>display_conditions.component.js</code>, <code>max_choices_alert.component.js</code>, <code>option_attached_inputs.component.js</code> e <code>forms.js</code> mudaram apenas nos comentários de lint (eslint 9: <code>require-jsdoc</code> → <code>jsdoc/require-jsdoc</code>) e em quebras de comentário. Zero mudança de comportamento — nada a portar funcionalmente.</li>
+</ul>
+
+<h3>Testes: mudança mecânica</h3>
+
+<p>Os shared examples e specs do módulo trocaram <code>have_content</code> por <code>have_text</code> em massa (migração de estilo Capybara do upstream). Não há cenário funcional novo no forms; os cenários novos do intervalo (gráfico publicado, referência, etc.) vivem nos specs do surveys.</p>
+
+<h3>Não-deltas que parecem deltas</h3>
+
+<p>Dois commits do intervalo chamam atenção pela mensagem e não aparecem na diferença de árvores do forms: a correção que adiciona contexto ao <code>ResponseForm</code> para editar respostas de perguntas condicionadas (PR #16794) e a correção da data migration <code>answers → responses</code> (PR #17134). Ambos já estão embutidos na linha 0.32.1 (chegaram por backport) — se o seu diff desses arquivos entre as duas tags está vazio, é por isso. (A paginação invertida das respostas, PR #17294, é um caso irmão, mas do lado do surveys.)</p>
+
+<p><strong>Leitura para o fork:</strong> nada no forms obriga ação imediata — não há regressão nem feature nova. No upgrade para a 0.33 o fork ganha o fix de N+1 e a exibição de referência, e precisa reaplicar os quatro patches locais listados acima.</p>
 
 </div>
 </body>

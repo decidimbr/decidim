@@ -15,6 +15,7 @@ parte da documentação oficial do Decidim (Antora, em `docs/modules/`).
 | `explicacao-forms.html` | Explicação do funcionamento do módulo `decidim-forms`. |
 | `explicacao-surveys.html` | Explicação do funcionamento do módulo `decidim-surveys`. |
 | `relatorio-classificacao-problemas.html` | Relatório de classificação de problemas identificados no projeto. |
+| `specs/` | Especificações (specs) do fork em português: correções em forms/surveys, mapas (OSM na exibição + HERE/Google na geocodificação), compatibilização do Awesome/Extra Blocks com o Decidim 0.32 e publicação das correções de forms/surveys como gems `bp-decidim-*` para o participa. |
 
 ## Observações
 

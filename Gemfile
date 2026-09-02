@@ -26,6 +26,11 @@ gem "bootsnap", "~> 1.23"
 
 gem "puma", ">= 6.3.1"
 
+# faker is needed by decidim seeds (db:prepare runs seeds on first boot).
+# It's also a transitive dep of decidim-dev, but dev/test gems are excluded
+# in the production Docker image — so we declare it here for production.
+gem "faker", "~> 3.2"
+
 group :development, :test do
   gem "byebug", "~> 13.0", platform: :mri
 

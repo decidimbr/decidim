@@ -11,5 +11,10 @@ module Decidim
   # allows users to create surveys in a participatory process.
   module Surveys
     autoload :UserResponsesSerializer, "decidim/surveys/user_responses_serializer"
+
+    # Whether the admin settings form shows the "allow editing responses"
+    # checkbox. Hidden by default so a submitted response stays final unless
+    # the instance explicitly opts in.
+    mattr_accessor :show_response_editing_setting, default: Decidim::Env.new("SURVEYS_SHOW_RESPONSE_EDITING").present?
   end
 end

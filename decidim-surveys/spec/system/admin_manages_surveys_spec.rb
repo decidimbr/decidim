@@ -394,6 +394,29 @@ describe "Admin manages surveys" do
     end
   end
 
+  context "when editing the survey settings" do
+    let(:edit_settings_path) do
+      Decidim::EngineRouter.admin_proxy(component).edit_settings_survey_path(survey)
+    end
+
+    before { visit edit_settings_path }
+
+    it "hides the response editing setting by default" do
+      expect(page).to have_no_field("Allow registered users to edit own survey responses")
+    end
+
+    context "when the response editing setting is enabled" do
+      before do
+        allow(Decidim::Surveys).to receive(:show_response_editing_setting).and_return(true)
+        visit edit_settings_path
+      end
+
+      it "shows the response editing setting" do
+        expect(page).to have_field("Allow registered users to edit own survey responses")
+      end
+    end
+  end
+
   def manage_questions_path
     Decidim::EngineRouter.admin_proxy(component).edit_questions_questions_survey_path(survey)
   end

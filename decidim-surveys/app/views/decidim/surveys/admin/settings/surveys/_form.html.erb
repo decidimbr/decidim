@@ -4,9 +4,11 @@
       <div class="row column">
         <%= form.check_box :allow_responses, label: t("models.components.allow_responses", scope: "decidim.forms.admin"), aria: { label: :allow_responses } %>
       </div>
-      <div class="row column">
-        <%= form.check_box :allow_editing_responses, label: t("models.components.allow_editing_responses", scope: "decidim.forms.admin"), aria: { label: :allow_editing_responses } %>
-      </div>
+      <% if Decidim::Surveys.show_response_editing_setting %>
+        <div class="row column">
+          <%= form.check_box :allow_editing_responses, label: t("models.components.allow_editing_responses", scope: "decidim.forms.admin"), aria: { label: :allow_editing_responses } %>
+        </div>
+      <% end %>
       <div class="row column">
         <%= form.check_box :allow_unregistered, label: t("models.components.allow_unregistered", scope: "decidim.forms.admin"), aria: { label: :allow_unregistered }, help_text: t("models.components.allow_unregistered_help", scope: "decidim.forms.admin") %>
       </div>

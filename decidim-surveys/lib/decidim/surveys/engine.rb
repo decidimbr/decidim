@@ -47,7 +47,9 @@ module Decidim
               component = data[:resource].questionnaire_for.component
 
               responses = Decidim::Forms::QuestionnaireUserResponses.for(data[:resource])
-              user_responses = responses.select { |a| a.first.session_token == extra_data[:session_token] }
+              # Active Job cannot serialize the lazy query's ResponseSet (a SimpleDelegator).
+              # Pass plain response arrays so the mailer receives serializable Active Record models.
+              user_responses = responses.select { |a| a.first.session_token == extra_data[:session_token] }.map(&:to_a)
 
               if component.manifest_name == "surveys" && user_responses.present?
                 Decidim::Surveys::SurveyConfirmationMailer.confirmation(extra_data[:event_author], extra_data[:questionnaire], user_responses).deliver_later

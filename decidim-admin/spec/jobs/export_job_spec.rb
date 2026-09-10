@@ -17,6 +17,23 @@ module Decidim
         expect(last_email_body).to include("Your download is ready.")
       end
 
+      context "when the export fails" do
+        it "notifies the requester explicitly and does not publish a partial export" do
+          exporter = double
+          failure_mail = double(deliver_later: true)
+
+          allow(Decidim::Exporters::CSV).to receive(:new).and_return(exporter)
+          allow(exporter).to receive(:export).and_raise(StandardError, "disk full")
+
+          expect(ExportMailer).to receive(:export_failed).with(user, "dummies", "disk full").and_return(failure_mail)
+          expect(ExportMailer).not_to receive(:export)
+
+          expect do
+            expect { ExportJob.perform_now(user, component, "dummies", "CSV") }.to raise_error(StandardError, "disk full")
+          end.not_to change(Decidim::PrivateExport, :count)
+        end
+      end
+
       describe "CSV" do
         it "uses the CSV exporter" do
           export_data = double(read: "", filename: "dummies")

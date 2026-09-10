@@ -25,15 +25,16 @@ module Decidim
       end
 
       def headers
-        return [] if processed_collection.empty?
-
-        @headers ||= processed_collection.inject([]) { |keys, resource| keys | resource.keys }
+        @headers ||= processed_collection.each_with_object([]) do |resource, keys|
+          keys.replace(keys | resource.keys)
+        end
       end
 
       def headers_without_locales
-        return [] if collection.empty?
+        resource = first_resource
+        return [] unless resource
 
-        @headers_without_locales ||= @serializer.new(collection.first).run.keys
+        @headers_without_locales ||= @serializer.new(resource).run.keys
       end
 
       protected
@@ -53,8 +54,10 @@ module Decidim
       private
 
       def processed_collection
-        @processed_collection ||= collection.map do |resource|
-          flatten(@serializer.new(resource).run).deep_dup
+        return enum_for(:processed_collection) unless block_given?
+
+        each_resource do |resource|
+          yield flatten(@serializer.new(resource).run).deep_dup
         end
       end
 

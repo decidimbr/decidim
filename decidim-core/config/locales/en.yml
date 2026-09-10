@@ -1019,6 +1019,10 @@ en:
       export:
         click_button_html: Your download is ready. <br/>The file will be available for download until %{date}.
         download: Download
+      export_failed:
+        message: The export "%{name}" could not be generated. No partial file was published.
+        reason: 'Reason: %{error}'
+      failure_subject: Your export "%{name}" failed
       subject: Your export "%{name}" is ready
     filters:
       linked_classes:

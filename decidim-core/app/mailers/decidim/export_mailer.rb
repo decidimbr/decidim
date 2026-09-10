@@ -37,5 +37,16 @@ module Decidim
         mail(to: "#{user.name} <#{user.email}>", subject: I18n.t("decidim.export_mailer.subject", name: user.name))
       end
     end
+
+    def export_failed(user, export_name, error_message)
+      @user = user
+      @organization = user.organization
+      @export_name = export_name
+      @error_message = error_message
+
+      with_user(user) do
+        mail(to: "#{user.name} <#{user.email}>", subject: I18n.t("decidim.export_mailer.failure_subject", name: export_name))
+      end
+    end
   end
 end

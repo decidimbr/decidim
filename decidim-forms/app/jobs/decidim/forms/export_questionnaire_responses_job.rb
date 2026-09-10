@@ -17,6 +17,9 @@ module Decidim
         private_export = attach_archive(export_data, file_name, user, export_type)
 
         ExportMailer.export(user, private_export).deliver_later
+      rescue StandardError => e
+        ExportMailer.export_failed(user, file_name, e.message).deliver_later if user&.email.present?
+        raise
       end
     end
   end

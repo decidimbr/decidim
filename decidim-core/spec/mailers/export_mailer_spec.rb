@@ -47,5 +47,19 @@ module Decidim
         expect(mail).to have_link("Download", href: decidim.download_download_your_data_url(uuid: private_download.uuid, host: organization.host))
       end
     end
+
+    describe "export failed" do
+      let(:mail) { described_class.export_failed(user, "survey responses", "disk full") }
+
+      it "states which export failed" do
+        expect(mail.subject).to include("survey responses", "failed")
+        expect(mail).to have_content('The export "survey responses" could not be generated')
+      end
+
+      it "states the failure reason without offering a partial download" do
+        expect(mail).to have_content("Reason: disk full")
+        expect(mail).to have_no_link("Download")
+      end
+    end
   end
 end

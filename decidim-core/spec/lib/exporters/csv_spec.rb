@@ -64,6 +64,27 @@ module Decidim
           end
         end
       end
+
+      context "with a large lazy collection" do
+        let(:collection) { (1..100_001).lazy }
+        let(:serializer) do
+          Class.new do
+            def initialize(resource)
+              @resource = resource
+            end
+
+            def run
+              { id: @resource }
+            end
+          end
+        end
+
+        it "iterates in bounded batches without materializing the collection" do
+          expect(collection).to receive(:each_slice).with(Decidim::Exporters::Exporter::BATCH_SIZE).at_least(:once).and_call_original
+
+          expect(subject.export.read.lines.count).to eq(100_002)
+        end
+      end
     end
 
     describe "export sanitizer" do

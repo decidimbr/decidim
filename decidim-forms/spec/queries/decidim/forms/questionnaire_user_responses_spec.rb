@@ -24,4 +24,11 @@ describe Decidim::Forms::QuestionnaireUserResponses do
 
     expect(result).to contain_exactly([responses_user1.last, responses_user1.first], [responses_user2.last, responses_user2.first])
   end
+
+  it "returns a lazy enumerable instead of materializing every participant" do
+    result = subject.query
+
+    expect(result).to be_a(Enumerable)
+    expect(result).not_to be_a(Array)
+  end
 end

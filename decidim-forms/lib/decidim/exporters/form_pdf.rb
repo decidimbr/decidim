@@ -56,10 +56,8 @@ module Decidim
         composer.text(decidim_sanitize(translated_attribute(questionnaire.description), strip_tags: true), style: :description)
         composer.text(I18n.t("title", scope: "decidim.forms.admin.questionnaires.responses.index", total: collection.count), style: :section_title)
 
-        local_collection = collection.map { |response| ParticipantPresenter.new(participant: response.first) }
-
-        local_collection.each_with_index do |record, index|
-          add_response_box(record, index)
+        collection.each_with_index do |response, index|
+          add_response_box(ParticipantPresenter.new(participant: response.first), index)
         end
       end
 

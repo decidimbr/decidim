@@ -56,6 +56,8 @@ module Decidim
       # title/description blocks never receive responses.
       def questions
         @questions ||= begin
+          return responses.questions if responses.respond_to?(:questions)
+
           questionnaire_id = @responses.first&.decidim_questionnaire_id
 
           if questionnaire_id

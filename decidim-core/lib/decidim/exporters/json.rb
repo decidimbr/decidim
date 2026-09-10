@@ -12,9 +12,16 @@ module Decidim
       #
       # Returns an ExportData with the export.
       def export
-        data = ::JSON.pretty_generate(@collection.map do |resource|
-          @serializer.new(resource).run
-        end)
+        data = +"[\n"
+        first = true
+
+        each_resource do |resource|
+          data << ",\n" unless first
+          data << ::JSON.pretty_generate(@serializer.new(resource).run)
+          first = false
+        end
+
+        data << "\n]"
 
         ExportData.new(data, "json")
       end

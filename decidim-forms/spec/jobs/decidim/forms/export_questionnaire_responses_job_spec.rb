@@ -32,6 +32,18 @@ describe Decidim::Forms::ExportQuestionnaireResponsesJob do
     end
   end
 
+  describe "when exporting fails" do
+    it "sends an explicit failure notification and re-raises the error" do
+      failure_mail = double(deliver_later: true)
+
+      allow(Decidim::Exporters::FormPDF).to receive(:new).and_raise(StandardError, "PDF generation failed")
+      expect(Decidim::ExportMailer).to receive(:export_failed).with(user, title, "PDF generation failed").and_return(failure_mail)
+      expect(Decidim::ExportMailer).not_to receive(:export)
+
+      expect { subject.perform_now(user, title, collection) }.to raise_error(StandardError, "PDF generation failed")
+    end
+  end
+
   describe "when no responses" do
     it "does not send the email" do
       collection = []

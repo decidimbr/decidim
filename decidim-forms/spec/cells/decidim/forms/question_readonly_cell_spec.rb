@@ -40,7 +40,7 @@ describe Decidim::Forms::QuestionReadonlyCell, type: :cell do
 
   context "when using a question" do
     it "renders the question body" do
-      expect(subject.call).to have_content(translated(question.body))
+      expect(subject.call).to have_content("3. #{translated(question.body)}")
     end
 
     it "renders the question type" do

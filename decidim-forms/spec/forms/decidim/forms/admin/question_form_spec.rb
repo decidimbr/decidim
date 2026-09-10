@@ -70,6 +70,12 @@ module Decidim
 
             expect(subject).not_to be_valid
           end
+
+          it "is invalid when max_choices is greater than 10" do
+            attributes[:max_choices] = 11
+
+            expect(subject).not_to be_valid
+          end
         end
 
         context "when the max_characters is less than 0" do

@@ -340,6 +340,14 @@ export default function createEditableForm() {
       const $currentField = $fieldQuestionTypeSelect.parents(fieldSelector);
       const questionType = $fieldQuestionTypeSelect.val();
 
+      if (questionType === "files") {
+        const $maxChoicesSelect = $currentField.find(`${maxChoicesWrapperSelector} select`);
+        $maxChoicesSelect.find("option:not(:first)").remove();
+        for (let n = 2; n <= 10; n += 1) {
+          $maxChoicesSelect.append(new Option(n, n));
+        }
+      }
+
       if (isMultipleChoiceOption(questionType)) {
         const nOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(responseOptionFieldSelector).length;
 

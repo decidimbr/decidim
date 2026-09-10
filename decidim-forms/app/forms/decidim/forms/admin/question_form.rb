@@ -22,7 +22,10 @@ module Decidim
 
         validates :position, numericality: { greater_than_or_equal_to: 0 }
         validates :question_type, inclusion: { in: Decidim::Forms::Question::TYPES }
-        validates :max_choices, numericality: { only_integer: true, greater_than: 1 }, allow_blank: true, if: :files?
+        validates :max_choices,
+                  numericality: { only_integer: true, greater_than: 1, less_than_or_equal_to: 10 },
+                  allow_blank: true,
+                  if: :files?
         validates :max_choices,
                   numericality: { only_integer: true, greater_than: 1, less_than_or_equal_to: ->(form) { form.number_of_options } },
                   allow_blank: true,

@@ -178,6 +178,10 @@ en:
       questionnaire_response_presenter:
         download_attachment: Download attachment
       questionnaires:
+        file_upload_help:
+          extensions: 'Accepted formats: %{extensions}.'
+          max_files: 'Up to %{count} files.'
+          max_size: 'Maximum size per file: %{size}.'
         question:
           max_choices: 'Max choices: %{n}'
           max_files: 'Max files: %{n}'

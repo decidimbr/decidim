@@ -30,6 +30,7 @@
     %>
 
     <%= label_tag field_id, **label_options do %>
+      <%= "#{question_number}." if local_assigns[:question_number] %>
       <%= translated_attribute(response.question.body) %>
       <% if response.question.mandatory? %>
         <%= response_form.send(:required_indicator) %>

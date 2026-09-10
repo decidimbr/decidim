@@ -138,8 +138,12 @@ shared_examples_for "manage questionnaire responses" do
 
       it "third response has download link for the attachments" do
         click_on response3.session_token, match: :first
-        expect(page).to have_content(translated(file_response.attachments.first.title))
-        expect(page).to have_content(translated(file_response.attachments.second.title))
+
+        file_response.attachments.each do |attachment|
+          expect(page).to have_link(translated(attachment.title))
+          expect(page).to have_content(attachment.file_type)
+          expect(page).to have_content(ActiveSupport::NumberHelper.number_to_human_size(attachment.file_size))
+        end
       end
 
       context "when the file response does not have a title for the attachment" do

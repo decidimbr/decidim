@@ -195,6 +195,17 @@ shared_examples_for "add questions" do
     expect(page).to have_css(".questionnaire-question-matrix-row", count: 2)
   end
 
+  it "offers file limits for a newly added files question" do
+    click_on "Add question"
+    expand_all_questions
+
+    select "Files", from: "Type"
+
+    expect(page).to have_select("Maximum number of choices", options: ["Any", *2.upto(10).map(&:to_s)])
+    select "3", from: "Maximum number of choices"
+    expect(page).to have_select("Maximum number of choices", selected: "3")
+  end
+
   it "does not incorrectly reorder when clicking response options" do
     click_on "Add question"
     expand_all_questions

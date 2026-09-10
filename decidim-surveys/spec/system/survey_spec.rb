@@ -268,6 +268,16 @@ describe "Respond a survey" do
         end
       end
 
+      it "displays the file restrictions next to the upload field" do
+        settings = Decidim::OrganizationSettings.for(component.organization)
+
+        within "[data-question-id='#{files_question.id}'] .help-text" do
+          expect(page).to have_content("Up to 2 files")
+          expect(page).to have_content("Accepted formats: #{settings.upload_allowed_file_extensions.join(", ")}")
+          expect(page).to have_content("Maximum size per file: #{ActiveSupport::NumberHelper.number_to_human_size(settings.upload_maximum_file_size)}")
+        end
+      end
+
       it "validates the maximum number of files on submit" do
         # Try to upload 3 files (exceeding the limit of 2)
         find("button[id$='add_attachments_button']").click
@@ -301,6 +311,39 @@ describe "Respond a survey" do
         click_on "Submit"
 
         expect(page).to have_content(callout_success)
+      end
+    end
+
+    context "when the questionnaire has structural questions and multiple steps" do
+      let!(:first_separator) { create(:questionnaire_question, questionnaire:, question_type: "separator", position: 1) }
+      let!(:heading) { create(:questionnaire_question, questionnaire:, question_type: "title_and_description", position: 2) }
+      let!(:second_question) { create(:questionnaire_question, questionnaire:, position: 3) }
+      let!(:third_question) { create(:questionnaire_question, questionnaire:, position: 4) }
+      let!(:second_separator) { create(:questionnaire_question, questionnaire:, question_type: "separator", position: 5) }
+      let!(:fourth_question) { create(:questionnaire_question, questionnaire:, position: 6) }
+      let!(:fifth_question) { create(:questionnaire_question, questionnaire:, position: 7) }
+
+      before do
+        survey.update!(allow_responses: true, starts_at: 1.week.ago, ends_at: 1.day.from_now)
+        login_as user, scope: :user
+        visit_component
+        click_on translated_attribute(questionnaire.title)
+      end
+
+      it "numbers only answerable questions continuously across steps" do
+        expect(page).to have_css("label.response-questionnaire__question-label", text: "1. #{translated_attribute(question.body)}")
+
+        click_on "Continue"
+
+        expect(page).to have_css("h3", text: translated_attribute(heading.body))
+        expect(page).to have_no_css("h3", text: "2. #{translated_attribute(heading.body)}")
+        expect(page).to have_css("label.response-questionnaire__question-label", text: "2. #{translated_attribute(second_question.body)}")
+        expect(page).to have_css("label.response-questionnaire__question-label", text: "3. #{translated_attribute(third_question.body)}")
+
+        click_on "Continue"
+
+        expect(page).to have_css("label.response-questionnaire__question-label", text: "4. #{translated_attribute(fourth_question.body)}")
+        expect(page).to have_css("label.response-questionnaire__question-label", text: "5. #{translated_attribute(fifth_question.body)}")
       end
     end
 

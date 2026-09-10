@@ -17,6 +17,7 @@
 
   <%= invisible_captcha %>
   <% response_idx = 0 %>
+  <% question_number = 0 %>
   <% @form.responses_by_step.each_with_index do |step_responses, step_index| %>
     <div id="step-<%= step_index %>" class="response-questionnaire__step" <%= "hidden" if step_index.positive? %>>
 
@@ -27,6 +28,7 @@
       <% end %>
 
       <% step_responses.each do |response| %>
+        <% question_number += 1 unless response.question.separator? || response.question.title_and_description? %>
         <div class="response question" data-max-choices="<%= response.question.max_choices %>" data-conditioned="<%= response.question.display_conditions.any? %>" data-question-id="<%= response.question.id %>">
           <% response.question.display_conditions.each do |display_condition| %>
             <%= content_tag :div, nil, class: "display-condition", data: display_condition.to_html_data %>
@@ -38,6 +40,7 @@
               response_form:,
               response:,
               response_idx:,
+              question_number:,
               disabled: !current_participatory_space.can_participate?(current_user)
             ) %>
           <% end %>

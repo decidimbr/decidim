@@ -16,6 +16,14 @@ GIT
       decidim-system (>= 0.29, < 0.33)
       deface (~> 1.9.0)
 
+GIT
+  remote: https://gitlab.com/lappis-unb/decidimbr/decidim-whatsapp.git
+  revision: 1a2aa1554d7867a953a1240d60c2772700a74532
+  branch: main
+  specs:
+    decidim-whatsapp (0.1.0)
+      decidim-core (~> 0.32.1)
+
 PATH
   remote: .
   specs:
@@ -1091,6 +1099,7 @@ DEPENDENCIES
   decidim-initiatives!
   decidim-templates!
   decidim-toggle!
+  decidim-whatsapp!
   deface (>= 1.9)
   faker (~> 3.2)
   letter_opener_web (~> 3.0)

@@ -16,15 +16,19 @@ gem "decidim-templates", path: "."
 
 # External modules
 gem "decidim-decidim_awesome", path: "vendor/modules/decidim_awesome"
-gem "decidim-extra_blocks", path: "vendor/modules/extra-blocks"
-gem "deface", ">= 1.9"
-gem "sassc", "~> 2.3"
-gem "decidim-toggle", git: "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-toggle", branch: "main"
 gem "decidim-ephemeral_participation", git: "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-ephemeral_participation", branch: "main"
+gem "decidim-extra_blocks", path: "vendor/modules/extra-blocks"
+gem "decidim-toggle", git: "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-toggle", branch: "main"
+gem "deface", ">= 1.9"
+
+# WhatsApp channel (SERPRO provider) — gitlab.com/lappis-unb/decidimbr/decidim-whatsapp
+gem "decidim-whatsapp", git: "https://gitlab.com/lappis-unb/decidimbr/decidim-whatsapp.git", branch: "main"
 
 gem "bootsnap", "~> 1.23"
 
 gem "puma", ">= 6.3.1"
+
+gem "sassc", "~> 2.3"
 
 # faker is needed by decidim seeds (db:prepare runs seeds on first boot).
 # It's also a transitive dep of decidim-dev, but dev/test gems are excluded

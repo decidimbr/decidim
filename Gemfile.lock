@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/lappis-unb/decidimbr/decidim-whatsapp.git
-  revision: d4979b6137ba334ed7ae253ec845732089631dfa
+  revision: 888769e94ced507720efd6c95b4983ce004cfeeb
   branch: main
   specs:
     decidim-whatsapp (0.1.0)

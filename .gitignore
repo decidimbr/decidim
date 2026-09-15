@@ -43,3 +43,6 @@ vendor/bundle
 .gitnexus
 .claude
 .reasonix
+.hermes
+.pptxgen
+.scratch

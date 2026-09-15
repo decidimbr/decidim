@@ -6,18 +6,27 @@ metadata:
 # ── Build ──────────────────────────────────────────────────────────────
 # Usa o Dockerfile da raiz em modo production (assets pré-compilados).
 # O ambiente de desenvolvimento local é o docker-compose.yml — este arquivo
-# é apenas para o deploy de staging no Kubernetes.
+# padroniza build + push da imagem de deploy (substitui o antigo
+# scripts/publish-ghcr.sh). Rode `skaffold build` para builder e publicar
+# no GHCR; NÃO use `skaffold deploy`/`skaffold run` contra o cluster de
+# produção — o Flux (GitOps em lpirola/gitops-caicara-dev) é a única
+# autoridade de deploy para o HelmRelease `decidim` em produção. A seção
+# `deploy.helm` abaixo é só para o loop de desenvolvimento local
+# (`skaffold dev`/`skaffold run`), que cria/atualiza um release
+# `decidim-staging` isolado — nunca o `decidim` gerenciado pelo Flux.
 build:
   local:
     push: true
     useBuildkit: true
   artifacts:
-    - image: decidim-govbr
+    - image: ghcr.io/lpirola/decidim-govbr
       context: .
       docker:
         dockerfile: Dockerfile
+        buildArgs:
+          ENVIRONMENT: production
 
-# ── Deploy (Helm) ─────────────────────────────────────────────────────
+# ── Deploy (Helm) — SOMENTE para loop de dev local, nunca produção ─────
 deploy:
   helm:
     releases:
@@ -27,8 +36,8 @@ deploy:
         createNamespace: true
         wait: true
         setValueTemplates:
-          image.repository: "{{.IMAGE_REPO_decidim_govbr}}"
-          image.tag: "{{.IMAGE_TAG_decidim_govbr}}@{{.IMAGE_DIGEST_decidim_govbr}}"
+          image.repository: "{{.IMAGE_REPO_ghcr_io_lpirola_decidim_govbr}}"
+          image.tag: "{{.IMAGE_TAG_ghcr_io_lpirola_decidim_govbr}}@{{.IMAGE_DIGEST_ghcr_io_lpirola_decidim_govbr}}"
 
 # ── Port Forward ──────────────────────────────────────────────────────
 portForward:

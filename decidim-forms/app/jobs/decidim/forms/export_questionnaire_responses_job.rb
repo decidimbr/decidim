@@ -4,6 +4,7 @@ module Decidim
   module Forms
     class ExportQuestionnaireResponsesJob < ApplicationJob
       include Decidim::PrivateDownloadHelper
+      include Decidim::ExportFailureHelper
 
       queue_as :exports
 
@@ -18,7 +19,7 @@ module Decidim
 
         ExportMailer.export(user, private_export).deliver_later
       rescue StandardError => e
-        ExportMailer.export_failed(user, file_name, e.message).deliver_later if user&.email.present?
+        notify_export_failure(user, file_name, e)
         raise
       end
     end

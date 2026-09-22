@@ -3,6 +3,7 @@
 module Decidim
   class ExportJob < ApplicationJob
     include Decidim::PrivateDownloadHelper
+    include Decidim::ExportFailureHelper
 
     queue_as :exports
 
@@ -22,7 +23,7 @@ module Decidim
 
       ExportMailer.export(user, private_export).deliver_later
     rescue StandardError => e
-      ExportMailer.export_failed(user, name, e.message).deliver_later if user&.email.present?
+      notify_export_failure(user, name, e)
       raise
     end
     # rubocop:enable Metrics/ParameterLists

@@ -6,7 +6,7 @@ module Decidim
     class QuestionnaireUserResponses < Decidim::Query
       include Enumerable
 
-      BATCH_SIZE = 1_000
+      BATCH_SIZE = Decidim::Exporters::Exporter::BATCH_SIZE
 
       class ResponseSet < SimpleDelegator
         attr_reader :questions

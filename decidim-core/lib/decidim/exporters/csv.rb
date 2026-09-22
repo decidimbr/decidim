@@ -54,11 +54,7 @@ module Decidim
       private
 
       def processed_collection
-        return enum_for(:processed_collection) unless block_given?
-
-        each_resource do |resource|
-          yield flatten(@serializer.new(resource).run).deep_dup
-        end
+        @processed_collection ||= each_resource.map { |resource| flatten(@serializer.new(resource).run).deep_dup }
       end
 
       def flatten(object, key = nil)
